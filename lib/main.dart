@@ -1,7 +1,10 @@
+import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/common_widgets/error_widgets/error_scaffold.dart';
+import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/routing/app_startup_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +29,13 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   debugPrint('firebase init ends: ${DateTime.now()}');
+  FirebaseUIAuth.configureProviders([
+    if (fbAuthProviders.isEmpty ||
+        fbAuthProviders.contains(FBAuthProvider.email.name))
+      EmailAuthProvider(),
+    if (fbAuthProviders.contains(FBAuthProvider.phone.name))
+      PhoneAuthProvider(),
+  ]);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // await RemoteConfigService(FirebaseRemoteConfig.instance).initialize();
   usePathUrlStrategy();

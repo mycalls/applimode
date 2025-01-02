@@ -47,6 +47,7 @@ Additionally, you can set or configure the following:
 * Change the app's main color ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-apps-main-color), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-apps-main-color))
 * Add administrator ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#add-administrator), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#add-administrator))
 * Admin settings and custom settings ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#admin-settings-and-custom-settings), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#admin-settings-and-custom-settings))
+* Add phone sign-in ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#add-phone-sign-in-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#add-phone-sign-in-optional))
 * Configure push notification ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-push-notification-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-push-notification-optional))
 * Configure Cloudflare R2 ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-r2-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-r2-optional))
 > [!NOTE]

@@ -22,6 +22,7 @@
 * [Admin settings and custom settings](#admin-settings-and-custom-settings)
 * [Build and release a web app](#build-and-release-a-web-app)
 * [Build an APK for Android](#build-an-apk-for-android)
+* [Add phone sign-in (Optional)](#add-phone-sign-in-optional)
 * [Configure push notification (Optional)](#configure-push-notification-optional)
 * [Configure Cloudflare R2 (Optional)](#configure-cloudflare-r2-optional)
 * [Configure Cloudflare D1 (Optional)](#configure-cloudflare-d1-optional)
@@ -467,6 +468,43 @@ flutter build apk --release --target-platform=android-arm64
 * You can find your apk file here: 
 **\<your-project-folder\>\build\app\outputs\apk\release** or **\<your-project-folder\>\build\app\outputs\flutter-apk\app-release.apk**
 > For more details, visit [this link](https://docs.flutter.dev/deployment/android#build-the-app-for-release).
+
+
+
+## Add phone sign-in (Optional)
+* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
+* Click your project.
+* Click **Authentication** (on the left sidebar).
+* Select the **Sign-in method** tab.
+* Click **Add new provider** and then click **Phone**.
+* Find the **Phone** switch and enable it.
+* Click the **Save** button.
+* Go to or open your Applimode project in **VSCode**.
+* Click **View** (on the top menu of VSCode), then select **Terminal**.
+* Run the following command.
+```sh
+node ./applimode-tool/index.js auth
+```
+* Type ```2``` (phone only) or ```3``` (email and phone) and press ```Enter```.
+#### Web
+* If you are only deploying a web app (PWA), no special actions are required.
+#### Android
+> [!NOTE]
+> While releasing the app, make sure to get the key from Play Console. [Here](https://docs.flutterflow.io/integrations/authentication/firebase/initial-setup#getting-sha-keys-for-release-mode) is the helpful link.
+* Run the following command.
+```sh
+keytool -list -v \
+-alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+```
+> [!NOTE]
+> If Java is not installed on your machine, an error will occur. Please install Java first.
+* After being prompted for the key password, type *android* and press 'Enter'.
+* Copy the SHA1 key.
+* Open the [Firebase console](https://console.firebase.google.com/) > your project > **Project Overview** > **Project Settings** and scroll down to **Your App** section.
+* Select your Android App from the left side menu.
+* Find the **SHA certificate fingerprints** section and click **Add fingerprint**.
+* Enter the copied SHA-1 into the input box and click on **Save**.
+* Open the [Google Developers Console](https://console.developers.google.com/) (Make sure your project is selected in the dropdown at the top), Click **Library** on the left, search for **Google Play Integrity API**, and enable it.
 
 
 

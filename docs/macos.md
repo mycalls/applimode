@@ -26,6 +26,7 @@
 * [Admin settings and custom settings](#admin-settings-and-custom-settings)
 * [Build an APK for Android](#build-an-apk-for-android)
 * [Build and release a web app](#build-and-release-a-web-app)
+* [Add phone sign-in (Optional)](#add-phone-sign-in-optional)
 * [Configure push notification (Optional)](#configure-push-notification-optional)
 * [Configure Cloudflare R2 (Optional)](#configure-cloudflare-r2-optional)
 * [Configure Cloudflare D1 (Optional)](#configure-cloudflare-d1-optional)
@@ -814,6 +815,61 @@ firebase deploy --only hosting
 * If you want to use your custom domain, read [this chapter](#use-your-custom-domain-optional).
 * Please visit [this page](https://github.com/mycalls/applimode/blob/main/docs/pwa.md) for how to install a PWA(Progressive Web App) on your phone and computer.
 <!--todos pwa 설치 방법 페이지 만들고 링크 추가-->
+
+
+
+## Add phone sign-in (Optional)
+* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
+* Click your project.
+* Click **Authentication** (on the left sidebar).
+* Select the **Sign-in method** tab.
+* Click **Add new provider** and then click **Phone**.
+* Find the **Phone** switch and enable it.
+* Click the **Save** button.
+* Go to or open your Applimode project in **VSCode**.
+* Click **View** (on the top menu of VSCode), then select **Terminal**.
+* Run the following command.
+```sh
+node ./applimode-tool/index.js auth
+```
+* Type ```2``` (phone only) or ```3``` (email and phone) and press ```Enter```.
+#### Web
+* If you are only deploying a web app (PWA), no special actions are required.
+#### Android
+> [!NOTE]
+> While releasing the app, make sure to get the key from Play Console. [Here](https://docs.flutterflow.io/integrations/authentication/firebase/initial-setup#getting-sha-keys-for-release-mode) is the helpful link.
+* Run the following command.
+```sh
+keytool -list -v \
+-alias androiddebugkey -keystore ~/.android/debug.keystore
+```
+> [!NOTE]
+> If Java is not installed on your machine, an error will occur. Please install Java first.
+* After being prompted for the key password, type *android* and press 'Enter'.
+* Copy the SHA1 key.
+* Open the [Firebase console](https://console.firebase.google.com/) > your project > **Project Overview** > **Project Settings** and scroll down to **Your apps** section.
+* Select your Android App from the left side menu.
+* Find the **SHA certificate fingerprints** section and click **Add fingerprint**.
+* Enter the copied SHA-1 into the input box and click on **Save**.
+* Open the [Google Developers Console](https://console.developers.google.com/) (Make sure your project is selected in the dropdown at the top), Click **Library** on the left, search for **Google Play Integrity API**, and enable it.
+#### iOS
+* Open the [Firebase console](https://console.firebase.google.com/) > your project > **Project Overview** > **Project Settings** and scroll down to **Your apps** section.
+* Select your Apple App from the left side menu.
+* Find the **Encoded App ID** section and copy the value (app-1-xxxxxxxxxxxx-ios-xxxxxxxxxxxxxxxxxxxxxx).
+* Go to or open your Applimode project in **VSCode**.
+* Click **View** (on the top menu of VSCode), then select **Terminal**.
+* Run the following command.
+```sh
+open ios/Runner.xcworkspace
+```
+* Click **Runner** in the left tree view.
+* Click **Runner** from the TARGETS section, then select the **Info** tab, and expand the **URL Types** section.
+* Click the ```+``` button, and add your **Encoded App ID** as a **URL Schemes**. 
+* Leave the other fields blank.
+* When completed, your config should look something similar to the following (but with your application-specific values)
+![url-schemes](https://firebase.google.com/static/docs/auth/images/app-id-url-scheme.png)
+* To complete the task, follow the steps in the [Configure Push Notification](#configure-push-notification-optional) section.
+
 
 
 

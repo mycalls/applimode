@@ -24,7 +24,8 @@
     "security": "node index.js security",
     "write": "node index.js write",
     "admin": "node index.js admin",
-    "verified": "node index.js verified"
+    "verified": "node index.js verified",
+    "auth": "node index.js auth"
   },
   "keywords": [],
   "author": "",

@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.2.5+1';
+const String appVersion = '0.2.6+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
@@ -54,6 +54,10 @@ const String termsUrl = '';
 // Link that connects when you tap on the privacy policy
 // 개인보호정책을 탭했을 경우 연결되는 링크
 const String privacyUrl = '';
+
+// auth providers. email, phone supported
+// if the list is empty, email provider is adopted
+const List<String> fbAuthProviders = ['email'];
 
 // Change the start screen to the login screen
 // 시작 화면을 로그인 화면으로 변경

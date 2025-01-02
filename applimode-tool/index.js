@@ -60,6 +60,7 @@ const youtubeIframeProxyUrlRegex = /const String youtubeIframeProxyUrl =[\s\r\n]
 const isInitialSignInRegex = /const bool isInitialSignIn = (.*);/;
 const verifiedOnlyWriteRegex = /const bool verifiedOnlyWrite = (.*);/;
 const adminOnlyWriteRegex = /const bool adminOnlyWrite = (.*);/;
+const fbAuthProvidersRegex = /const List<String> fbAuthProviders =[\s\r\n]*(\[.*\]);/;
 
 // Regex for finding values in firestore.rules
 // firestore.rule 파일에서 값을 찾기 위한 regex
@@ -2024,6 +2025,46 @@ async function addVerifiedToFirestoreRules() {
   }
 }
 
+
+async function setFbAuthProviders() {
+  console.log(`${yellow}🧡 Welcome to Applimode-Tool. Let's set the Firebase Authentication providers.${reset}`);
+
+  // Display authentication provider options
+  console.log(`${greenBold}Firebase Authentication Provider Options:${reset}`);
+  console.log(`1. ${blueBold}Email only${reset}`);
+  console.log(`2. ${blueBold}Phone only${reset}`);
+  console.log(`3. ${blueBold}Email and Phone${reset}`);
+
+  // Get user input for authentication provider
+  const authProviderOption = await askRequired(
+    `${greenBold}Select an authentication provider option (1/2/3): ${reset}`,
+    answer => /^(1|2|3)$/.test(answer),
+    `${red}Please enter 1, 2, or 3.${reset}`
+  );
+
+  // Update custom_settings.dart based on user input
+  let newFbAuthProvidersValue;
+  switch (authProviderOption) {
+    case '1':
+      newFbAuthProvidersValue = `['email']`;
+      break;
+    case '2':
+      newFbAuthProvidersValue = `['phone']`;
+      break;
+    case '3':
+      newFbAuthProvidersValue = `['email', 'phone']`;
+      break;
+  }
+
+  await replacePhraseInFile(
+    `${currentLibPath}/${customSettingsFile}`,
+    fbAuthProvidersRegex,
+    `const List<String> fbAuthProviders = ${newFbAuthProvidersValue};`
+  );
+
+  console.log(`${yellow}👋 Firebase Authentication providers have been updated.${reset}`);
+}
+
 // Check if the folder exists and execute the command
 // 폴더가 존재하는지 확인하고 명령어 실행
 fs.access(projectsPath)
@@ -2068,6 +2109,8 @@ fs.access(projectsPath)
       await addAdminToFirestoreRules();
     } else if (command[0].trim() == 'verified') {
       await addVerifiedToFirestoreRules();
+    } else if (command[0].trim() == 'auth') {
+      await setFbAuthProviders();
     } else {
       console.error(`${red}Error:', 'The command must start with init, upgrade, fullname, shortname, organization, firebaserc, color, worker, fcm, ai, rtwo, cdn, done, rtwosecureget, youtubeimage, youtube video, security, write.${reset}`);
       process.exit(1);

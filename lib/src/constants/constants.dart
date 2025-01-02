@@ -172,3 +172,8 @@ enum TitleTextAlign {
   center,
   end,
 }
+
+enum FBAuthProvider {
+  email,
+  phone,
+}
