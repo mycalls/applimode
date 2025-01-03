@@ -3,8 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
-## Version 0.2.6 (December 20, 2024)
+## Version 0.2.6 (January 03, 2025)
 - Added phone sign-in.
+- Temporary fix for EditorField positioning issue on the web.
 
 ## Version 0.2.5 (December 20, 2024)
 - Requires Flutter 3.27 (please upgrade to Flutter 3.27).
