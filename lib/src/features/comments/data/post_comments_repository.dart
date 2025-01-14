@@ -41,6 +41,7 @@ class PostCommentsRepository {
         'likeCount': 0,
         'dislikeCount': 0,
         'sumCount': 0,
+        'reportCount': 0,
         'day': Format.yearMonthDayToInt(DateTime.now()),
         'month': Format.yearMonthToInt(DateTime.now()),
         'year': DateTime.now().year,
@@ -77,6 +78,16 @@ class PostCommentsRepository {
       _firestore.doc(postCommentPath(id)).update({
         'dislikeCount': FieldValue.increment(-1),
         'sumCount': FieldValue.increment(1),
+      });
+
+  Future<void> increaseReportCount(String id) =>
+      _firestore.doc(postCommentPath(id)).update({
+        'reportCount': FieldValue.increment(1),
+      });
+
+  Future<void> decreaseReportCount(String id) =>
+      _firestore.doc(postCommentPath(id)).update({
+        'reportCount': FieldValue.increment(-1),
       });
 
   // 쿼리

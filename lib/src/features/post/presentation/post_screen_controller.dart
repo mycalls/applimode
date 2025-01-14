@@ -1,6 +1,7 @@
 import 'package:applimode_app/src/exceptions/app_exception.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/post/application/post_delete_service.dart';
+import 'package:applimode_app/src/features/posts/data/post_reports_repository.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/utils/is_firestore_not_found.dart';
@@ -291,5 +292,58 @@ class PostScreenController extends _$PostScreenController {
       ref.read(goRouterProvider).pop();
     }
     */
+  }
+
+  Future<bool> reportPostIssue({
+    required String postId,
+    required String postWriterId,
+    required int reportType,
+    String? custom,
+  }) async {
+    final user = ref.read(authRepositoryProvider).currentUser;
+    if (user == null) {
+      state = AsyncError(NeedPermissionException(), StackTrace.current);
+      return false;
+    }
+
+    final postsRepository = ref.read(postsRepositoryProvider);
+    final postReportsRepository = ref.read(postReportsRepositoryProvider);
+    final id = '${user.uid}-$postId';
+    state = const AsyncLoading();
+    try {
+      final userReport = await postReportsRepository.fetchPostReport(id);
+      if (userReport != null) {
+        state = AsyncError(AlreadyReportException(), StackTrace.current);
+        return false;
+      }
+    } catch (e) {
+      debugPrint('FailedreportPostIssue: $e');
+      state = AsyncError(Exception('Try later'), StackTrace.current);
+      return false;
+    }
+
+    final key = this.key;
+    final newState = await AsyncValue.guard(() async {
+      postsRepository.increaseReportCount(postId);
+      postReportsRepository.createPostReport(
+        id: id,
+        uid: user.uid,
+        postId: postId,
+        postWriterId: postWriterId,
+        reportType: reportType,
+        custom: custom,
+        createdAt: DateTime.now(),
+      );
+    });
+    if (key == this.key) {
+      state = newState;
+    }
+
+    if (state.hasError) {
+      debugPrint('reportPostIssueError: ${state.error.toString()}');
+      return false;
+    }
+
+    return true;
   }
 }

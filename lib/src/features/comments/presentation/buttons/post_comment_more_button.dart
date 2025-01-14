@@ -1,9 +1,13 @@
+import 'dart:developer' as dev;
+
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/show_message_snack_bar.dart';
+import 'package:applimode_app/src/utils/show_report_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,6 +75,32 @@ class PostCommentMoreButton extends ConsumerWidget {
                               );
                         },
                   child: Text(context.loc.deleteComment),
+                ),
+              if (user != null && user.uid != writerId)
+                PopupMenuItem(
+                  onTap: () async {
+                    final report = await showReportDialog(context: context);
+                    dev.log('report: $report');
+                    if (report is IssueReport) {
+                      final result = await ref
+                          .read(postCommentControllerProvider.notifier)
+                          .reportCommentIssue(
+                            commentId: comment.id,
+                            postId: comment.postId,
+                            commentWriterId: comment.uid,
+                            postWriterId: comment.postWriterId,
+                            reportType: report.reportType,
+                            custom: report.message,
+                          );
+                      if (context.mounted) {
+                        if (result) {
+                          showMessageSnackBar(
+                              context, context.loc.reportProcessed);
+                        }
+                      }
+                    }
+                  },
+                  child: Text(context.loc.report),
                 ),
             ];
           },

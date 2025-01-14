@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.2.7 (January 15, 2025)
+- Added functionality to report posts and comments.
+
 ## Version 0.2.6 (January 03, 2025)
 - Added phone sign-in.
 - Temporary fix for EditorField positioning issue on the web.

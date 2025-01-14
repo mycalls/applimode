@@ -1,5 +1,7 @@
 import 'dart:developer' as dev;
 
+import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
+import 'package:applimode_app/src/features/posts/data/post_reports_repository.dart';
 import 'package:applimode_app/src/features/profile/data/delete_errors_repository.dart';
 import 'package:applimode_app/src/features/profile/domain/delete_error.dart';
 import 'package:flutter/foundation.dart';
@@ -40,6 +42,18 @@ class PostDeleteService {
       }
     }
 
+    // delete comment reports
+    Future<void> deleteCommentReports() async {
+      final commentReportIds = await ref
+          .read(postCommentReportsRepositoryProvider)
+          .getPostCommentReportIdsForPost(postId);
+      for (var commentReportId in commentReportIds) {
+        await ref
+            .read(postCommentReportsRepositoryProvider)
+            .deletePostCommentReport(commentReportId);
+      }
+    }
+
     // delete post comments
     Future<void> deleteComments() async {
       final commentIds = await ref
@@ -60,6 +74,19 @@ class PostDeleteService {
 
       for (var postLikeId in postLikeIds) {
         await ref.read(postLikesRepositoryProvider).deletePostLike(postLikeId);
+      }
+    }
+
+    // delete post reports
+    Future<void> deletePostReports() async {
+      final postReportIds = await ref
+          .read(postReportsRepositoryProvider)
+          .getPostReportIdsForPost(postId);
+
+      for (var postReportId in postReportIds) {
+        await ref
+            .read(postReportsRepositoryProvider)
+            .deletePostReport(postReportId);
       }
     }
 
@@ -150,8 +177,10 @@ class PostDeleteService {
 
     await Future.wait([
       deleteCommentLikes(),
+      deleteCommentReports(),
       deleteComments(),
       deletePostLikes(),
+      deletePostReports(),
       deleteLongContent(),
       deleteCommentMedia(),
       deleteFBPostMedia(),

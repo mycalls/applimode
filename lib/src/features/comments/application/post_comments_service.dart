@@ -1,6 +1,7 @@
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
 import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
@@ -75,10 +76,19 @@ class PostCommentsService {
     String? imageUrl,
   }) async {
     // delete image
+    /*
     if (imageUrl != null) {
       await ref.read(firebaseStorageRepositoryProvider).deleteAsset(imageUrl);
     }
+    */
+    Future<void> deleteImage() async {
+      if (imageUrl != null) {
+        await ref.read(firebaseStorageRepositoryProvider).deleteAsset(imageUrl);
+      }
+    }
+
     // update comments count for post
+    /*
     try {
       await ref
           .read(postsRepositoryProvider)
@@ -87,7 +97,19 @@ class PostCommentsService {
       debugPrint('post already deleted');
       debugPrint('failed updatePostCommentCount: ${e.toString()}');
     }
+    */
+    Future<void> updatePostCommentCount() async {
+      try {
+        await ref
+            .read(postsRepositoryProvider)
+            .updatePostCommentCount(id: postId, number: -1);
+      } catch (e) {
+        debugPrint('post already deleted');
+        debugPrint('failed updatePostCommentCount: ${e.toString()}');
+      }
+    }
 
+    /*
     // update replies count for comment
     if (isReply) {
       try {
@@ -99,8 +121,21 @@ class PostCommentsService {
         debugPrint('failed updateReplyCount: ${e.toString()}');
       }
     }
+    */
+
+    // delete comment reports
+    Future<void> deletePostCommentReports() async {
+      final reportIds = await ref
+          .read(postCommentReportsRepositoryProvider)
+          .getPostCommentReportIdsForComment(id);
+
+      await Future.wait(reportIds.map((reportId) => ref
+          .read(postCommentReportsRepositoryProvider)
+          .deletePostCommentReport(reportId)));
+    }
 
     // delete comment likes
+    /*
     final likeIds = await ref
         .read(postCommentLikesRepositoryProvider)
         .getPostCommentLikeIdsForComment(id);
@@ -109,6 +144,24 @@ class PostCommentsService {
           .read(postCommentLikesRepositoryProvider)
           .deletePostCommentLike(likeId);
     }
+    */
+    Future<void> deletePostCommentLikes() async {
+      final likeIds = await ref
+          .read(postCommentLikesRepositoryProvider)
+          .getPostCommentLikeIdsForComment(id);
+
+      await Future.wait(likeIds.map((likeId) => ref
+          .read(postCommentLikesRepositoryProvider)
+          .deletePostCommentLike(likeId)));
+    }
+
+    await Future.wait([
+      deleteImage(),
+      updatePostCommentCount(),
+      deletePostCommentReports(),
+      deletePostCommentLikes(),
+    ]);
+
     // delete comment
     await ref.read(postCommentsRepositoryProvider).deletePostComment(id);
   }

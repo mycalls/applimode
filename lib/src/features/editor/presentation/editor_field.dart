@@ -15,6 +15,10 @@ class EditorField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobileWeb = kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android);
+
     return SafeArea(
       top: false,
       bottom: false,
@@ -23,7 +27,7 @@ class EditorField extends StatelessWidget {
         // https://github.com/flutter/flutter/issues/124483
         // cursor goes to wrong place after tap on text on web textfield
         // fix if it is improved
-        child: kIsWeb
+        child: isMobileWeb
             ? NotificationListener(
                 onNotification: (ScrollNotification notification) {
                   if (notification is UserScrollNotification) {

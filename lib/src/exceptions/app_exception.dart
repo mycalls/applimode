@@ -67,3 +67,5 @@ class FailedMediaFileException implements Exception {}
 class FailedMediaFileUploadException implements Exception {}
 
 class EmptyContentException implements Exception {}
+
+class AlreadyReportException implements Exception {}

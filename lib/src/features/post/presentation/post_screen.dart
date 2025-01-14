@@ -64,6 +64,9 @@ class _PostScreenState extends ConsumerState<PostScreen> {
         state.showMessageSnackBarOnError(context,
             content: context.loc.pageNotFound);
         adaptiveBack(context);
+      } else if (state.error is AlreadyReportException) {
+        state.showMessageSnackBarOnError(context,
+            content: context.loc.alreadyReport);
       } else {
         state.showAlertDialogOnError(context, content: state.error.toString());
       }

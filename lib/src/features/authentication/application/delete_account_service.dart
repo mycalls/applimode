@@ -4,10 +4,12 @@ import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
 import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
 import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
 import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
+import 'package:applimode_app/src/features/posts/data/post_reports_repository.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/profile/data/delete_errors_repository.dart';
 import 'package:applimode_app/src/features/profile/domain/delete_error.dart';
@@ -126,6 +128,18 @@ class DeleteAccountService {
       }
     }
 
+    // delete postReports for close
+    Future<void> deletePostReportsForClose() async {
+      final postReportIdsForClose = await _ref
+          .read(postReportsRepositoryProvider)
+          .getPostReportIdsForClose(uid);
+      for (var postReportId in postReportIdsForClose) {
+        await _ref
+            .read(postReportsRepositoryProvider)
+            .deletePostReport(postReportId);
+      }
+    }
+
     // delete postCommentLikes for close
     Future<void> deletePostCommentLikesForClose() async {
       final postCommentLikeIdsForClose = await _ref
@@ -135,6 +149,18 @@ class DeleteAccountService {
         await _ref
             .read(postCommentLikesRepositoryProvider)
             .deletePostCommentLike(postCommentLikeId);
+      }
+    }
+
+    // delete postCommentReports for close
+    Future<void> deletePostCommentReportsForClose() async {
+      final postCommentReportIdsForClose = await _ref
+          .read(postCommentReportsRepositoryProvider)
+          .getPostCommentReportIdsForClose(uid);
+      for (var postCommentReportId in postCommentReportIdsForClose) {
+        await _ref
+            .read(postCommentReportsRepositoryProvider)
+            .deletePostCommentReport(postCommentReportId);
       }
     }
 
@@ -234,7 +260,9 @@ class DeleteAccountService {
       deleteUserPostsMediaFromCF(),
       deleteCommentsAndCommentsMediaForClose(),
       deletePostLikesForClose(),
+      deletePostReportsForClose(),
       deletePostCommentLikesForClose(),
+      deletePostCommentReportsForClose(),
       deleteUserPrompt(),
     ]);
 

@@ -1,4 +1,8 @@
+import 'dart:developer' as dev;
+
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/utils/show_message_snack_bar.dart';
+import 'package:applimode_app/src/utils/show_report_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
@@ -149,6 +153,30 @@ class PostAppBarMore extends ConsumerWidget {
                   ),
                 ),
               ],
+              if (user != null && user.uid != writerAsync.value?.uid)
+                PopupMenuItem(
+                  onTap: () async {
+                    final report = await showReportDialog(context: context);
+                    dev.log('report: $report');
+                    if (report is IssueReport) {
+                      final result = await ref
+                          .read(postScreenControllerProvider.notifier)
+                          .reportPostIssue(
+                            postId: postId,
+                            postWriterId: post.uid,
+                            reportType: report.reportType,
+                            custom: report.message,
+                          );
+                      if (context.mounted) {
+                        if (result) {
+                          showMessageSnackBar(
+                              context, context.loc.reportProcessed);
+                        }
+                      }
+                    }
+                  },
+                  child: Text(context.loc.report),
+                ),
               if ((user != null && user.uid == writerAsync.value?.uid) ||
                   (appUser != null && appUser.isAdmin == true))
                 PopupMenuItem(

@@ -23,7 +23,7 @@ service cloud.firestore {
       allow read: if isVerified();
       allow create: if isVerified() && request.auth.uid == request.resource.data.uid;
       allow update: if request.auth.uid == resource.data.uid || (isVerified() && request.resource.data.diff(resource.data).affectedKeys()
-        .hasOnly(['postCommentCount','viewCount','likeCount', 'dislikeCount', 'sumCount'])) || isAdmin();
+        .hasOnly(['postCommentCount', 'viewCount', 'likeCount', 'dislikeCount', 'sumCount', 'reportCount'])) || isAdmin();
       allow delete: if request.auth.uid == resource.data.uid || isAdmin();
     }
     match /postContents/{document} {
@@ -42,7 +42,7 @@ service cloud.firestore {
       allow read: if isVerified();
       allow create: if isVerified() && request.auth.uid == request.resource.data.uid;
       allow update: if request.auth.uid == resource.data.uid || (isVerified() && request.resource.data.diff(resource.data).affectedKeys()
-        .hasOnly(['replyCount','likeCount', 'dislikeCount', 'sumCount'])) || isAdmin();
+        .hasOnly(['replyCount','likeCount', 'dislikeCount', 'sumCount', 'reportCount'])) || isAdmin();
       allow delete: if isVerified();
     }
     match /postCommentLikes/{document} {
@@ -74,6 +74,18 @@ service cloud.firestore {
       allow create: if request.auth.uid == request.resource.data.uid || isAdmin();
       allow update: if request.auth.uid == resource.data.uid || isAdmin();
       allow delete: if request.auth.uid == resource.data.uid || isAdmin();
+    }
+    match /postReports/{document} {
+    	allow read: if isVerified();
+      allow create: if isVerified() && request.auth.uid == request.resource.data.uid;
+      allow update: if request.auth.uid == resource.data.uid;
+      allow delete: if isVerified();
+    }
+    match /postCommentReports/{document} {
+    	allow read: if isVerified();
+      allow create: if isVerified() && request.auth.uid == request.resource.data.uid;
+      allow update: if request.auth.uid == resource.data.uid;
+      allow delete: if isVerified();
     }
   }
 }

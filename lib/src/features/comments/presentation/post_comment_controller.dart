@@ -5,6 +5,8 @@ import 'package:applimode_app/src/features/authentication/data/auth_repository.d
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/comments/application/post_comments_service.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/utils/call_fcm_function.dart';
@@ -413,6 +415,65 @@ class PostCommentController extends _$PostCommentController {
     ref.read(updatedUserIdsListProvider.notifier).set(commentWriterId);
     // refresh likes list
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    return true;
+  }
+
+  Future<bool> reportCommentIssue({
+    required String commentId,
+    required String postId,
+    required String commentWriterId,
+    required String postWriterId,
+    required int reportType,
+    String? custom,
+  }) async {
+    final user = ref.read(authRepositoryProvider).currentUser;
+    if (user == null) {
+      state = AsyncError(NeedPermissionException(), StackTrace.current);
+      return false;
+    }
+
+    final postCommentsRepository = ref.read(postCommentsRepositoryProvider);
+    final postCommentReportsRepository =
+        ref.read(postCommentReportsRepositoryProvider);
+    final id = '${user.uid}-$commentId';
+    state = const AsyncLoading();
+    try {
+      final userReport =
+          await postCommentReportsRepository.fetchPostCommentReport(id);
+      if (userReport != null) {
+        state = AsyncError(AlreadyReportException(), StackTrace.current);
+        return false;
+      }
+    } catch (e) {
+      debugPrint('FailedreportPostIssue: $e');
+      state = AsyncError(Exception('Try later'), StackTrace.current);
+      return false;
+    }
+
+    final key = this.key;
+    final newState = await AsyncValue.guard(() async {
+      postCommentsRepository.increaseReportCount(commentId);
+      postCommentReportsRepository.createPostCommentReport(
+        id: id,
+        uid: user.uid,
+        postId: postId,
+        commentId: commentId,
+        commentWriterId: commentWriterId,
+        postWriterId: postWriterId,
+        reportType: reportType,
+        custom: custom,
+        createdAt: DateTime.now(),
+      );
+    });
+    if (key == this.key) {
+      state = newState;
+    }
+
+    if (state.hasError) {
+      debugPrint('reportCommentIssueError: ${state.error.toString()}');
+      return false;
+    }
 
     return true;
   }

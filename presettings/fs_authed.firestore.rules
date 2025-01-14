@@ -19,7 +19,7 @@ service cloud.firestore {
     	allow read: if request.auth != null;
       allow create: if request.auth.uid == request.resource.data.uid;
       allow update: if request.auth.uid == resource.data.uid || (request.auth != null && request.resource.data.diff(resource.data).affectedKeys()
-        .hasOnly(['postCommentCount','viewCount','likeCount', 'dislikeCount', 'sumCount'])) || isAdmin();
+        .hasOnly(['postCommentCount', 'viewCount', 'likeCount', 'dislikeCount', 'sumCount', 'reportCount'])) || isAdmin();
       allow delete: if request.auth.uid == resource.data.uid || isAdmin();
     }
     match /postContents/{document} {
@@ -38,7 +38,7 @@ service cloud.firestore {
     	allow read: if request.auth != null;
       allow create: if request.auth.uid == request.resource.data.uid;
       allow update: if request.auth.uid == resource.data.uid || (request.auth != null && request.resource.data.diff(resource.data).affectedKeys()
-        .hasOnly(['replyCount','likeCount', 'dislikeCount', 'sumCount'])) || isAdmin();
+        .hasOnly(['replyCount','likeCount', 'dislikeCount', 'sumCount', 'reportCount'])) || isAdmin();
       allow delete: if request.auth != null;
     }
     match /postCommentLikes/{document} {
@@ -70,6 +70,18 @@ service cloud.firestore {
       allow create: if request.auth.uid == request.resource.data.uid || isAdmin();
       allow update: if request.auth.uid == resource.data.uid || isAdmin();
       allow delete: if request.auth.uid == resource.data.uid || isAdmin();
+    }
+    match /postReports/{document} {
+    	allow read: if request.auth != null;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow update: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth != null;
+    }
+    match /postCommentReports/{document} {
+    	allow read: if request.auth != null;
+      allow create: if request.auth.uid == request.resource.data.uid;
+      allow update: if request.auth.uid == resource.data.uid;
+      allow delete: if request.auth != null;
     }
   }
 }

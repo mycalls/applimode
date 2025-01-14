@@ -15,6 +15,7 @@ class PostComment extends Equatable {
     this.likeCount = 0,
     this.dislikeCount = 0,
     this.sumCount = 0,
+    this.reportCount = 0,
     required this.day,
     required this.month,
     required this.year,
@@ -34,6 +35,7 @@ class PostComment extends Equatable {
   final int likeCount;
   final int dislikeCount;
   final int sumCount;
+  final int reportCount;
   final int day;
   final int month;
   final int year;
@@ -56,6 +58,7 @@ class PostComment extends Equatable {
       likeCount: map['likeCount'] as int? ?? 0,
       dislikeCount: map['dislikeCount'] as int? ?? 0,
       sumCount: map['sumCount'] as int? ?? 0,
+      reportCount: map['reportCount'] as int? ?? 0,
       day: map['day'] as int? ?? 20231106,
       month: map['month'] as int? ?? 202311,
       year: map['year'] as int? ?? 2023,
@@ -80,6 +83,7 @@ class PostComment extends Equatable {
       'likeCount': likeCount,
       'dislikeCount': dislikeCount,
       'sumCount': sumCount,
+      'reportCount': reportCount,
       'day': day,
       'month': month,
       'year': year,
@@ -105,6 +109,7 @@ class PostComment extends Equatable {
         likeCount,
         dislikeCount,
         sumCount,
+        reportCount,
         day,
         month,
         year,

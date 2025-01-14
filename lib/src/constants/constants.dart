@@ -125,7 +125,7 @@ const String gcpStorageUrlHead = 'https://storage.googleapis.com';
 const String youtubeThumbnailName = 'yt-thumbnail.jpeg';
 
 // Used when the ranking screen fails to analyze the current year.
-const int rankingCurrentYear = 2024;
+const int rankingCurrentYear = 2025;
 
 const divider16 = Divider(
   indent: 16,

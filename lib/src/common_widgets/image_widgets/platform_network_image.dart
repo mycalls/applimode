@@ -109,8 +109,8 @@ class PlatformNetworkImage extends StatelessWidget {
         filterQuality: filterQuality,
         isAntiAlias: isAntiAlias,
         headers: headers,
-        // cacheWidth: cacheWidth, // Temporary measure due to a bug in version 3.27
-        // cacheHeight: cacheHeight, // Temporary measure due to a bug in version 3.27
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
       );
     }
     return CachedNetworkImage(

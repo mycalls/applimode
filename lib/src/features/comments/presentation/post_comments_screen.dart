@@ -45,6 +45,11 @@ class PostCommentsScreen extends ConsumerWidget {
       } else if (state.error is PostWriterNotFoundException) {
         state.showMessageSnackBarOnError(context,
             content: context.loc.postWriterNotFound);
+      } else if (state.error is AlreadyReportException) {
+        state.showMessageSnackBarOnError(context,
+            content: context.loc.alreadyReport);
+      } else {
+        state.showAlertDialogOnError(context, content: state.error.toString());
       }
       // state.showAlertDialogOnError(context);
     });

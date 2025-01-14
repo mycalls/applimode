@@ -56,6 +56,7 @@ class PostsRepository {
         'likeCount': 0,
         'dislikeCount': 0,
         'sumCount': 0,
+        'reportCount': 0,
         'day': Format.yearMonthDayToInt(DateTime.now()),
         'month': Format.yearMonthToInt(DateTime.now()),
         'year': DateTime.now().year,
@@ -162,6 +163,16 @@ class PostsRepository {
         'viewCount': FieldValue.increment(-1),
       });
 
+  Future<void> increaseReportCount(String id) =>
+      _firestore.doc(postPath(id)).update({
+        'reportCount': FieldValue.increment(1),
+      });
+
+  Future<void> decreaseReportCount(String id) =>
+      _firestore.doc(postPath(id)).update({
+        'reportCount': FieldValue.increment(-1),
+      });
+
   Future<void> updateMainVideoImageUrl(String id, String url) =>
       _firestore.doc(postPath(id)).update({
         'mainVideoImageUrl': url,
@@ -189,6 +200,7 @@ class PostsRepository {
     int likeCount = 0,
     int dislikeCount = 0,
     int sumCount = 0,
+    int reportCount = 0,
   }) =>
       _firestore.doc(postPath(id)).set({
         'id': id,
@@ -212,6 +224,7 @@ class PostsRepository {
         'likeCount': likeCount,
         'dislikeCount': dislikeCount,
         'sumCount': sumCount,
+        'reportCount': reportCount,
         'day': Format.yearMonthDayToInt(DateTime.now()),
         'month': Format.yearMonthToInt(DateTime.now()),
         'year': DateTime.now().year,

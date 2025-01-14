@@ -496,6 +496,8 @@ const indexFile = 'index.html';
 const fbMessageFile = 'firebase-messaging-sw.js';
 const manifestFile = 'manifest.json';
 const firestoreRulesFile = 'firestore.rules';
+const firebasercFile = '.firebaserc';
+const infoPlistFile = 'Info.plist';
 
 // Initialize Applimode
 // Applimode 초기화
@@ -729,6 +731,11 @@ async function upgradeApplimode() {
   const newManifestPath = path.join(newWebPath, manifestFile);
   const userManifestPath = path.join(userWebPath, manifestFile);
 
+  const newFirebasercPath = path.join(newRootPath, firebasercFile);
+  const userFirebasercPath = path.join(userRootPath, firebasercFile);
+  const newInfoPlistPath = path.join(newRootPath, 'ios/Runner', infoPlistFile);
+  const userInfoPlistPath = path.join(userRootPath, 'ios/Runner', infoPlistFile);
+
   // const newEnvFile = await fs.readFile(newEnvPath, 'utf8');
   const userEnvFile = await fs.readFile(userEnvPath, 'utf8');
   const newCustomSettingsFile = await fs.readFile(newCustomSettingsPath, 'utf8');
@@ -736,6 +743,8 @@ async function upgradeApplimode() {
   const userIndexFile = await fs.readFile(userIndexPath, 'utf8');
   const userFbMessageFile = await fs.readFile(userFbMessagePath, 'utf8');
   const userManifestFile = await fs.readFile(userManifestPath, 'utf8');
+  // const userFirebasercFile = await fs.readFile(userFirebasercPath, 'utf8');
+  const userInfoPlistFile = await fs.readFile(userInfoPlistPath, 'utf8');
 
   let fullAppName = '';
   let shortAppName = '';
@@ -817,6 +826,14 @@ async function upgradeApplimode() {
   // Copy user's manifest.json file
   // 사용자의 manifest.json 파일 복사
   await fs.writeFile(newManifestPath, userManifestFile, 'utf8');
+
+  // Copy user's .firebaserc file
+  // 사용자의 .firebaserc 파일 복사
+  // await fs.writeFile(newFirebasercPath, userFirebasercFile, 'utf8');
+
+  // Copy user's Info.plist file
+  // 사용자의 Info.plist 파일 복사
+  await fs.writeFile(newInfoPlistPath, userInfoPlistFile, 'utf8');
   
   // firestore.rules 파일 업데이트하기
 
