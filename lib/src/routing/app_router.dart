@@ -26,6 +26,7 @@ import 'package:applimode_app/src/features/video_player/full_video_screen.dart';
 import 'package:applimode_app/src/routing/maintenance_screen.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/custom_settings.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -102,9 +103,12 @@ GoRouter goRouter(Ref ref) {
   final appSettings = ref.watch(appSettingsControllerProvider);
   final postsRepository = ref.watch(postsRepositoryProvider);
 
+  final analytics = FirebaseAnalytics.instance;
+
   return GoRouter(
     initialLocation: '/',
     refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
+    observers: [FirebaseAnalyticsObserver(analytics: analytics)],
     redirect: (context, state) async {
       final user = authRepository.currentUser;
       final isLoggedIn = user != null;
