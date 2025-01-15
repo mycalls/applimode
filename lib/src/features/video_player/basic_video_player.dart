@@ -58,7 +58,6 @@ class _BasicVideoPlayerState extends State<BasicVideoPlayer> {
     }
 
     if (_controller != null) {
-      _controller?.addListener(_setStateListener);
       if (widget.videoController == null) {
         // _controller.setLooping(true);
         _controller?.initialize();
@@ -67,6 +66,7 @@ class _BasicVideoPlayerState extends State<BasicVideoPlayer> {
       if (_controller!.value.isPlaying) {
         overlayTofalse();
       }
+      _controller?.addListener(_setStateListener);
     }
   }
 

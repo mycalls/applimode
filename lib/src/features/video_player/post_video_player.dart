@@ -53,7 +53,6 @@ class _PostVideoPlayerState extends State<PostVideoPlayer> {
       );
     }
     if (_controller != null) {
-      _controller?.addListener(_setStateListener);
       // _controller.setLooping(true);
       if (widget.videoImageUrl == null || widget.videoImageUrl!.isEmpty) {
         isLoading = true;
@@ -63,6 +62,7 @@ class _PostVideoPlayerState extends State<PostVideoPlayer> {
             onError: (e) =>
                 debugPrint('PostVideoPlayer-initState-error: ${e.toString()}'));
       }
+      _controller?.addListener(_setStateListener);
     }
   }
 

@@ -6,6 +6,7 @@
 ## Version 0.2.7 (January 15, 2025)
 - Added functionality to report posts and comments.
 - Integrated Firebase Analytics.
+- Adjusted the position of addListener in VideoPlayer.
 
 ## Version 0.2.6 (January 03, 2025)
 - Added phone sign-in.

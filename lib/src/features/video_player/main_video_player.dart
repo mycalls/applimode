@@ -59,7 +59,6 @@ class _MainVideoPlayerState extends ConsumerState<MainVideoPlayer> {
       httpHeaders: useRTwoSecureGet ? rTwoSecureHeader : const {},
     );
     if (_controller != null) {
-      _controller?.addListener(_setStateListener);
       final isMute = ref.read(postsItemMuteStateProvider);
       // _controller.setLooping(true);
       if (isMute) {
@@ -73,6 +72,7 @@ class _MainVideoPlayerState extends ConsumerState<MainVideoPlayer> {
             onError: (e) =>
                 debugPrint('MainVideoPlayer-initState-error: ${e.toString()}'));
       }
+      _controller?.addListener(_setStateListener);
     }
   }
 
