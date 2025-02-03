@@ -3,6 +3,11 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.2.8 (February 3, 2025)
+- Enhanced AI Assistant functionality.
+- Added korean docs.
+- Improved some docs.
+
 ## Version 0.2.7 (January 15, 2025)
 - Added functionality to report posts and comments.
 - Integrated Firebase Analytics.

@@ -57,6 +57,13 @@ const List<double> mediaMaxMBSizesList = [
 // 절대 만지지 말 것. 변경 시 직접 코드 수정 필요
 const String splitTag = '<split>';
 
+const String basicPromptStartTag = '<basicPromptStart>';
+const String basicPromptEndTag = '<basicPromptEnd>';
+const String userPromptStartTag = '<userPromptStart>';
+const String userPromptEndTag = '<userPromptEnd>';
+const String contentStartTag = '<contentStart>';
+const String contentEndTag = '<contentEnd>';
+
 const String noTitleTag = '#!title';
 const String noWriterTag = '#!writer';
 

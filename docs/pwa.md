@@ -1,5 +1,12 @@
 # How to install a PWA
 
+English | [한글](./pwa.ko.md)
+
+> [!NOTE]
+> * A Progressive Web App (PWA) is a type of application based on web technologies that can be installed through a web browser.
+> * Unlike traditional websites, PWAs leverage the advantages of native apps while offering the convenience of the web.
+> * PWAs are easy to install and remove, update automatically, and provide a user experience comparable to native apps.
+
 ## Table of contents
 * [Safari on iOS](#safari-on-ios)
 * [Chrome on iOS](#chrome-on-ios)
@@ -14,7 +21,7 @@
 ![safari-on-ios](https://github.com/mycalls/applimode-examples/blob/main/assets/pwa-ios-safari.png?raw=true)
 
 ## Chrome on iOS
-![chrome-on-ios](https://github.com/mycalls/applimode-examples/blob/main/assets/pwa-ios-chrome.png?raw=true)
+![chrome-on-ios](https://github.com/mycalls/applimode-examples/blob/main/assets/pwa-ios-chrome-en-250122.png?raw=true)
 
 ## Chrome on Android
 ![chrome-on-android](https://github.com/mycalls/applimode-examples/blob/main/assets/pwa-and-chrome.png?raw=true)

@@ -1,3 +1,7 @@
+import 'dart:developer' as dev;
+
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.dart';
 import 'package:applimode_app/src/features/prompts/vertex_ai_model.dart';
@@ -17,7 +21,7 @@ class EditorScreenAiController extends _$EditorScreenAiController {
 
   Future<String?> generateContent({
     required String promptString,
-    required String defaultPromptString,
+    String? contentString,
     List<String>? imagePaths,
     List<String> prompts = const [],
     String predefinedPrompt = '',
@@ -26,7 +30,7 @@ class EditorScreenAiController extends _$EditorScreenAiController {
     if (user == null) {
       state =
           AsyncError(Exception('Permission is required'), StackTrace.current);
-      return '';
+      return contentString ?? '';
     }
 
     state = const AsyncLoading();
@@ -52,17 +56,21 @@ class EditorScreenAiController extends _$EditorScreenAiController {
           }
         }
       }
+      final basicPrompt =
+          '$basicPromptStartTag$aiInstructions$basicPromptEndTag';
+      final userPrompt = predefinedPrompt.trim().isEmpty &&
+              promptString.trim().isEmpty
+          ? ''
+          : '$userPromptStartTag$predefinedPrompt $promptString$userPromptEndTag';
+      final content = contentString == null || contentString.trim().isEmpty
+          ? ''
+          : '$contentStartTag$contentString$contentEndTag';
+      final fullPrompt = '$basicPrompt $userPrompt $content';
+      dev.log('fullPrompt: $fullPrompt');
       final prompt = imageParts.isEmpty
-          ? [
-              Content.text(
-                  '$predefinedPrompt $promptString $defaultPromptString')
-            ]
+          ? [Content.text(fullPrompt)]
           : [
-              Content.multi([
-                TextPart(
-                    '$predefinedPrompt $promptString $defaultPromptString'),
-                ...imageParts
-              ])
+              Content.multi([TextPart(fullPrompt), ...imageParts])
             ];
       final response =
           await ref.read(vertexAiModelProvider).generateContent(prompt);
@@ -77,23 +85,25 @@ class EditorScreenAiController extends _$EditorScreenAiController {
     /// sharedPreference 에 최대 20개까지 프롬프트 저장하기
     /// 추 후 서버에도 저장해서 동기화되도록 할 것
 
-    try {
-      final userPromptsRepository = ref.read(userPromptsRepositoryProvider);
-      List<String> newPrompts = [];
-      if (prompts.contains(promptString)) {
-        newPrompts = prompts;
-      } else if (prompts.length > 20) {
-        newPrompts = [promptString, ...prompts.sublist(0, 19)];
-      } else {
-        newPrompts = [promptString, ...prompts];
+    if (promptString.trim().isNotEmpty) {
+      try {
+        final userPromptsRepository = ref.read(userPromptsRepositoryProvider);
+        List<String> newPrompts = [];
+        if (prompts.contains(promptString)) {
+          newPrompts = prompts;
+        } else if (prompts.length > 20) {
+          newPrompts = [promptString, ...prompts.sublist(0, 19)];
+        } else {
+          newPrompts = [promptString, ...prompts];
+        }
+        await userPromptsRepository.createUserPrompt(
+          id: user.uid,
+          prompts: newPrompts,
+          predefinedPrompt: predefinedPrompt,
+        );
+      } catch (e) {
+        debugPrint('aiProptsSaveError: ${e.toString()}');
       }
-      await userPromptsRepository.createUserPrompt(
-        id: user.uid,
-        prompts: newPrompts,
-        predefinedPrompt: predefinedPrompt,
-      );
-    } catch (e) {
-      debugPrint('aiProptsSaveError: ${e.toString()}');
     }
 
     /*

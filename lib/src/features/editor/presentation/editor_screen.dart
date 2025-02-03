@@ -365,8 +365,10 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                   final result = await showAiDialog(
                     context: context,
                     imagePaths: imagePaths.isNotEmpty ? imagePaths : null,
+                    contentString: _controller.text.trim(),
                   );
                   if (result != null && result.isNotEmpty) {
+                    /*
                     final text = _controller.text;
                     final selection = _controller.selection;
                     final start = selection.start;
@@ -379,6 +381,8 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                       text: newText,
                       selection: newSelection,
                     );
+                    */
+                    _controller.text = result;
                     _focusNode.requestFocus();
                   }
                   // debugPrint('result: $result');

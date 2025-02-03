@@ -11,6 +11,7 @@ import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 Future<String?> showAiDialog({
   required BuildContext context,
   List<String>? imagePaths,
+  String? contentString,
 }) async {
   debugPrint('imagePaths: $imagePaths');
   return showDialog(
@@ -22,6 +23,7 @@ Future<String?> showAiDialog({
         AiDialog(
           context: context,
           imagePaths: imagePaths,
+          contentString: contentString,
         ),
       ],
     ),
@@ -33,10 +35,12 @@ class AiDialog extends ConsumerStatefulWidget {
     super.key,
     required this.context,
     this.imagePaths,
+    this.contentString,
   });
 
   final BuildContext context;
   final List<String>? imagePaths;
+  final String? contentString;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AiDialogState();
@@ -183,9 +187,11 @@ class _AiDialogState extends ConsumerState<AiDialog> {
                         labelText: context.loc.prompt,
                         hintText: context.loc.promptHint,
                       ),
+                      /*
                       onChanged: (_) {
                         _safeSetState();
                       },
+                      */
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -199,28 +205,24 @@ class _AiDialogState extends ConsumerState<AiDialog> {
                         ),
                         const SizedBox(width: 16),
                         TextButton(
-                          onPressed: _newPromptController.text.trim().length < 5
-                              ? null
-                              : () async {
-                                  final result = await ref
-                                      .read(editorScreenAiControllerProvider
-                                          .notifier)
-                                      .generateContent(
-                                        imagePaths: widget.imagePaths,
-                                        promptString: _newPromptController.text,
-                                        defaultPromptString:
-                                            context.loc.formatIsMarkdown,
-                                        prompts: userPrompt?.prompts ?? [],
-                                        predefinedPrompt:
-                                            _predefinedPromptController.text,
-                                      );
-                                  if (context.mounted &&
-                                      context.canPop() &&
-                                      result != null &&
-                                      result.isNotEmpty) {
-                                    context.pop(result);
-                                  }
-                                },
+                          onPressed: () async {
+                            final result = await ref
+                                .read(editorScreenAiControllerProvider.notifier)
+                                .generateContent(
+                                  imagePaths: widget.imagePaths,
+                                  contentString: widget.contentString,
+                                  promptString: _newPromptController.text,
+                                  prompts: userPrompt?.prompts ?? [],
+                                  predefinedPrompt:
+                                      _predefinedPromptController.text,
+                                );
+                            if (context.mounted &&
+                                context.canPop() &&
+                                result != null &&
+                                result.isNotEmpty) {
+                              context.pop(result);
+                            }
+                          },
                           child: Text(widget.context.loc.ok),
                         ),
                       ],

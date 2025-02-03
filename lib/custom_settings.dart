@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.2.7+1';
+const String appVersion = '0.2.8+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
@@ -101,6 +101,10 @@ const bool useApns = false;
 // 포스트 작성할 때 구글 제미나이를 사용해 포스트 생성
 // 파이어베이스 콘솔에서 vertex ai 사용 설정해야 함
 const bool useAiAssistant = false;
+
+// ai default instructions
+const String aiInstructions =
+    'These are the conditions for generating text. The basic prompt starts with <basicPromptStart> and ends with <basicPromptEnd>. The user prompt starts with <userPromptStart> and ends with <userPromptEnd>. The main content starts with <contentStart> and ends with <contentEnd>. The main content should be written using Markdown. Generate the text based on the language used in the main content. If the main content is missing or empty, generate the text based on the user prompt. Include the main content in the generated text and remove the <contentStart> and <contentEnd> tags in the final output. Do not modify any links, URLs, or URIs within the main content. Analyze the main content and if there is no title, add one in the format # Title and add a summary at the bottom of the content in the format * Summary: summary content. Analyze the main content and append search tags at the bottom in the format #tag #tag. Add a blank line before the search tags. For multi-word tags like "miscellaneous travel," format them as #miscellaneous_travel. Unless otherwise specified, only correct spelling errors in the main content.';
 
 // Model type to use as AI assistant
 // ai assistant로 사용할 모델 타입

@@ -1,6 +1,6 @@
 # Configure Applimode for Windows
 
-
+English | [한글](./windows.ko.md)
 
 > [!IMPORTANT]
 > * This guide is written in detail for beginners. Skip the unnecessary parts.
@@ -15,15 +15,12 @@
 * [Configure Firebase](#configure-firebase)
 * [Install Node.js and the Firebase CLI and the Futterfire CLI](#install-nodejs-and-the-firebase-cli-and-the-futterfire-cli)
 * [Configure your project](#configure-your-project)
-* [Change the images for the app icon and the launch screen](#change-the-images-for-the-app-icon-and-the-launch-screen)
-* [Change the app's main color](#change-the-apps-main-color)
 * [Build your Applimode app](#build-your-applimode-app)
-* [Add administrator](#add-administrator)
-* [Admin settings and custom settings](#admin-settings-and-custom-settings)
 * [Build and release a web app](#build-and-release-a-web-app)
 * [Build an APK for Android](#build-an-apk-for-android)
-* [Add phone sign-in (Optional)](#add-phone-sign-in-optional)
-* [Configure push notification (Optional)](#configure-push-notification-optional)
+* [Change the images for the app icon and the launch screen](#change-the-images-for-the-app-icon-and-the-launch-screen)
+* [Add administrator](#add-administrator)
+* [Admin settings and custom_settings.dart](#admin-settings-and-custom_settingsdart)
 * [Configure Cloudflare R2 (Optional)](#configure-cloudflare-r2-optional)
 * [Configure Cloudflare D1 (Optional)](#configure-cloudflare-d1-optional)
 * [Configure Cloudflare CDN (Optional)](#configure-cloudflare-cdn-optional)
@@ -31,11 +28,14 @@
 * [Configure Youtube video proxy (Optional)](#configure-youtube-video-proxy-optional)
 * [Use your custom domain (Optional)](#use-your-custom-domain-optional)
 * [Upgrade your project with the new Applimode version](#upgrade-your-project-with-the-new-applimode-version)
+* [Add phone sign-in](#add-phone-sign-in)
+* [Set up the AI assistant (Gemini)](#set-up-the-ai-assistant-google-gemini)
+* [Configure push notification](#configure-push-notification)
 * [Configure Cloud Firestore Security Rules](#configure-cloud-firestore-security-rules)
 * [Configure writing access for admin users only](#configure-writing-access-for-admin-users-only)
+* [Change the app's main color](#change-the-apps-main-color)
 * [Change the app's name](#change-the-apps-name)
 * [Change the organization name for the app](#change-the-organization-name-for-the-app)
-* [Set up the AI assistant (Gemini)](#set-up-the-ai-assistant-google-gemini)
 * [Troubleshooting](#troubleshooting)
 
 
@@ -204,13 +204,13 @@ firebase deploy --only firestore
 ```sh
 firebase deploy --only storage
 ```
-
+<!--
 > [!NOTE]
 > * If you want to enter commands all at once, run the following command:
 > ```sh
 > flutter pub get; dart run build_runner build -d; flutterfire configure --platforms=android,ios,web; node ./applimode-tool/index.js firebaserc; firebase deploy --only firestore; firebase deploy --only storage;
 > ```
-
+-->
 * Open [Google Cloud console](https://console.cloud.google.com/) in your web browser.
 * Sign up or log in.
 * Select your project on the top left.
@@ -247,6 +247,97 @@ exit
 
 
 
+## Build your Applimode app
+> [!IMPORTANT]
+> * Do this chapter after your Firestore indexing is complete. (about 5 minutes) You can check your Firestore indexing here: [Firebase console](https://console.firebase.google.com/) > your project > Firestore Database > Indexes.
+> * To install your Applimode app on an iOS device, you need a device with macOS installed. For more details, visit [Configure Applimode for macOS](https://github.com/mycalls/applimode/blob/main/docs/macos.md).
+* Go to or open your Applimode project in **VSCode**.
+![vscode-run](https://github.com/mycalls/applimode-examples/blob/main/assets/vscode-run.png?raw=true)
+* Click the Select Device section at the bottom right. (or press ```Ctrl``` + ```Shift``` + ```P```, then type *flutter* and select **Flutter: Select Device**.)
+<!--
+* Click **View** (on the top menu of VSCode) and select **Command Palette**. (or press ```Ctrl``` + ```Shift``` + ```P```)
+* Type *flutter* and select the **Flutter: Select Device**.
+-->
+* Select a target device from the Select Device prompt.
+* Press ```Ctrl``` + ```Shift``` + ```D```. (or click the **Run and Debug** button on the left menu)
+* Click the **Select Debug Mode** button at the top left and select **Run (release mode)**.
+<!--
+> [!NOTE]
+> If you change the settings in the **custom_settings.dart** file and want to see how they are applied in your Applimode app, select Chrome in the **Select Device** section and **Run (debug mode)** in the **Select Debug Mode** section. You can see the changes applied by pressing ```Ctrl``` + ```S``` after modifying the values in the **custom_settings.dart** file.
+-->
+* Click the **Start Debugging** button at the top left. (or press ```F5``` or ```Fn``` + ```F5```)
+<!--
+* Click Run (on the top menu of VSCode) and select **Start Debugging**. (or press ```F5``` or ```Fn``` + ```F5```)
+-->
+* After the app build completes, click the write button on the bottom right.
+* Click **Register** on the login screen and complete your signup.
+* Click the write button and write the first post. (if you are testing Cloudflare R2 or CDN, write the post with an image or a video)
+* To end the test drive, click **Run** (on the top menu of VSCode) and select **Stop Debugging**. (or press ```Shift``` + ```F5``` or ```Shift``` + ```Fn``` + ```F5```)
+<!--
+> * In debugging mode, the performance of most apps becomes very slow. Don't worry about the performance because Applimode in release mode is very fast.
+-->
+> [!NOTE]
+> * Select Chrome or Edge for web apps.
+> * To enable Developer options and USB debugging on your android device, refer to [this page](https://developer.android.com/studio/debug/dev-options).
+> * If you connect an Android device but it does not appear in the device list, try changing the USB Preferences to Charging or File transfers.
+<!-- * To enable them, go to Settings > About phone > Software information (there may not be) > Build number, click 7 times in a row. Return to the previous screen to find Developer options at the bottom. Then turn on USB debugging.-->
+
+
+
+## Build and release a web app
+> [!IMPORTANT]
+> Except for changes made on the admin settings page of the app, if you modify the app's settings or configuration, rebuild and redeploy the app according to the next chapter.
+<!--
+// build/web
+> firebase init
+> flutter build web --release
+> flutter build web --release --web-renderer=html
+> flutter build web --release --web-renderer=canvaskit
+> firebase deploy
+> firebase deploy --only hosting
+-->
+* Go to or open your Applimode project in **VSCode**.
+<!--
+* Click **File** (on the top menu of VSCode) and select **Open Folder**.
+* Select your project folder and click **Open**.
+-->
+* Click **View** (on the top menu of VSCode) and select **Terminal**.
+* Run the following command:
+```sh
+flutter build web --release
+```
+```sh
+firebase deploy --only hosting
+```
+* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
+* Click your project.
+* Click **Hosting** (on the left sidebar).
+* Scroll down to find the **Domains** section.
+* Click the domain address.
+* If you want to use your custom domain, read [this chapter](#use-your-custom-domain-optional).
+* Please visit [this page](https://github.com/mycalls/applimode/blob/main/docs/pwa.md) for how to install a PWA(Progressive Web App) on your phone and computer.
+
+
+
+## Build an APK for Android
+> [!IMPORTANT]
+> Except for changes made on the admin settings page of the app, if you modify the app's settings or configuration, rebuild and redeploy the app according to the next chapter.
+* Go to or open your Applimode project in **VSCode**.
+<!--
+* Click **File** (on the top menu of VSCode) and select **Open Folder**.
+* Select your project folder and click **Open**.
+-->
+* Click **View** (on the top menu of VSCode) and select **Terminal**.
+* Run the following command:
+```sh
+flutter build apk --release --target-platform=android-arm64
+```
+* You can find your apk file here: 
+**\<your-project-folder\>\build\app\outputs\apk\release** or **\<your-project-folder\>\build\app\outputs\flutter-apk\app-release.apk**
+> For more details, visit [this link](https://docs.flutter.dev/deployment/android#build-the-app-for-release).
+
+
+
 ## Change the images for the app icon and the launch screen
 * If you have prepared images for the app icon and launch screen of your project, follow the steps below. If you don't have them yet, you can skip this step and set them later.
 <!--Todos 피그마 공유 템플릿 파일 만들고 링크 제공할 것-->
@@ -269,54 +360,6 @@ dart run flutter_native_splash:create
 ```sh
 flutter pub run flutter_launcher_icons
 ```
-
-
-
-## Change the app's main color
-* Go to or open your Applimode project in **VSCode**.
-* Click **View** (on the top menu of VSCode), then select **Terminal**.
-* Run the following command.
-```sh
-node ./applimode-tool/index.js color
-```
-* Type the color code in hex format (e.g., fcb126, f37d76).
-> [!NOTE]
-> You can also change the main color in the **Admin Settings** after launching the app. For more detailed instructions, refer to the [following chapter](#admin-settings-and-custom-settings).
-
-
-
-## Build your Applimode app
-> [!IMPORTANT]
-> * Do this chapter after your Firestore indexing is complete. (about 5 minutes) You can check your Firestore indexing here: [Firebase console](https://console.firebase.google.com/) > your project > Firestore Database > Indexes.
-> * To install your Applimode app on an iOS device, you need a device with macOS installed. For more details, visit [Configure Applimode for macOS](https://github.com/mycalls/applimode/blob/main/docs/macos.md).
-* Go to or open your Applimode project in **VSCode**.
-![vscode-run](https://github.com/mycalls/applimode-examples/blob/main/assets/vscode-run.png?raw=true)
-* Click the Select Device section at the bottom right. (or press ```Ctrl``` + ```Shift``` + ```P```, then type *flutter* and select **Flutter: Select Device**.)
-<!--
-* Click **View** (on the top menu of VSCode) and select **Command Palette**. (or press ```Ctrl``` + ```Shift``` + ```P```)
-* Type *flutter* and select the **Flutter: Select Device**.
--->
-* Select a target device from the Select Device prompt.
-* Press ```Ctrl``` + ```Shift``` + ```D```. (or click the **Run and Debug** button on the left menu)
-* Click the **Select Debug Mode** button at the top left and select **Run (release mode)**.
-> [!NOTE]
-> If you change the settings in the **custom_settings.dart** file and want to see how they are applied in your Applimode app, select Chrome in the **Select Device** section and **Run (debug mode)** in the **Select Debug Mode** section. You can see the changes applied by pressing ```Ctrl``` + ```S``` after modifying the values in the **custom_settings.dart** file.
-* Click the **Start Debugging** button at the top left. (or press ```F5``` or ```Fn``` + ```F5```)
-<!--
-* Click Run (on the top menu of VSCode) and select **Start Debugging**. (or press ```F5``` or ```Fn``` + ```F5```)
--->
-* After the app build completes, click the write button on the bottom right.
-* Click **Register** on the login screen and complete your signup.
-* Click the write button and write the first post. (if you are testing Cloudflare R2 or CDN, write the post with an image or a video)
-* To end the test drive, click **Run** (on the top menu of VSCode) and select **Stop Debugging**. (or press ```Shift``` + ```F5``` or ```Shift``` + ```Fn``` + ```F5```)
-<!--
-> * In debugging mode, the performance of most apps becomes very slow. Don't worry about the performance because Applimode in release mode is very fast.
--->
-> [!NOTE]
-> * Select Chrome or Edge for web apps.
-> * To enable Developer options and USB debugging on your android device, refer to [this page](https://developer.android.com/studio/debug/dev-options).
-> * If you connect an Android device but it does not appear in the device list, try changing the USB Preferences to Charging or File transfers.
-<!-- * To enable them, go to Settings > About phone > Software information (there may not be) > Build number, click 7 times in a row. Return to the previous screen to find Developer options at the bottom. Then turn on USB debugging.-->
 
 
 
@@ -351,7 +394,10 @@ firebase deploy --only firestore
 ```
 
 > [!NOTE]
-> To add a verified user, follow these steps:
+> * You can modify the service to allow only verified users to access it through the following steps.
+> * First, follow the [next chapter](#configure-cloud-firestore-security-rules) to update the Firestore security rules.
+> * Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
+> * Click your project.
 > * Click **Firestore Database** (on the left sidebar).
 > * Click the users collection and select the user UID you want to designate as a verified user.
 > * Click the **Edit field** button (pencil shape) next to the **verified** field. (Move your mouse cursor over the **verified** field to display the **Edid field** button)
@@ -374,11 +420,16 @@ firebase deploy --only firestore
 
 
 
-## Admin settings and custom settings
+## Admin settings and custom_settings.dart
 > [!NOTE]
-> * If you change the custom settings file, you must rebuild it to apply it to your app.
+> * The **Admin settings** page and the **custom_settings.dart** file are where you can directly change the app's settings.
+> * The **Admin settings** page is a GUI representation of the entries in the **custom_settings.dart** file.
+> * All entries in the **custom_settings.dart** file will be moved to the app's **Admin settings** page.
+> * If you change the **custom_settings.dart** file, you must rebuild it to apply it to your app.
+<!--
 > * When changing Admin settings, users fetch the values ​​on your app's first startup, and the values ​​are applied on your app's second startup.
-> * The default minimum fetch interval for Admin settings is 600 seconds (10 minutes), and you can change it in the custom settings file.
+> * The default minimum fetch interval for Admin settings is 600 seconds (10 minutes), and you can change it in the **custom_settings.dart** file.
+-->
 
 * [Add administrator](#add-administrator) is required first to activate the Admin Settings tab in your app.
 <!--
@@ -388,9 +439,9 @@ firebase deploy --only firestore
 * Open your Applimode app. (If you selected Chrome or Edge as your target device in the [Build your Applimode app](#build-your-applimode-app) chapter, press ```F5``` or ```Fn``` + ```F5``` to rebuild.)
 * Click the menu button on the top left of the home screen.
 * Click **Admin settings**. (If you can't find the Admin settings tab, restart your app.)
-* After changing the settings, click Save at the bottom.
+* After changing the settings, click **Save** at the bottom.
 <!--todos 각 설정에 대한 상세 설명 페이지 만들고 여기에 링크 추가-->
-* To change the custom settings, go to or open your Applimode project in **VSCode**.
+* To change the **custom_settings.dart** file, go to or open your Applimode project in **VSCode**.
 <!--
 * Click **File** (on the top menu of VSCode) and select **Open Folder**.
 * Select your project folder (maybe in the **projects** folder) and click **Open**.
@@ -404,148 +455,19 @@ firebase deploy --only firestore
 > * If you change a value in **Admin settings**, it is recommended to also change the corresponding spare value in the **custom_settings.dart** file.
 > * For example, if you change the **App style** value, also change the **sparePostsListType** value in the **custom_settings.dart** file.
 > * The **App style** values ​​in **Admin Settings** correspond to the **sparePostsListType** values ​​in the **custom_settings.dart** file as follows.
->   * **List** - **PostsListType.small**
->   * **Card** - **PostsListType.square**
->   * **Page** - **PostsListType.page**
+>   * **List style** - **PostsListType.small**
+>   * **Card style** - **PostsListType.square**
+>   * **Page style** - **PostsListType.page**
+>   * **Round card style** - **PostsListType.round**
+>   * **Mixed style** - **PostsListType.mixed**
+<!--
 * If you want to register your app on the App Store or Play Store, add the corresponding links to **termsUrl** and **privacyUrl**.
 * If you change the value of **isInitialSignIn** to true, only logged in users will be able to use your app. You can also use Cloud Firestore Security Rules for even stronger security. Please read [this chapter](#configure-cloud-firestore-security-rules) for more details.
 * If you change the value of **adminOnlyWrite** to true, only users designated as administrators can write posts.
 * Read [this chapter](#configure-push-notification-optional) to change the values ​​of **useFcmMessage**, **fcmVapidKey**, and **useApns** to true.
+-->
 * When you have made all changes, press ```Ctrl``` + ```S```.
-* We will prepare more detailed information on all values ​​of Admin settings and Custom settings soon.
-
-
-
-## Build and release a web app
-<!--
-// build/web
-> firebase init
-> flutter build web --release
-> flutter build web --release --web-renderer=html
-> flutter build web --release --web-renderer=canvaskit
-> firebase deploy
-> firebase deploy --only hosting
--->
-* Go to or open your Applimode project in **VSCode**.
-<!--
-* Click **File** (on the top menu of VSCode) and select **Open Folder**.
-* Select your project folder and click **Open**.
--->
-* Click **View** (on the top menu of VSCode) and select **Terminal**.
-* Run the following command:
-```sh
-flutter build web --release
-```
-```sh
-firebase deploy --only hosting
-```
-> [!IMPORTANT]
-> If you change the custom settings file, you need to re-run the commands to update your app.
-* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
-* Click your project.
-* Click **Hosting** (on the left sidebar).
-* Scroll down to find the **Domains** section.
-* Click the domain address.
-* If you want to use your custom domain, read [this chapter](#use-your-custom-domain-optional).
-* Please visit [this page](https://github.com/mycalls/applimode/blob/main/docs/pwa.md) for how to install a PWA(Progressive Web App) on your phone and computer.
-<!--todos pwa 설치 방법 페이지 만들고 링크 추가-->
-
-
-
-## Build an APK for Android
-* Go to or open your Applimode project in **VSCode**.
-<!--
-* Click **File** (on the top menu of VSCode) and select **Open Folder**.
-* Select your project folder and click **Open**.
--->
-* Click **View** (on the top menu of VSCode) and select **Terminal**.
-* Run the following command:
-```sh
-flutter build apk --release --target-platform=android-arm64
-```
-> [!IMPORTANT]
-> If you change the custom settings file, you need to re-run the command to update your app.
-* You can find your apk file here: 
-**\<your-project-folder\>\build\app\outputs\apk\release** or **\<your-project-folder\>\build\app\outputs\flutter-apk\app-release.apk**
-> For more details, visit [this link](https://docs.flutter.dev/deployment/android#build-the-app-for-release).
-
-
-
-## Add phone sign-in (Optional)
-* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
-* Click your project.
-* Click **Authentication** (on the left sidebar).
-* Select the **Sign-in method** tab.
-* Click **Add new provider** and then click **Phone**.
-* Find the **Phone** switch and enable it.
-* Click the **Save** button.
-* Go to or open your Applimode project in **VSCode**.
-* Click **View** (on the top menu of VSCode), then select **Terminal**.
-* Run the following command.
-```sh
-node ./applimode-tool/index.js auth
-```
-* Type ```2``` (phone only) or ```3``` (email and phone) and press ```Enter```.
-#### Web
-* If you are only deploying a web app (PWA), no special actions are required.
-#### Android
-> [!NOTE]
-> While releasing the app, make sure to get the key from Play Console. [Here](https://docs.flutterflow.io/integrations/authentication/firebase/initial-setup#getting-sha-keys-for-release-mode) is the helpful link.
-* Run the following command.
-```sh
-keytool -list -v \
--alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
-```
-> [!NOTE]
-> If Java is not installed on your machine, an error will occur. Please install Java first.
-* After being prompted for the key password, type *android* and press 'Enter'.
-* Copy the SHA1 key.
-* Open the [Firebase console](https://console.firebase.google.com/) > your project > **Project Overview** > **Project Settings** and scroll down to **Your App** section.
-* Select your Android App from the left side menu.
-* Find the **SHA certificate fingerprints** section and click **Add fingerprint**.
-* Enter the copied SHA-1 into the input box and click on **Save**.
-* Open the [Google Developers Console](https://console.developers.google.com/) (Make sure your project is selected in the dropdown at the top), Click **Library** on the left, search for **Google Play Integrity API**, and enable it.
-
-
-
-## Configure push notification (Optional)
-> [!NOTE]
-> * To use APNs (Apple Push Notification service), you must register for [Apple Developer Program](https://developer.apple.com/programs/). (99 USD)
-> * To use APNs, you need a device with macOS installed. For more details, visit [Configure Applimode for macOS]().
-* Go to or open **VSCode**.
-* Click **File** (on the top menu of VSCode) and select **Open Folder** and select your project folder (maybe in the **projects** folder) and click **Open**.
-* Click **View** (on the top menu of VSCode) and select **Terminal**.
-* Run the following commands.
-```sh
-node ./applimode-tool/index.js fcm
-```
-> [!NOTE]
-> * To find the vapid key, open or go to your [Firebase console](https://console.firebase.google.com/).
-> * Click your project.
-> * Click the settings button on the top of the left sidebar.
-> * Click **Project settings**.
-![fb-project-settings](https://github.com/mycalls/applimode-examples/blob/main/assets/fb-project-settings.png?raw=true)
-> * Click Cloud Messaging on the top tab menu and scroll to the bottom.
-> * Click **Generate key pair**.
-> * Copy Key pair of Web Push certificates.
-![fb-cloud-message-web](https://github.com/mycalls/applimode-examples/blob/main/assets/fb-cloud-message-web.png?raw=true)
-<!--
-```
-firebase init functions
-```
--->
-```
-cd functions
-```
-```
-npm install
-```
-```
-firebase deploy --only functions
-```
-```
-cd ..
-```
+* We will prepare more detailed information on all values ​​of **Admin settings** and **custom_settings.dart** soon.
 
 
 
@@ -558,7 +480,7 @@ cd ..
 > * [Workers pricing plans](https://developers.cloudflare.com/workers/platform/pricing/)
 * Go to the [Cloudflare console](https://dash.cloudflare.com/sign-up).
 * Sign up or log in.
-* Click **R2** (on the left sidebar).
+* Click **R2 Object Storage** (on the left sidebar).
 * Fill out the **R2** subscription form and complete the **R2** subscription.
 * Open **PowerShell**.
 * Run the following commands.
@@ -566,9 +488,9 @@ cd ..
 cd ~/projects
 ```
 ```sh
-npm create cloudflare@latest <your_r2_worker_name>
+npm create cloudflare@latest -- <your_r2_worker_name>
 ```
-> ex) npm create cloudflare@latest applimode-r2-worker
+> ex) npm create cloudflare@latest -- applimode-r2-worker
 * Select default values ​​for all questions.
 * Close **PowerShell**.
 * Go to or open **VSCode**.
@@ -580,22 +502,29 @@ npm create cloudflare@latest <your_r2_worker_name>
 npx wrangler r2 bucket create <your_r2_bucket_name>
 ```
 > ex) npx wrangler r2 bucket create applimode-bucket
-* Press ```Ctrl``` + ```P``` and type *wrangler.toml*, then click.
-* Add the following to the end of your wrangler.toml file.
+* Press ```Ctrl``` + ```P``` and type *wrangler.json*, then click.
+* Add the following to the middle of your **wrangler.json** file.
+```json
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "<your_r2_worker_name>",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-24",
+  // Copy from this part 
+  "r2_buckets": [
+    {
+      "binding": "MY_BUCKET",
+      "bucket_name": "<YOUR_BUCKET_NAME>"
+    }
+  ],
+  // to this part and paste it in the designated location.  
+  // Replace <YOUR_BUCKET_NAME> with the name of the bucket you just created.
+  "observability": {
+    "enabled": true
+  }
+}
 ```
-account_id = "YOUR_ACCOUNT_ID" # ← Replace with your Account ID.
-workers_dev = true
-
-[[r2_buckets]]
-binding = "MY_BUCKET"
-bucket_name = "YOUR_BUCKET_NAME" # ← Replace with your bucket name.
-```
-* Update **account_id** and **bucket_name**.
-> * To find your account ID and bucket name, go to [Cloudflare dashboard](https://dash.cloudflare.com/) and click R2 (on the left sidebar).
-> * Click the **Click to copy** button below **Account ID** on the right side.
-> * Copy your bucket name below **Buckets** on the center side.
-![cf-r2-overview](https://github.com/mycalls/applimode-examples/blob/main/assets/cf-r2-overview.png?raw=true)
-<!-->
+<!--
 > * Or you can also find them using the following commands
 ```sh
 npx wrangler whoami 
@@ -605,13 +534,6 @@ npx wrangler r2 bucket list
 ```
 -->
 * To save, press ```Ctrl``` + ```S```. (or **File** > **Save**)
-<!--
-* Click **File** (on the top menu of VSCode) and select **New Window**.
-* Click **File** (on the top menu of VSCode) and select **Open Folder**.
-* Select the <your_applimode_project_name> folder and click **Open**. (maybe in your **projects** folder)
-* Press ```Ctrl``` + ```P``` and type *r2_worker.index.ts* and click.
-* Press ```Ctrl``` + ```A``` and press ```Ctrl``` + ```C```.
- -->
 * Open this [page](https://github.com/mycalls/applimode-examples/blob/main/r_two_Worker/r2_worker.index.ts) and click the **Copy raw file** button (next to the **Raw** button) on the upper-right corner of the file view.
 ![copy-raw-file](https://github.com/mycalls/applimode-examples/blob/main/assets/gh-copy-raw-file.png?raw=true)
 * Go back to VSCode.
@@ -622,8 +544,10 @@ npx wrangler r2 bucket list
 ```
 npx wrangler secret put AUTH_KEY_SECRET
 ```
+> when asked something, press **y** or **Y**.
 <!--Enter a secret value:-->
 * Type a secret for your worker.
+* After completing the above process, run the following command.
 ```
 npx wrangler deploy
 ```
@@ -646,10 +570,8 @@ dart run build_runner build --delete-conflicting-outputs
 * Change the useRTwoStorage value from **false** to **true**.
 > ex) const bool useRTwoStorage = true;
 * Go to the [Cloudflare dashboard](https://dash.cloudflare.com/).
-* Go to Workers & Pages (on the left sidebar) and in Overview, select your Worker.
-* Go to Settings > Triggers > Routes.
-* Copy your route.
-![cf-workers-triggers](https://github.com/mycalls/applimode-examples/blob/main/assets/cf-workers-triggers.png?raw=true)
+* From the left sidebar, select **Compute (Workers)**, then click on the worker name in bold from the list.
+* From the top tabs, click **Settings**, and in the **Domains and Routes** section, copy the value of **workers.dev**.
 * Go back to VSCode.
 * Press ```Ctrl``` + ```F``` and type *rTwoBaseUrl*.
 * Change the rTwoBaseUrl value from **yourR2WorkerUrl** to the route you copied.
@@ -670,9 +592,9 @@ dart run build_runner build --delete-conflicting-outputs
 cd ~/projects
 ```
 ```sh
-npm create cloudflare@latest <your_d1_worker_name>
+npm create cloudflare@latest -- <your_d1_worker_name>
 ```
-> ex) npm create cloudflare@latest applimode-d1-worker
+> ex) npm create cloudflare@latest -- applimode-d1-worker
 * Select default values ​​for all questions.
 * Close **PowerShell**.
 * Go to or open **VSCode**.
@@ -684,28 +606,49 @@ npm create cloudflare@latest <your_d1_worker_name>
 npx wrangler d1 create <db-name>
 ```
 > ex) npx wrangler d1 create applimode-d1
-* Copy the following part of the output.
+* If it runs successfully, you'll see the following information in **Terminal**.
 ```
 [[d1_databases]]
-binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "applimode-d1"
+binding = "DB"
+database_name = "<db-name>"
 database_id = "<unique-ID-for-your-database>"
 ```
-* Press ```Ctrl``` + ```P``` and type *wrangler.toml*, then click.
-* Add the part you copied to the end of your wrangler.toml file.
+* Press ```Ctrl``` + ```P``` and type *wrangler.json*, then click.
+* Add the following to the middle of your **wrangler.json** file.
+```json
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "<your_d1_worker_name>",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-24",
+  // Copy from this part 
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "<db-name>",
+      "database_id": "<unique-ID-for-your-database>"
+    }
+  ],
+  // to this part and paste it in the designated location.  
+  // Replace <db-name> and <unique-ID-for-your-database> with the information previously output.
+  "observability": {
+    "enabled": true
+  }
+}
+```
 * To save, press ```Ctrl``` + ```S```. (or **File** > **Save**)
 * Open this [page](https://github.com/mycalls/applimode-examples/blob/main/d_one_worker/d1.posts.sql) and click the **Copy raw file** button (next to the **Raw** button) on the upper-right corner of the file view.
 * Go back to VSCode.
 * Click **File** and click **New File...**. (or click the New File button)
 ![vscode-new-file](https://github.com/mycalls/applimode-examples/blob/main/assets/vs-create-file.png?raw=true)
-* Type posts.sql and press ```Enter``` and click **Create File**. (in your project root folder)
+* Type *posts.sql* and press ```Enter``` and click **Create File**. (in your project root folder)
 * To paste and save, press ```Ctrl``` + ```V``` and ```Ctrl``` + ```S```.
 * Open this [page](https://github.com/mycalls/applimode-examples/blob/main/d_one_worker/d1_worker.index.ts) and click the **Copy raw file** button (next to the **Raw** button) on the upper-right corner of the file view.
 * Go back to VSCode.
 * Press ```Ctrl``` + ```P``` and type *index.ts*, then click.
 * Press ```Ctrl``` + ```A``` and press ```Ctrl``` + ```V```.
 * To save, press ```Ctrl``` + ```S```.
-* Click **Terminal** on the bottom of VSCode and run the following commands. (To find your your-d1-db-name, go to the **wrangler.toml** file, refer to **database_name**)
+* Click **Terminal** on the bottom of VSCode and run the following commands. (To find your **<your-d1-db-name>**, go to the **wrangler.json** file, refer to **database_name**)
 ```
 npx wrangler d1 execute <your-d1-db-name> --remote --file=./posts.sql
 ```
@@ -719,8 +662,8 @@ npx wrangler deploy
 * Change the useDOneForSearch value from **false** to **true**.
 > ex) const bool useDOneForSearch = true;
 * Go to the [Cloudflare dashboard](https://dash.cloudflare.com/).
-* Go to Workers & Pages (on the left sidebar) and in Overview, select your Worker.
-* Go to Settings > Triggers > Routes.
+* From the left sidebar, select **Compute (Workers)**, then click on the worker name in bold from the list.
+* From the top tabs, click **Settings**, and in the **Domains and Routes** section, copy the value of **workers.dev**.
 * Copy your route.
 * Go back to VSCode.
 * Press ```Ctrl``` + ```F``` and type *dOneBaseUrl*.
@@ -740,23 +683,23 @@ npx wrangler deploy
 > * [Domain transfer documentation](https://developers.cloudflare.com/registrar/get-started/transfer-domain-to-cloudflare/)
 
 * Go to the [Cloudflare console](https://dash.cloudflare.com/).
-* Click **R2** (on the left sidebar) and in **Overview**, select the bucket you want.
+* Click **R2 Object Storage** (on the left sidebar) and in **Overview**, select the bucket you want.
 * Click **Settings** on the top, scroll down to find the **Public access** section.
 * In **Custom Domains**, click **Connect Dommain**.
 * Type the domain for CDN and click Continue.
 > If you have a domain called applimode.com, type a sub domain like *<n>media.<n>applimode.<n>com* or *<n>cdn.<n>applimode.<n>com* or *<n>content.<n>applimode.<n>com*.
-* Click **Websites** (on the left sidebar) and click your domain.
-* Click **Rules** (on the left sidebar) and **Transform Rules** and **Modify Response Header** (on the tab menu).
+* Click **Account Home** (on the left sidebar) and click your domain.
+* Click **Rules** (on the left sidebar) and click **Manage Response Header Transform Rules** on the bottom left.
 * Click **+ Create rule**.
 * Type the rule name like *applimode-r2-cors*.
 * Select **Custom filter expression**.
-* In **Field**, select **Hostname** and in **Operator**, select **equals** and in **Value, type the sub domain you connected to your R2 bucket. (like *<n>media.<n>applimode.<n>com* or *<n>cdn.<n>applimode.<n>com* or *<n>content.<n>applimode.<n>com*)
+* In **Field**, select **Hostname** and in **Operator**, select **equals** and in **Value**, type the sub domain you connected to your R2 bucket. (like *<n>media.<n>applimode.<n>com* or *<n>cdn.<n>applimode.<n>com* or *<n>content.<n>applimode.<n>com*)
 * In **Select item**, select **Add**.
 * In Header name, copy and paste the following expression.
 ```
 access-control-allow-origin
 ```
-* In Value, type __*__.
+* In Value, type *.
 * Click **Deploy**.
 ![cf-websites-rules](https://github.com/mycalls/applimode-examples/blob/main/assets/cf-websites-rules.png?raw=true)
 * Go to or open **VSCode**.
@@ -783,7 +726,7 @@ access-control-allow-origin
 cd ~/projects
 ```
 ```sh
-npm create cloudflare@latest yt-thumbnail-worker
+npm create cloudflare@latest -- yt-thumbnail-worker
 ```
 * Select default values ​​for all questions.
 * Close **PowerShell**.
@@ -800,9 +743,8 @@ npm create cloudflare@latest yt-thumbnail-worker
 npx wrangler deploy
 ```
 * Go to the [Cloudflare dashboard](https://dash.cloudflare.com/).
-* Go to Workers & Pages (on the left sidebar) and in Overview, click **yt-thumbnail-worker**.
-* Go to Settings > Triggers > Routes.
-* Copy your route.
+* From the left sidebar, select **Compute (Workers)**, then click **yt-thumbnail-worker** from the list.
+* From the top tabs, click **Settings**, and in the **Domains and Routes** section, copy the value of **workers.dev**.
 * Go back to VSCode.
 * Click **File** (on the top menu of VSCode) and select **Open Folder** and select your project folder (maybe in the **projects** folder) and click **Open**.
 * Press ```Ctrl``` + ```P``` and type *custom_settings.dart* and click.
@@ -823,7 +765,7 @@ npx wrangler deploy
 cd ~/projects
 ```
 ```sh
-npm create cloudflare@latest yt-iframe-wroker
+npm create cloudflare@latest -- yt-iframe-wroker
 ```
 * Select default values ​​for all questions.
 * Close **PowerShell**.
@@ -840,9 +782,8 @@ npm create cloudflare@latest yt-iframe-wroker
 npx wrangler deploy
 ```
 * Go to the [Cloudflare dashboard](https://dash.cloudflare.com/).
-* Go to Workers & Pages (on the left sidebar) and in Overview, click **yt-iframe-wroker**.
-* Go to Settings > Triggers > Routes.
-* Copy your route.
+* From the left sidebar, select **Compute (Workers)**, then click **yt_iframe_worker** from the list.
+* From the top tabs, click **Settings**, and in the **Domains and Routes** section, copy the value of **workers.dev**.
 * Go back to VSCode.
 * Click **File** (on the top menu of VSCode) and select **Open Folder** and select your project folder (maybe in the **projects** folder) and click **Open**.
 * Press ```Ctrl``` + ```P``` and type *custom_settings.dart* and click.
@@ -868,7 +809,9 @@ npx wrangler deploy
 
 
 ## Upgrade your project with the new Applimode version
-* Delete your existing **applimode**(or **applimode-main**) and **applimode-tool** folders. (If they are in your **projects** folder)
+<!--
+* Delete your existing **applimode**(or **applimode-main**) folder. (If they are in your **projects** folder)
+-->
 * Open **PowerShell**.
 * Run the following commands.
 ```sh
@@ -914,12 +857,114 @@ firebase deploy --only firestore
 ```sh
 firebase deploy --only storage
 ```
+<!--
 > [!NOTE]
 > * If you want to enter commands all at once, run the following command:
 > ```sh
 > flutter pub get; dart run flutter_native_splash:create; flutter pub run flutter_launcher_icons; dart run build_runner build -d; flutterfire configure --platforms=android,ios,web; node ./applimode-tool/index.js firebaserc; firebase deploy --only firestore; firebase deploy --only storage;
 > ```
+-->
 * Delete your old project folder.
+
+
+
+## Add phone sign-in
+* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser. 
+* Click your project.
+* Click **Authentication** (on the left sidebar).
+* Select the **Sign-in method** tab.
+* Click **Add new provider** and then click **Phone**.
+* Find the **Phone** switch and enable it.
+* Click the **Save** button.
+* Go to or open your Applimode project in **VSCode**.
+* Click **View** (on the top menu of VSCode), then select **Terminal**.
+* Run the following command.
+```sh
+node ./applimode-tool/index.js auth
+```
+* Type ```2``` (phone only) or ```3``` (email and phone) and press ```Enter```.
+#### Web
+* If you are only deploying a web app (PWA), no special actions are required.
+#### Android
+> [!NOTE]
+> While releasing the app, make sure to get the key from Play Console. [Here](https://docs.flutterflow.io/integrations/authentication/firebase/initial-setup#getting-sha-keys-for-release-mode) is the helpful link.
+* Run the following command.
+```sh
+keytool -list -v \
+-alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+```
+> [!NOTE]
+> If Java is not installed on your machine, an error will occur. Please install Java first.
+* After being prompted for the key password, type *android* and press 'Enter'.
+* Copy the SHA1 key.
+* Open the [Firebase console](https://console.firebase.google.com/) > your project > **Project Overview** > **Project Settings** and scroll down to **Your App** section.
+* Select your Android App from the left side menu.
+* Find the **SHA certificate fingerprints** section and click **Add fingerprint**.
+* Enter the copied SHA-1 into the input box and click on **Save**.
+* Open the [Google Developers Console](https://console.developers.google.com/) (Make sure your project is selected in the dropdown at the top).
+* Enter *Google Play Integrity API* in the search bar at the top, go to the product details page, and enable it.
+<!--
+* Click **Library** on the left, search for **Google Play Integrity API**, and enable it.
+-->
+
+
+
+## Set up the AI assistant (Google Gemini)
+* To use the AI assistant when writing posts in your Applimode app, follow these steps.
+* Go to or open your Applimode project in **VSCode**.
+* Click **View** (on the top menu of VSCode), then select **Terminal**.
+* Run the following command.
+```sh
+node ./applimode-tool/index.js ai
+```
+* Type ```y``` and press ```Enter```.
+* Choose between Flash and Pro (Flash is faster and more cost-effective, while Pro is more powerful but also more expensive).
+* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser.
+* Click your project.
+* Click **Build with Gemini** (on the left sidebar).
+* Click **Get started** on the **Vertex AI in Firebase** card.
+* Click **Enable APIs**, then click **Continue**.
+
+
+
+## Configure push notification
+> [!NOTE]
+> * To use APNs (Apple Push Notification service), you must register for [Apple Developer Program](https://developer.apple.com/programs/). (99 USD)
+> * To use APNs, you need a device with macOS installed. For more details, visit [Configure Applimode for macOS]().
+* Go to or open **VSCode**.
+* Click **File** (on the top menu of VSCode) and select **Open Folder** and select your project folder (maybe in the **projects** folder) and click **Open**.
+* Click **View** (on the top menu of VSCode) and select **Terminal**.
+* Run the following commands.
+```sh
+node ./applimode-tool/index.js fcm
+```
+> [!NOTE]
+> * To find the vapid key, open or go to your [Firebase console](https://console.firebase.google.com/).
+> * Click your project.
+> * Click the settings button on the top of the left sidebar.
+> * Click **Project settings**.
+![fb-project-settings](https://github.com/mycalls/applimode-examples/blob/main/assets/fb-project-settings.png?raw=true)
+> * Click Cloud Messaging on the top tab menu and scroll to the bottom.
+> * Click **Generate key pair**.
+> * Copy Key pair of Web Push certificates.
+![fb-cloud-message-web](https://github.com/mycalls/applimode-examples/blob/main/assets/fb-cloud-message-web.png?raw=true)
+<!--
+```
+firebase init functions
+```
+-->
+```
+cd functions
+```
+```
+npm install
+```
+```
+firebase deploy --only functions
+```
+```
+cd ..
+```
 
 
 
@@ -931,6 +976,10 @@ firebase deploy --only storage
 node ./applimode-tool/index.js security
 ```
 * Select the security rule you want. (a, s, v)
+> [!NOTE]
+> * a (all users) - Access is granted to all users, regardless of authentication status.
+> * s (signed-in users) - Access is restricted to users who have signed in to the application.
+> * v (verified users) - Access is restricted to users who have been verified by an administrator.
 * Run the following command.
 ```sh
 firebase deploy --only firestore
@@ -997,6 +1046,19 @@ node ./applimode-tool/index.js write
 
 
 
+## Change the app's main color
+* Go to or open your Applimode project in **VSCode**.
+* Click **View** (on the top menu of VSCode), then select **Terminal**.
+* Run the following command.
+```sh
+node ./applimode-tool/index.js color
+```
+* Type the color code in hex format (e.g., fcb126, f37d76).
+> [!NOTE]
+> You can also change the main color in the **Admin Settings** after launching the app. For more detailed instructions, refer to the [following chapter](#admin-settings-and-custom-settings).
+
+
+
 ## Change the app's name
 >[!NOTE]
 > * The long app name is mainly used for web apps.
@@ -1030,26 +1092,8 @@ node ./applimode-tool/index.js organization
 
 
 
-## Set up the AI assistant (Google Gemini)
-* To use the AI assistant when writing posts in your Applimode app, follow these steps.
-* Go to or open your Applimode project in **VSCode**.
-* Click **View** (on the top menu of VSCode), then select **Terminal**.
-* Run the following command.
-```sh
-node ./applimode-tool/index.js ai
-```
-* Type ```y``` and press ```Enter```.
-* Choose between Flash and Pro (Flash is faster and more cost-effective, while Pro is more powerful but also more expensive).
-* Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser.
-* Click your project.
-* Click **Build with Gemini** (on the left sidebar).
-* Click **Get started** on the **Vertex AI in Firebase** card.
-* Click **Enable APIs**, then click **Continue**.
-
-
-
 ## Troubleshooting
-* ### If you don't see images or videos in your uploaded post, follow these steps. (CORS issue)
+### If you don't see images or videos in your uploaded post, follow these steps. (CORS issue)
 1. Open [Google Cloud console](https://console.cloud.google.com/) in your web browser.
 2. Sign up or log in.
 3. Select your project on the top left.
@@ -1081,7 +1125,7 @@ echo '[{"origin": ["*"],"method": ["GET"],"maxAgeSeconds": 3600}]' > cors.json
 gsutil cors set cors.json gs://<your-cloud-storage-bucket>
 ```
 
-* ### If an error occurs when building with an Android device, follow these steps.
+### If an error occurs when building with an Android device, follow these steps.
 1. Open **VSCode**
 2. Click **File** (on the top menu of VSCode) and select **Open Folder**.
 3. Select your project folder (maybe in the **projects** folder) and click **Open**.
@@ -1097,13 +1141,13 @@ flutter pub cache repair
 flutter pub get
 ```
 
-* ### If you don't see your Android device in the target device list, follow these steps.
+### If you don't see your Android device in the target device list, follow these steps.
 1. Enable Developer options and USB debugging on your android device.
 2. To enable Developer options and USB debugging on your android device, refer to [this page](https://developer.android.com/studio/debug/dev-options).
 3. Try changing the USB Preferences to Charging or File transfers.
 4. Connet again.
 
-* ### If you cannot upload a post with images or videos attached when using Cloudflare R2, follow these steps.
+### If you cannot upload a post with images or videos attached when using Cloudflare R2, follow these steps.
 1. Open **VSCode**
 2. Click **File** (on the top menu of VSCode) and select **Open Folder**.
 3. Select your project folder (maybe in the **projects** folder) and click **Open**.

@@ -219,7 +219,7 @@
   "formatIsMarkdown": "The format is Markdown.",
   "prompt": "Prompt",
   "previousPrompts": "Previous Prompts",
-  "promptHint": "Enter a prompt",
+  "promptHint": "If no message is entered, a generated text will include a title, summary, and search tags for the written content.",
   "predefinedPrompt": "Predefined Prompt",
   "predefinedPromptHint": "Enter a prompt that is entered repeatedly",
   "reportIssue": "Report an issue",

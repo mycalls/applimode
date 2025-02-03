@@ -4,10 +4,16 @@
 
 
 # Applimode
-<!--
-English | [한글](README_ko.md)
--->
-Applimode is a powerful, next-generation solution for building apps and websites, designed to outperform traditional CMS platforms like WordPress. Built with Flutter, Applimode offers unmatched flexibility, enabling you to seamlessly create and deploy high-performance apps across Android, iOS, web, and PWA—all from a single codebase. Whether you're crafting a blog, a forum, or complex media-driven platforms, Applimode empowers even non-developers to build fully functional, modern applications and deploy them effortlessly to Google Firebase, all at minimal cost.
+
+English | [한글](README.ko.md)
+
+Applimode is an open-source project inspired by the following ideas:
+
+* Anyone, even without development experience, should be able to easily create their own blog or community service.
+* Starting a service should have no upfront costs, and scaling it should remain affordable.
+* Services should run seamlessly across multiple platforms.
+
+Built on Firebase and Flutter, Applimode works smoothly on Android, iOS, and Web (PWA).With Applimode, you can create your own blog or community service in just a few hours.
 
 <p align="center">
     <img src="https://github.com/mycalls/applimode-examples/blob/main/assets/am-preview-480p-10f-240829.gif?raw=true" width="320">
@@ -34,89 +40,113 @@ git clone https://github.com/mycalls/applimode.git
 ```sh
 cp -r ./applimode/applimode-tool ./; node ./applimode-tool/index.js init; rm -r ./applimode-tool
 ```
-* Open your initialized Applimode project in VS Code, and run the following command.
+* Open your initialized Applimode project in VS Code, and run the following commands.
+```sh
+flutter pub get
+```
+```sh
+dart run build_runner build -d
+```
+```sh
+flutterfire configure --platforms=android,ios,web
+```
+> [!NOTE]
+> when asked something, press **n** or **N**.
+```sh
+node ./applimode-tool/index.js firebaserc
+```
+```sh
+firebase deploy --only firestore
+```
+```sh
+firebase deploy --only storage
+```
+<!--
 ```sh
 flutter pub get; dart run build_runner build -d; flutterfire configure --platforms=android,ios,web; node ./applimode-tool/index.js firebaserc; firebase deploy --only firestore; firebase deploy --only storage;
 ```
 > [!NOTE]
 > when asked something, press **n** or **N**.
+-->
 * If images are not displayed when building for the web (CORS issue), follow [this step](https://github.com/mycalls/applimode/blob/main/docs/macos.md#if-you-dont-see-images-or-videos-in-your-uploaded-post-follow-these-steps-cors-issue).
 
 Additionally, you can set or configure the following:
+* Build your Applimode app ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#build-your-applimode-app), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#build-your-applimode-app))
+* Build and release a web app ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#build-and-release-a-web-app), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#build-and-release-a-web-app))
+* Build an APK for Android ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#build-an-apk-for-android), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#build-an-apk-for-android))
 * Change the images for the app icon and the launch screen ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-images-for-the-app-icon-and-the-launch-screen), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-images-for-the-app-icon-and-the-launch-screen))
-* Change the app's main color ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-apps-main-color), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-apps-main-color))
 * Add administrator ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#add-administrator), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#add-administrator))
-* Admin settings and custom settings ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#admin-settings-and-custom-settings), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#admin-settings-and-custom-settings))
-* Add phone sign-in ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#add-phone-sign-in-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#add-phone-sign-in-optional))
-* Configure push notification ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-push-notification-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-push-notification-optional))
-* Configure Cloudflare R2 ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-r2-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-r2-optional))
+* Admin settings and custom_settings.dart ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#admin-settings-and-custom_settingsdart), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#admin-settings-and-custom_settingsdart))
+* Configure Cloudflare R2 (Optional) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-r2-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-r2-optional))
 > [!NOTE]
 > * Instead of Firebase Cloud Storage, you can set up Cloudflare R2 as your media file storage
 > * The biggest advantage of R2 is that transfer fees are free. If you are building a video-centric app, I highly recommend using Cloudflare R2.
-* Configure Cloudflare D1 ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-d1-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-d1-optional))
+* Configure Cloudflare D1 (Optional) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-d1-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-d1-optional))
 > [!NOTE]
 > Applimode supports hashtag search by default. If you want to use full-text search, use Cloudflare D1.
-* Configure Cloudflare CDN ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-cdn-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-cdn-optional))
-* Configure Youtube image proxy ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-youtube-image-proxy-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-youtube-image-proxy-optional))
-* Configure Youtube video proxy ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-youtube-video-proxy-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-youtube-video-proxy-optional))
-* Use your custom domain ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#use-your-custom-domain-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#use-your-custom-domain-optional))
+* Configure Cloudflare CDN (Optional) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloudflare-cdn-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloudflare-cdn-optional))
+* Configure Youtube image proxy (Optional) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-youtube-image-proxy-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-youtube-image-proxy-optional))
+* Configure Youtube video proxy (Optional) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-youtube-video-proxy-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-youtube-video-proxy-optional))
+* Use your custom domain (Optional) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#use-your-custom-domain-optional), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#use-your-custom-domain-optional))
 * Upgrade your project with the new Applimode version ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#upgrade-your-project-with-the-new-applimode-version), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#upgrade-your-project-with-the-new-applimode-version))
+* Add phone sign-in ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#add-phone-sign-in), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#add-phone-sign-in))
+* Set up the AI assistant (Gemini) ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#set-up-the-ai-assistant-google-gemini), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#set-up-the-ai-assistant-google-gemini))
+* Configure push notification ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-push-notification), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-push-notification))
 * Configure Cloud Firestore Security Rules ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-cloud-firestore-security-rules), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-cloud-firestore-security-rules))
 * Configure writing access for admin users only ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#configure-writing-access-for-admin-users-only), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#configure-writing-access-for-admin-users-only))
+* Change the app's main color ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-apps-main-color), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-apps-main-color))
 * Change the app's name ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-apps-name), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-apps-name))
 * Change the organization name for the app ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-organization-name-for-the-app), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-organization-name-for-the-app))
-* Set up the AI assistant ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#set-up-the-ai-assistant-google-gemini), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#set-up-the-ai-assistant-google-gemini))
 * Troubleshooting ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#troubleshooting), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#troubleshooting))
 
-
-## Main Features
-* 5 distinct bulletin board styles: list, box, rounded box, page, and mixed layout
-* Multi-platform support: Android, iOS, Web, and PWA
-* Versatile post types: text, images, videos
-* Markdown support for posts
-* AI-powered post creation
-* Commenting options: text and images
-* Like and dislike functionality
-* Hashtags and search capability
-* Categories and ranking system
-* Extensive admin settings
-* User blocking feature
 
 ## Demo
 * [Applimode Demo Web](https://applimode-demo.web.app/)
 * [Applimode Dev Web](https://applimode-type-b.web.app/)
-<!--
-* [Android]()
-* iOS will be updated in the future.
--->
 
-<!--
-## FAQs
-* 앱 스타일 변경 방법
-* 링크형식의 이미지나 비디오 삽입 방법
-* 비디오 썸네일 직접 지정하는 방법
-* 박스 또는 페이지 스타일에서 제목, 저자 숨기는 방법
--->
 
-## Deployment Recommendations
-* It is recommended to first deploy as a web app (PWA) and expand to a native app (for Android and iOS) as the scale grows.
-* Applimode's web and native apps share the same features.
-* Native apps generally perform better than web apps.
-* However, web apps are easier to deploy (including updates) and do not require paid developer memberships from Apple or Google.
-* The performance of Flutter’s web apps is rapidly improving, and applying WebAssembly (WASM) can lead to a significant performance boost.
+## Main Features
+* 5 Design Styles
+* Support for Android, iOS, and Web (PWA)
+* User registration via email and phone number
+* Markdown support for post creation
+* Text, image, and video insertion support for post creation
+* AI writing assistance (Google Gemini)
+* Text and image insertion support for comment creation
+* Like and dislike feature for posts and comments
+* Hashtag-based search support
+* Category setting support
+* Daily, monthly, and yearly ranking of posts and comments
+* Report features for posts and comments
+* Administrator settings page and management mode support
+* User and post blocking by administrators
 
-## Goals
-> With Applimode, I want you to save your time and money.
-* Build a community or blog service that supports web, iOS, and Android in just a few hours.
-* Achieve zero initial cost and minimal maintenance costs.
-* Make it easy to build, even for non-developers.
-* Build and manage on your own server.
+
+## Considerations for Deployment and Release
+#### Initial Deployment
+* Start with **Web (PWA)** for your initial deployment.
+* Web deployment involves no upfront costs and minimal maintenance expenses for small-scale operations.
+* The process is straightforward, with no significant restrictions, making it easy to get started.
+#### Releasing Mobile Apps
+* As your user base grows, consider releasing your app on **Google Play** (Android) and **App Store** (iOS).
+* Publishing on these platforms requires a paid membership for each.
+#### Additional Information
+* For detailed guidance on **Google Play** release, visit [here](https://codewithandrea.com/articles/how-to-release-flutter-google-play-store/).
+* For detailed guidance on **App Store** release, visit [here](https://codewithandrea.com/articles/how-to-release-flutter-ios-app-store/).
+
 
 ## Roadmap
-The content of this section will be updated in the future.
+* Make it even easier and more straightforward for users to deploy their services.
+* Enable AI tools to assist in managing and optimizing services effectively.
+* Introduce WebAssembly (WASM) to improve performance and speed up page loading.
+* Allow all settings to be managed directly through the admin panel for greater convenience and control.
 
+
+<!--
 ## Contributing
 The content of this section will be updated in the future.
+-->
+
 
 ## Releases
 Please see the [changelog](https://github.com/mycalls/applimode/blob/main/CHANGELOG.md) for more details about a given release.
