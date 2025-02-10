@@ -17,7 +17,7 @@ English | [한글](./macos.ko.md)
 * [Install Homebrew](#install-homebrew)
 * [Install rbenv, Ruby, and CocoaPods](#install-rbenv-ruby-and-cocoapods)
 * [Configure Firebase](#configure-firebase)
-* [Install Node.js and the Firebase CLI and the Futterfire](#install-nodejs-and-the-firebase-cli-and-the-futterfire)
+* [Install Node.js and the Firebase CLI and the Futterfire](#install-nodejs-and-the-firebase-cli-and-the-futterfire-cli)
 * [Configure your project](#configure-your-project)
 * [Build your Applimode app](#build-your-applimode-app)
 * [Build and release a web app](#build-and-release-a-web-app)
@@ -298,11 +298,15 @@ ruby -v
 * Click [Go to console](https://console.firebase.google.com).
 * Click **Create a project**.
 * Enter a project name and click **Continue**.
-* Enable **Google Analytics for your project** then click **Continue**.
+* Enable **Gemini in Firebase** then click **Continue**.
+* Enable **Google Analytics for this project** then click **Continue**.
 * Select your Google Analytics account or select **Default Account for Firebase**. Click **Create Project**.
 <!--* Disable **Google Analytics** and click **Create project**. (You can change this setting later.)-->
+* When you see the message **Your Firebase project is ready**, click **Continue** at the bottom.
 * Click **Upgrade** on the bottom of the left sidebar.
 * Click **Select plan** to choose Blaze plan.
+* In **Choose a Cloud Billing account**, select your billing account, enter your **Budget amount**, and click **Continue**.
+* Click **Link Cloud Billing account**, and click **Done**.
 > [!NOTE]
 > To use complete services like - Cloud Storage, Cloud Functions to trigger push notifications etc, Vertex AI in Firebase & to remove all limits, you must **Upgrade** the default **Spark plan** (Free Plan) to **Blaze plan** (Monthly Billed Paid Plan). However, Google will only Bill you monthly after your free quota gets exhausted depending upon the usage. You can also set [Billing Alerts](https://firebase.google.com/docs/projects/billing/avoid-surprise-bills#set-up-budget-alert-emails) when it crosses your mentioned amount every month. You may refer [Firebase official pricing page](https://firebase.google.com/pricing) to compare both plans.
 * Click **Build** (on the left sidebar) and click **Authentication**.
@@ -312,7 +316,7 @@ ruby -v
 * Click **Create database** and select a location for your database.
 * Click **Next** and then click **Create**.
 * Click **Build** (on the left sidebar) and then click **Storage**.
-* Click **Get started**, then click **Next**, and finally click **Done**.
+* Click **Get started**, select a location for your storage, then click **Continue**, and finally click **Create**.
 <!--todos
 Build with Gemini 따로 설정. flutterfire 후에 설정해야 함
 * Click **Build with Gemini** (on the left sidebar).
@@ -323,7 +327,7 @@ Build with Gemini 따로 설정. flutterfire 후에 설정해야 함
 
 
 
-## Install Node.js and the Firebase CLI and the Futterfire
+## Install Node.js and the Firebase CLI and the Futterfire CLI
 * Open or go to **Terminal**.
 * Run the following commands.
 ```sh
@@ -425,7 +429,11 @@ dart run build_runner build -d
 ```sh
 flutterfire configure --platforms=android,ios,web
 ```
-> when asked something, press **n** or **N**.
+> * when asked something, press **n** or **N**.
+> * If you encounter an error as a result of this command, run the following command and then retry.
+> ```sh
+> dart pub global activate flutterfire_cli
+> ```
 ```sh
 node ./applimode-tool/index.js firebaserc
 ```
@@ -1285,6 +1293,7 @@ node ./applimode-tool/index.js ai
 * Choose between Flash and Pro (Flash is faster and more cost-effective, while Pro is more powerful but also more expensive).
 * Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser.
 * Click your project.
+* Refresh the current page.
 * Click **Build with Gemini** (on the left sidebar).
 * Click **Get started** on the **Vertex AI in Firebase** card.
 * Click **Enable APIs**, then click **Continue**.

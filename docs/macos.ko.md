@@ -16,7 +16,7 @@
 * [Homebrew 설치](#homebrew-설치)
 * [rbenv, Ruby 및 CocoaPods 설치](#rbenv-ruby-및-cocoapods-설치)
 * [Firebase 구성](#firebase-구성)
-* [Node.js, Firebase CLI 및 Futterfire 설치](#nodejs-firebase-cli-및-futterfire-설치)
+* [Node.js, Firebase CLI 및 Futterfire 설치](#nodejs-firebase-cli-및-futterfire-cli-설치)
 * [프로젝트 구성](#프로젝트-구성)
 * [Applimode 앱 빌드](#applimode-앱-빌드)
 * [웹 앱 빌드 및 배포](#웹-앱-빌드-및-배포)
@@ -291,6 +291,7 @@ ruby -v
 * [Go to console](https://console.firebase.google.com)을 클릭합니다.
 * **프로젝트 만들기**를 클릭합니다.
 * 프로젝트 이름을 입력하고 **계속**를 클릭합니다.
+* **Firebase의 Gemini 사용 설정**을 활성화하고 **계속**을 클릭합니다.
 * **이 프로젝트에서 Google 애널리틱스 사용 설정**을 활성화하고 **계속**을 클릭합니다.
 * Google Analytics 계정을 선택하거나 **Default Account for Firebase**를 선택합니다. **프로젝트 만들기**를 클릭합니다.
 <!--* **Google Analytics**를 비활성화하고 **Create project**를 클릭합니다. (이 설정은 나중에 변경할 수 있습니다.)-->
@@ -308,7 +309,7 @@ ruby -v
 * **데이터베이스 만들기**를 클릭하고 데이터베이스 위치를 선택합니다.
 * **다음**을 클릭한 다음 **만들기**를 클릭합니다.
 * 왼쪽 사이드바에서 **Build**를 클릭한 다음 **Storage**를 클릭합니다.
-* **시작하기**를 클릭한 다음 **계속**을 클릭하고 마지막으로 **만들기**를 클릭합니다.
+* **시작하기**를 클릭한 다음, 스토리지 위치를 선택한 후, **계속**을 클릭하고 마지막으로 **만들기**를 클릭합니다.
 <!--todos
 Build with Gemini 따로 설정. flutterfire 후에 설정해야 함
 * 왼쪽 사이드바에서 **Build with Gemini**를 클릭합니다.
@@ -319,7 +320,7 @@ Build with Gemini 따로 설정. flutterfire 후에 설정해야 함
 
 
 
-## Node.js, Firebase CLI 및 Futterfire 설치
+## Node.js, Firebase CLI 및 Futterfire CLI 설치
 * **Terminal**을 열거나 이동합니다.
 * 다음 명령을 실행합니다.
 ```sh
@@ -421,7 +422,11 @@ dart run build_runner build -d
 ```sh
 flutterfire configure --platforms=android,ios,web
 ```
-> 질문이 나오면 **n** 또는 **N**을 누르십시오.
+> * 질문이 나오면 **n** 또는 **N**을 누르십시오.
+> * 만약 해당 명령 결과로 에러가 발생한다면 다음 명령어를 실행시킨 후 다시 실행하세요.
+> ```sh
+> dart pub global activate flutterfire_cli
+> ```
 ```sh
 node ./applimode-tool/index.js firebaserc
 ```
@@ -1276,9 +1281,23 @@ node ./applimode-tool/index.js ai
 * Flash와 Pro 중에서 선택합니다. (Flash는 빠르고 비용 효율적이지만 Pro는 더 강력하지만 더 비쌉니다.)
 * 웹 브라우저에서 [Firebase console](https://console.firebase.google.com/)을 열거나 이동합니다.
 * 프로젝트를 클릭합니다.
+* 현재 페이지를 새로고침합니다.
 * **Build with Gemini** (왼쪽 사이드바)를 클릭합니다.
 * **Firebase용 Vertex AI** 카드에서 **시작하기**를 클릭합니다.
-* **API 사용 설정s**를 클릭한 다음 **계속**를 클릭합니다.
+* **API 사용 설정**을 클릭한 다음 **계속**를 클릭합니다.
+<!--
+* **VSCode**로 돌아와 터미널에서 다음 명령어를 실행하세요.
+```sh
+flutterfire configure --platforms=android,ios,web
+```
+> * 질문이 나오면 **y** 또는 **Y**을 누르십시오.
+> * 만약 해당 명령 결과로 에러가 발생한다면 다음 명령어를 실행시킨 후 다시 실행하세요.
+> ```sh
+> dart pub global activate flutterfire_cli
+> ```
+* 웹 브라우저의 Firebase console로 돌아와 페이지를 새로 고침하세요.
+* 필요하다면 **Add your app** 섹션에서 플러터 아이콘을 선택하고, **계속**를 클릭합니다.
+-->
 
 
 

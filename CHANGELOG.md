@@ -3,6 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.2.9 (February 10, 2025)
+- Updated a dependency to the latest release.
+- Improved some docs.
+
 ## Version 0.2.8 (February 3, 2025)
 - Enhanced AI Assistant functionality.
 - Added korean docs.

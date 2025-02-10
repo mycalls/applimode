@@ -1,3 +1,3 @@
 {
-    "dart.flutterWebRenderer": "html"
+    "dart.flutterWebRenderer": "flutter-default"
 }

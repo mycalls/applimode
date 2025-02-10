@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.2.8+1';
+const String appVersion = '0.2.9+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
