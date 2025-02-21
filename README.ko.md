@@ -102,7 +102,7 @@ flutter pub get; dart run build_runner build -d; flutterfire configure --platfor
 
 ## 데모 보기
 * [Applimode Demo Web](https://applimode-demo.web.app/)
-* [Applimode Dev Web](https://applimode-type-b.web.app/)
+* [Applimode Dev Web](https://applimode-type-b.web.app/) (WASM)
 
 
 ## 주요 기능

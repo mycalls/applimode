@@ -102,7 +102,7 @@ Additionally, you can set or configure the following:
 
 ## Demo
 * [Applimode Demo Web](https://applimode-demo.web.app/)
-* [Applimode Dev Web](https://applimode-type-b.web.app/)
+* [Applimode Dev Web](https://applimode-type-b.web.app/) (WASM)
 
 
 ## Main Features

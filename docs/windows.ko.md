@@ -899,7 +899,7 @@ keytool -list -v \
 ```
 > [!NOTE]
 > 컴퓨터에 Java가 설치되어 있지 않으면 오류가 발생합니다. 먼저 Java를 설치하십시오.
-* 키 암호를 묻는 메시지가 표시되면 *android*를 입력하고 'Enter'를 누릅니다.
+* 키 암호를 묻는 메시지가 표시되면 *android*를 입력하고 ```Enter```를 누릅니다.
 * SHA1 키를 복사합니다.
 * [Firebase console](https://console.firebase.google.com/) > 프로젝트 > **프로젝트 개요** > **프로젝트 설정**를 열고 아래로 스크롤하여 **내 앱** 섹션을 찾습니다.
 * 왼쪽 메뉴에서 Android 앱을 선택합니다.

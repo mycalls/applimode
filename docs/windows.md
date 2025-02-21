@@ -903,7 +903,7 @@ keytool -list -v \
 ```
 > [!NOTE]
 > If Java is not installed on your machine, an error will occur. Please install Java first.
-* After being prompted for the key password, type *android* and press 'Enter'.
+* After being prompted for the key password, type *android* and press ```Enter```.
 * Copy the SHA1 key.
 * Open the [Firebase console](https://console.firebase.google.com/) > your project > **Project Overview** > **Project Settings** and scroll down to **Your App** section.
 * Select your Android App from the left side menu.

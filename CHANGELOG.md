@@ -3,6 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.0 (February 21, 2025)
+- WASM support
+- Updated a dependency to the latest release.
+
 ## Version 0.2.9 (February 10, 2025)
 - Updated a dependency to the latest release.
 - Improved some docs.
