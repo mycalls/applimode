@@ -128,6 +128,8 @@ class _MainPostsListState extends ConsumerState<MainPostsList> {
 
     if (isPage) {
       return RefreshIndicator(
+        // too many refresh. so changed displacement value.
+        displacement: 80,
         onRefresh: () async {
           if (timer != null && timer!.isActive) {
             return;
@@ -158,13 +160,16 @@ class _MainPostsListState extends ConsumerState<MainPostsList> {
       ),
       slivers: [
         PostsAppBar(isSliver: true),
-        CupertinoSliverRefreshControl(onRefresh: () async {
-          if (timer != null && timer!.isActive) {
-            return;
-          }
-          ref.read(postsListStateProvider.notifier).set(nowToInt());
-          timer = Timer(const Duration(seconds: mainPostsRefreshTimer), () {});
-        }),
+        CupertinoSliverRefreshControl(
+            refreshTriggerPullDistance: 140,
+            onRefresh: () async {
+              if (timer != null && timer!.isActive) {
+                return;
+              }
+              ref.read(postsListStateProvider.notifier).set(nowToInt());
+              timer =
+                  Timer(const Duration(seconds: mainPostsRefreshTimer), () {});
+            }),
         SimplePageListView<Post>(
           query: query,
           mainQuery: mainQuery,

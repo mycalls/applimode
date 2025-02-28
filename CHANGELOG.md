@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.1 (March, 2025)
+- Adjusted the refreshTriggerPullDistance.
+
 ## Version 0.3.0 (February 21, 2025)
 - WASM support
 - Updated a dependency to the latest release.
