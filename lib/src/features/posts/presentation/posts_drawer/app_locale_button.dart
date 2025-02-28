@@ -2,7 +2,7 @@ import 'package:applimode_app/src/app_settings/app_settings_controller.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:applimode_app/l10n/app_localizations.dart';
 
 class AppLocaleButton extends ConsumerWidget {
   const AppLocaleButton({super.key});

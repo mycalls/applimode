@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:applimode_app/l10n/app_localizations.dart';
 import 'package:applimode_app/src/app_settings/app_settings_controller.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:applimode_app/src/themes/app_theme_data.dart';
