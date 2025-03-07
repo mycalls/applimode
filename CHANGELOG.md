@@ -4,8 +4,10 @@
 ### Bug Fixes
 -->
 ## Version 0.3.1 (March, 2025)
-- Adjusted the refreshTriggerPullDistance.
+- Added pull-to-jump functionality on the post screen to navigate to the comment screen.
 - Updated localization to use direct file imports instead of deprecated synthetic package.
+- Adjusted the refreshTriggerPullDistance.
+- Updated a dependency to the latest release.
 
 ## Version 0.3.0 (February 21, 2025)
 - WASM support
