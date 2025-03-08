@@ -3,10 +3,11 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
-## Version 0.3.1 (March, 2025)
+## Version 0.3.1 (March 08, 2025)
 - Added pull-to-jump functionality on the post screen to navigate to the comment screen.
 - Updated localization to use direct file imports instead of deprecated synthetic package.
 - Adjusted the refreshTriggerPullDistance.
+- Changed drawImageScaled to drawImage.
 - Updated a dependency to the latest release.
 
 ## Version 0.3.0 (February 21, 2025)

@@ -113,7 +113,7 @@ class WvtWeb implements WvtStub {
                 canvas
                   ..width = maxWidth
                   ..height = maxHeight;
-                ctx.drawImageScaled(
+                ctx.drawImage(
                     video, 0, 0, maxWidth.toDouble(), maxHeight.toDouble());
               }
 
@@ -168,7 +168,7 @@ class WvtWeb implements WvtStub {
             canvas
               ..width = maxWidth
               ..height = maxHeight;
-            ctx.drawImageScaled(
+            ctx.drawImage(
                 video, 0, 0, maxWidth.toDouble(), maxHeight.toDouble());
           }
 
