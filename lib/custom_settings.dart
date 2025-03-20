@@ -108,8 +108,8 @@ const String aiInstructions =
 
 // Model type to use as AI assistant
 // ai assistant로 사용할 모델 타입
-// gemini-1.5-flash, gemini-1.5-pro
-const String aiModelType = 'gemini-1.5-flash';
+// gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.0-pro-exp-02-05, gemini-2.0-flash-thinking-exp-01-21
+const String aiModelType = 'gemini-2.0-flash';
 
 // Mute home screen video sound
 // 홈화면 영상 소리 뮤트
@@ -167,12 +167,6 @@ const int listFetchLimit = 10;
 // Number of items loaded in the main head view of the home screen. default 1
 // 홈화면 상단 메인 뷰에서 사용하기 위해 블러오는 아이템 숫자. 기본 1
 const int mainFetchLimit = 1;
-// fetch limit for FirestoreListView
-// FirestoreListView 에서 사용할 fecth limit
-// The number of reads in FirestoreListView is the number of previous reads plus the current number of reads,
-// so it should be set large from the beginning.
-// FirestoreListView 의 read 수는 이전 읽기 수 더하기 현재 읽기 수이므로 처음부터 크게 잡을 것
-const int firebaseListFetchLimit = 100;
 
 // Refresh cycle through main screen pull-to-refresh. Default 10 seconds
 // 메인화면 풀투리프레쉬를 통한 새로고침 주기. 기본 10초

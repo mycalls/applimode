@@ -111,6 +111,7 @@ class PlatformNetworkImage extends StatelessWidget {
         headers: headers,
         cacheWidth: cacheWidth,
         cacheHeight: cacheHeight,
+        webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
       );
     }
     return CachedNetworkImage(

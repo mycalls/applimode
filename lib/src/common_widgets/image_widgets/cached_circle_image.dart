@@ -1,8 +1,9 @@
 import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 import 'package:applimode_app/src/utils/custom_headers.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 
 class CachedCircleImage extends StatelessWidget {
   const CachedCircleImage({
@@ -16,7 +17,24 @@ class CachedCircleImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // after watching memory consumption, decide to use clipoval and cacheWidth
+    // which way is better between ClipOval and BoxShape.circle (Container)
+    // decide if using cachewidth
+    return ClipOval(
+      child: SizedBox(
+        width: size ?? profileSizeMedium,
+        height: size ?? profileSizeMedium,
+        child: PlatformNetworkImage(
+          imageUrl: imageUrl,
+          fit: BoxFit.cover,
+          headers: useRTwoSecureGet ? rTwoSecureHeader : null,
+          errorWidget: Container(
+            color: Theme.of(context).colorScheme.primaryContainer,
+          ),
+        ),
+      ),
+    );
+    /*
+    // not work with WebHtmlElementStrategy
     return Container(
       width: size ?? profileSizeMedium,
       height: size ?? profileSizeMedium,
@@ -39,6 +57,7 @@ class CachedCircleImage extends StatelessWidget {
         shape: BoxShape.circle,
       ),
     );
+    */
     /*
     return CachedNetworkImage(
       imageUrl: imageUrl,

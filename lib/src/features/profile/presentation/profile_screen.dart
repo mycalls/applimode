@@ -1,3 +1,4 @@
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/animated_color_container.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
@@ -51,6 +52,7 @@ class CustomProfileScreen extends ConsumerWidget {
     final uploadState = ref.watch(uploadProgressStateProvider);
 
     final textTheme = Theme.of(context).textTheme;
+    final primaryColor = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       body: screenState.isLoading
@@ -75,133 +77,159 @@ class CustomProfileScreen extends ConsumerWidget {
                 final adminUser = user != null
                     ? ref.watch(appUserFutureProvider(user.uid)).value
                     : null;
-                return AnimatedColorContainer(
-                  storyImageUrl: profileUser.storyUrl,
-                  child: SafeArea(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            kIsWeb
-                                ? const WebBackButton(color: Colors.white)
-                                : const IconBackButton(
-                                    color: Colors.white,
-                                  ),
-                            Expanded(
-                              child: UserItem(
-                                appUser: profileUser,
-                                isProfileScreen: true,
-                                profileImageSize: profileSizeMax,
-                                titleColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 24,
+                return Stack(
+                  children: [
+                    Container(color: primaryColor),
+                    profileUser.storyUrl != null
+                        ? Positioned.fill(
+                            child: PlatformNetworkImage(
+                              imageUrl: profileUser.storyUrl!,
+                              fit: BoxFit.cover,
+                              errorWidget: Container(
+                                color: primaryColor,
+                              ),
+                            ),
+                          )
+                        : AnimatedColorBox(),
+                    CustomScrollView(
+                      slivers: [
+                        SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: SafeArea(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    kIsWeb
+                                        ? const WebBackButton(
+                                            color: Colors.white)
+                                        : const IconBackButton(
+                                            color: Colors.white,
+                                          ),
+                                    Expanded(
+                                      child: UserItem(
+                                        appUser: profileUser,
+                                        isProfileScreen: true,
+                                        profileImageSize: profileSizeMax,
+                                        titleColor: Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 24,
+                                        ),
+                                        isTwoLine:
+                                            isAccount && userEmail != null,
+                                        secondLine: userEmail,
+                                        subtitleColor: Colors.white,
+                                      ),
+                                    ),
+                                    if (isAccount && user != null ||
+                                        !isAccount &&
+                                            user != null &&
+                                            adminUser != null &&
+                                            uid != adminUser.uid &&
+                                            adminUser.isAdmin)
+                                      ProfileAppBarMore(
+                                        profileUser: profileUser,
+                                        user: user,
+                                        color: Colors.white,
+                                        isAccount: isAccount,
+                                        isAdmin: adminUser != null &&
+                                            adminUser.isAdmin,
+                                      ),
+                                  ],
                                 ),
-                                isTwoLine: isAccount && userEmail != null,
-                                secondLine: userEmail,
-                                subtitleColor: Colors.white,
-                              ),
-                            ),
-                            if (isAccount && user != null ||
-                                !isAccount &&
-                                    user != null &&
-                                    adminUser != null &&
-                                    uid != adminUser.uid &&
-                                    adminUser.isAdmin)
-                              ProfileAppBarMore(
-                                profileUser: profileUser,
-                                user: user,
-                                color: Colors.white,
-                                isAccount: isAccount,
-                                isAdmin: adminUser != null && adminUser.isAdmin,
-                              ),
-                          ],
-                        ),
-                        if (profileUser.bio.trim().isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 16,
-                            ),
-                            child: Text(
-                              profileUser.bio,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                              style: textTheme.headlineLarge?.copyWith(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  ProfileTextButton(
-                                    label: context.loc.posts,
-                                    onPressed: () {
-                                      context.push(
-                                        ScreenPaths.userPosts(uid),
-                                      );
-                                    },
-                                  ),
-                                  ProfileTextButton(
-                                    label: context.loc.comments,
-                                    onPressed: () {
-                                      context.push(
-                                        ScreenPaths.userComments(uid),
-                                      );
-                                    },
-                                  ),
-                                  ProfileTextButton(
-                                    label: context.loc.likesPosts,
-                                    onPressed: () {
-                                      context.push(
-                                        ScreenPaths.userLikes(uid),
-                                      );
-                                    },
-                                  ),
-                                  if (isAccount && user != null) ...[
-                                    ProfileTextButton(
-                                      label: context.loc.logOut,
-                                      onPressed: () {
-                                        //ref.read(authRepositoryProvider).signOut();
-                                        ref
-                                            .read(signOutServiceProvider)
-                                            .signOut();
-                                        if (context.canPop()) {
-                                          context.pop();
-                                        }
-                                      },
+                                if (profileUser.bio.trim().isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 16,
                                     ),
-                                    ProfileTextButton(
-                                      label: context.loc.deleteAccount,
-                                      onPressed: () async {
-                                        final result =
-                                            await showPasswordDialog(context);
-                                        if (result) {
-                                          ref
-                                              .read(
-                                                  profileScreenControllerProvider
-                                                      .notifier)
-                                              .deleteAccount();
-                                        }
-                                      },
+                                    child: Text(
+                                      profileUser.bio,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                      style: textTheme.headlineLarge?.copyWith(
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ]
-                                ],
-                              ),
-                            ],
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.all(24.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          ProfileTextButton(
+                                            label: context.loc.posts,
+                                            onPressed: () {
+                                              context.push(
+                                                ScreenPaths.userPosts(uid),
+                                              );
+                                            },
+                                          ),
+                                          ProfileTextButton(
+                                            label: context.loc.comments,
+                                            onPressed: () {
+                                              context.push(
+                                                ScreenPaths.userComments(uid),
+                                              );
+                                            },
+                                          ),
+                                          ProfileTextButton(
+                                            label: context.loc.likesPosts,
+                                            onPressed: () {
+                                              context.push(
+                                                ScreenPaths.userLikes(uid),
+                                              );
+                                            },
+                                          ),
+                                          if (isAccount && user != null) ...[
+                                            ProfileTextButton(
+                                              label: context.loc.logOut,
+                                              onPressed: () {
+                                                //ref.read(authRepositoryProvider).signOut();
+                                                ref
+                                                    .read(
+                                                        signOutServiceProvider)
+                                                    .signOut();
+                                                if (context.canPop()) {
+                                                  context.pop();
+                                                }
+                                              },
+                                            ),
+                                            ProfileTextButton(
+                                              label: context.loc.deleteAccount,
+                                              onPressed: () async {
+                                                final result =
+                                                    await showPasswordDialog(
+                                                        context);
+                                                if (result) {
+                                                  ref
+                                                      .read(
+                                                          profileScreenControllerProvider
+                                                              .notifier)
+                                                      .deleteAccount();
+                                                }
+                                              },
+                                            ),
+                                          ]
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
-                    ),
-                  ),
+                    )
+                  ],
                 );
               },
               loadingWidget:

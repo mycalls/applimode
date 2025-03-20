@@ -3,6 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.2 (March 25, 2025)
+- Used WebHtmlElementStrategy.fallback in Flutter web (CORS issue)
+- Updated a dependency to the latest release.
+
 ## Version 0.3.1 (March 08, 2025)
 - Added pull-to-jump functionality on the post screen to navigate to the comment screen.
 - Updated localization to use direct file imports instead of deprecated synthetic package.
