@@ -234,5 +234,7 @@
   "scamReport": "스캠/사기/거짓",
   "suicideReport": "자살/자해",
   "customReport": "직접입력",
+  "adminsOnlyPosting": "관리자 전용 게시 허용",
+  "defaultVideoMute": "비디오 기본 음소거",
   "unknown": "무명"
 }

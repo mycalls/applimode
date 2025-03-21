@@ -234,5 +234,7 @@
   "scamReport": "Scam/Fraud/False Information",
   "suicideReport": "Suicide/Self-Harm",
   "customReport": "Other (Please specify)",
+  "adminsOnlyPosting": "Admins Only Posting",
+  "defaultVideoMute": "Default Video Mute",
   "unknown": "Unknown"
 }

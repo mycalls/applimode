@@ -1,4 +1,4 @@
-import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'posts_item_mute_state.g.dart';
@@ -7,7 +7,7 @@ part 'posts_item_mute_state.g.dart';
 class PostsItemMuteState extends _$PostsItemMuteState {
   @override
   bool build() {
-    return isPostsItemVideoMute;
+    return ref.watch(adminSettingsProvider).isPostsItemVideoMute;
   }
 
   void setTrue() {

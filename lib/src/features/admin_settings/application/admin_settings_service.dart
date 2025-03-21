@@ -54,6 +54,8 @@ class AdminSettingsService {
     required bool showUserDislikeCount,
     required bool showUserSumCount,
     required bool isMaintenance,
+    required bool adminOnlyWrite,
+    required bool isPostsItemVideoMute,
   }) async {
     String homeBarImageUrl = homeBarTitleImageUrl;
     if (xFile != null) {
@@ -90,6 +92,8 @@ class AdminSettingsService {
           showUserDislikeCount: showUserDislikeCount,
           showUserSumCount: showUserSumCount,
           isMaintenance: isMaintenance,
+          adminOnlyWrite: adminOnlyWrite,
+          isPostsItemVideoMute: isPostsItemVideoMute,
         );
   }
 
@@ -167,6 +171,10 @@ class AdminSettingsService {
               showUserSumCountKey, adminSettings.showUserSumCount);
           sharedPreferences.setBool(
               isMaintenanceKey, adminSettings.isMaintenance);
+          sharedPreferences.setBool(
+              adminOnlyWriteKey, adminSettings.adminOnlyWrite);
+          sharedPreferences.setBool(
+              isPostsItemVideoMuteKey, adminSettings.isPostsItemVideoMute);
           sharedPreferences.setInt(adminSettingsModifiedTimeKey,
               DateTime.now().millisecondsSinceEpoch);
         } else {
@@ -263,5 +271,9 @@ AdminSettings adminSettings(Ref ref) {
     showUserSumCount:
         sharedPreferences.getBool(showUserSumCountKey) ?? spareShowUserSumCount,
     isMaintenance: sharedPreferences.getBool(isMaintenanceKey) ?? false,
+    adminOnlyWrite:
+        sharedPreferences.getBool(adminOnlyWriteKey) ?? spareAdminOnlyWrite,
+    isPostsItemVideoMute: sharedPreferences.getBool(isPostsItemVideoMuteKey) ??
+        spareIsPostsItemVideoMute,
   );
 }

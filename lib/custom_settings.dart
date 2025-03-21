@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.3.1+1';
+const String appVersion = '0.3.2+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
@@ -47,6 +47,8 @@ const bool spareShowUserAdminLabel = true;
 const bool spareShowUserLikeCount = true;
 const bool spareShowUserDislikeCount = true;
 const bool spareShowUserSumCount = false;
+const bool spareAdminOnlyWrite = false;
+const bool spareIsPostsItemVideoMute = false;
 
 // Link that connects when you tap on the Terms of Service
 // 서비스약관을 탭했을 경우 연결되는 링크
@@ -64,10 +66,6 @@ const List<String> fbAuthProviders = ['email'];
 // To prevent use if not logged in. Security rules must also be changed.
 // 로그인을 안할 경우 사용하지 못하도록 할때. 보안 룰도 함께 변경해야 함
 const bool isInitialSignIn = false;
-
-// Only administrators can write
-// 관리자만 글을 쓸 수 있음
-const bool adminOnlyWrite = false;
 
 // Only verified users can write
 // 관리자에 의해 인증된 사용자만 글을 쓸 수 있음
@@ -110,10 +108,6 @@ const String aiInstructions =
 // ai assistant로 사용할 모델 타입
 // gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.0-pro-exp-02-05, gemini-2.0-flash-thinking-exp-01-21
 const String aiModelType = 'gemini-2.0-flash';
-
-// Mute home screen video sound
-// 홈화면 영상 소리 뮤트
-const bool isPostsItemVideoMute = false;
 
 // Color type of basic post box. single, gradient, animation. basic gradient
 // 베이직 포스트 박스의 컬러 타입. single, gradient, animattion. 기본 gradient

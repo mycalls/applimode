@@ -7,7 +7,7 @@ part of 'posts_item_mute_state.dart';
 // **************************************************************************
 
 String _$postsItemMuteStateHash() =>
-    r'215dd3cba9334d7312607d8fe75aeae67152118a';
+    r'6243f70199f6978690e7837784e63634c9155c88';
 
 /// See also [PostsItemMuteState].
 @ProviderFor(PostsItemMuteState)

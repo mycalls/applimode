@@ -46,6 +46,8 @@ class AdminSettingsScreenController extends _$AdminSettingsScreenController {
     required bool showUserDislikeCount,
     required bool showUserSumCount,
     required bool isMaintenance,
+    required bool adminOnlyWrite,
+    required bool isPostsItemVideoMute,
   }) async {
     final user = ref.read(authRepositoryProvider).currentUser;
     if (user == null) {
@@ -90,6 +92,8 @@ class AdminSettingsScreenController extends _$AdminSettingsScreenController {
             showUserDislikeCount: showUserDislikeCount,
             showUserSumCount: showUserSumCount,
             isMaintenance: isMaintenance,
+            adminOnlyWrite: adminOnlyWrite,
+            isPostsItemVideoMute: isPostsItemVideoMute,
           ),
     );
 

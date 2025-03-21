@@ -714,5 +714,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get customReport => 'Other (Please specify)';
 
   @override
+  String get adminsOnlyPosting => 'Admins Only Posting';
+
+  @override
+  String get defaultVideoMute => 'Default Video Mute';
+
+  @override
   String get unknown => 'Unknown';
 }

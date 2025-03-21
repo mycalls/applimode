@@ -33,6 +33,8 @@ class AdminSettings extends Equatable {
     required this.showUserDislikeCount,
     required this.showUserSumCount,
     this.isMaintenance = false,
+    required this.adminOnlyWrite,
+    required this.isPostsItemVideoMute,
   });
 
   final String homeBarTitle;
@@ -59,6 +61,8 @@ class AdminSettings extends Equatable {
   final bool showUserDislikeCount;
   final bool showUserSumCount;
   final bool isMaintenance;
+  final bool adminOnlyWrite;
+  final bool isPostsItemVideoMute;
 
   factory AdminSettings.fromMap(Map<String, dynamic> map) {
     final postsListTypeInt = List.generate(
@@ -123,6 +127,9 @@ class AdminSettings extends Equatable {
       showUserSumCount:
           map[showUserSumCountKey] as bool? ?? spareShowUserSumCount,
       isMaintenance: map[isMaintenanceKey] as bool? ?? false,
+      adminOnlyWrite: map[adminOnlyWriteKey] as bool? ?? spareAdminOnlyWrite,
+      isPostsItemVideoMute:
+          map[isPostsItemVideoMuteKey] as bool? ?? spareIsPostsItemVideoMute,
     );
   }
 
@@ -152,6 +159,8 @@ class AdminSettings extends Equatable {
       'showUserDislikeCount': showUserDislikeCount,
       'showUserSumCount': showUserSumCount,
       'isMaintenance': isMaintenance,
+      'adminOnlyWrite': adminOnlyWrite,
+      'isPostsItemVideoMute': isPostsItemVideoMute,
     };
   }
 
@@ -184,5 +193,7 @@ class AdminSettings extends Equatable {
         showUserDislikeCount,
         showUserSumCount,
         isMaintenance,
+        adminOnlyWrite,
+        isPostsItemVideoMute,
       ];
 }

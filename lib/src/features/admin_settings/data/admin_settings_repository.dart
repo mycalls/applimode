@@ -43,6 +43,8 @@ class AdminSettingsRepository {
     required bool showUserDislikeCount,
     required bool showUserSumCount,
     required bool isMaintenance,
+    required bool adminOnlyWrite,
+    required bool isPostsItemVideoMute,
   }) =>
       _firestore.doc(_adminSettingsPath).set({
         'homeBarTitle': homeBarTitle,
@@ -70,6 +72,8 @@ class AdminSettingsRepository {
         'showUserDislikeCount': showUserDislikeCount,
         'showUserSumCount': showUserSumCount,
         'isMaintenance': isMaintenance,
+        'adminOnlyWrite': adminOnlyWrite,
+        'isPostsItemVideoMute': isPostsItemVideoMute,
       });
 
   DocumentReference<AdminSettings> _docRef() =>

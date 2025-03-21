@@ -7,7 +7,7 @@ part of 'editor_screen_controller.dart';
 // **************************************************************************
 
 String _$editorScreenControllerHash() =>
-    r'f4bc683305d75e417abee2980ef52d2738cabb7c';
+    r'440c4bd0fbf1737b71d545286f1d8efd4e94eca9';
 
 /// See also [EditorScreenController].
 @ProviderFor(EditorScreenController)

@@ -1245,7 +1245,7 @@ PODS:
     - FirebaseCore (~> 11.8.0)
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
-  - FirebaseAppCheckInterop (11.9.0)
+  - FirebaseAppCheckInterop (11.10.0)
   - FirebaseAuth (11.8.1):
     - FirebaseAppCheckInterop (~> 11.0)
     - FirebaseAuthInterop (~> 11.0)
@@ -1255,7 +1255,7 @@ PODS:
     - GoogleUtilities/Environment (~> 8.0)
     - GTMSessionFetcher/Core (< 5.0, >= 3.4)
     - RecaptchaInterop (~> 100.0)
-  - FirebaseAuthInterop (11.9.0)
+  - FirebaseAuthInterop (11.10.0)
   - FirebaseCore (11.8.1):
     - FirebaseCoreInternal (~> 11.8.0)
     - GoogleUtilities/Environment (~> 8.0)
@@ -1308,8 +1308,8 @@ PODS:
     - GoogleUtilities/Reachability (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
     - nanopb (~> 3.30910.0)
-  - FirebaseMessagingInterop (11.9.0)
-  - FirebaseSharedSwift (11.9.0)
+  - FirebaseMessagingInterop (11.10.0)
+  - FirebaseSharedSwift (11.10.0)
   - FirebaseStorage (11.8.0):
     - FirebaseAppCheckInterop (~> 11.0)
     - FirebaseAuthInterop (~> 11.0)
@@ -1609,9 +1609,9 @@ SPEC CHECKSUMS:
   firebase_storage: b31bacb1f1d7abeb753d9195e97eb5d2180e1d6f
   FirebaseAnalytics: 4fd42def128146e24e480e89f310e3d8534ea42b
   FirebaseAppCheck: f6648d6d2b321ecf94cf72f6737fc68d4fddc010
-  FirebaseAppCheckInterop: 9226f7217b43e99dfa0bc9f674ad8108cef89feb
+  FirebaseAppCheckInterop: 9664c858489710f682766ef54e2b6741d3b62070
   FirebaseAuth: ad59a1a7b161e75f74c39f70179d2482d40e2737
-  FirebaseAuthInterop: 2a26ee1bea6d47df8048683cfa071e7da657798f
+  FirebaseAuthInterop: 01a804fb074424fd58b92dd50dd0272277199356
   FirebaseCore: 99fe0c4b44a39f37d99e6404e02009d2db5d718d
   FirebaseCoreExtension: 3d3f2017a00d06e09ab4ebe065391b0bb642565e
   FirebaseCoreInternal: df24ce5af28864660ecbd13596fc8dd3a8c34629
@@ -1621,8 +1621,8 @@ SPEC CHECKSUMS:
   FirebaseFunctions: 63d23f720c9a2c537369add7e54cf7e56eb3520a
   FirebaseInstallations: 6c963bd2a86aca0481eef4f48f5a4df783ae5917
   FirebaseMessaging: 487b634ccdf6f7b7ff180fdcb2a9935490f764e8
-  FirebaseMessagingInterop: ced922294784e3f7cce3b5bcbd6c55a54a94d737
-  FirebaseSharedSwift: 574e6a5602afe4397a55c8d4f767382d620285de
+  FirebaseMessagingInterop: 2fb9a3ca813c3b7b495232f1fbedd365eb60da45
+  FirebaseSharedSwift: 1baacae75939499b5def867cbe34129464536a38
   FirebaseStorage: 8eede00081a6ce904eaa8d2daa66f1e053e8e6ea
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29

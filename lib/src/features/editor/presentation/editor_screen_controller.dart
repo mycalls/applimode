@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/exceptions/app_exception.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
@@ -88,7 +89,9 @@ class EditorScreenController extends _$EditorScreenController {
     final appUser = await ref.read(appUserFutureProvider(user.uid).future);
     // If only the administrator can write, check permissions
     // 관리자만 글쓰기가 가능할 경우, 권한 체크
-    if (adminOnlyWrite) {
+    final isAdminOnlyWrite = ref.read(adminSettingsProvider).adminOnlyWrite;
+    dev.log('isAdminOnlyWrite: $isAdminOnlyWrite');
+    if (isAdminOnlyWrite) {
       if (appUser == null || !appUser.isAdmin) {
         WakelockPlus.disable();
         state = AsyncError(NeedPermissionException(), StackTrace.current);

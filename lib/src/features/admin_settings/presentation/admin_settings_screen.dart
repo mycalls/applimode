@@ -67,6 +67,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
   bool _showUserDislikeCount = spareShowUserDislikeCount;
   bool _showUserSumCount = spareShowUserSumCount;
   bool _isMaintenance = false;
+  bool _adminOnlyWrite = spareAdminOnlyWrite;
+  bool _isPostsItemVideoMute = spareIsPostsItemVideoMute;
 
   bool _isCancelled = false;
 
@@ -117,6 +119,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     _showUserDislikeCount = currentValues.showUserDislikeCount;
     _showUserSumCount = currentValues.showUserSumCount;
     _isMaintenance = currentValues.isMaintenance;
+    _adminOnlyWrite = currentValues.adminOnlyWrite;
+    _isPostsItemVideoMute = currentValues.isPostsItemVideoMute;
   }
 
   @override
@@ -179,6 +183,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
             showUserDislikeCount: _showUserDislikeCount,
             showUserSumCount: _showUserSumCount,
             isMaintenance: _isMaintenance,
+            adminOnlyWrite: _adminOnlyWrite,
+            isPostsItemVideoMute: _isPostsItemVideoMute,
           );
       if (mounted && result) {
         if (kIsWeb) {
@@ -817,6 +823,22 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
                     value: _showUserSumCount,
                     onChanged: (value) {
                       _safeSetState(() => _showUserSumCount = value);
+                    },
+                  ),
+                  const Divider(),
+                  SwitchListTile(
+                    title: Text(context.loc.adminsOnlyPosting),
+                    value: _adminOnlyWrite,
+                    onChanged: (value) {
+                      _safeSetState(() => _adminOnlyWrite = value);
+                    },
+                  ),
+                  const Divider(),
+                  SwitchListTile(
+                    title: Text(context.loc.defaultVideoMute),
+                    value: _isPostsItemVideoMute,
+                    onChanged: (value) {
+                      _safeSetState(() => _isPostsItemVideoMute = value);
                     },
                   ),
                   const Divider(),

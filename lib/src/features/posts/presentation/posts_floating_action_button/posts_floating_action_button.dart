@@ -1,4 +1,5 @@
 import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
@@ -13,13 +14,14 @@ class PostsFloatingActionButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = adminOnlyWrite || verifiedOnlyWrite
+    final isAdminOnlyWrite = ref.watch(adminSettingsProvider).adminOnlyWrite;
+    final user = isAdminOnlyWrite || verifiedOnlyWrite
         ? ref.watch(authStateChangesProvider).value
         : null;
     final appUser =
         user != null ? ref.watch(appUserFutureProvider(user.uid)).value : null;
-    return (!adminOnlyWrite && !verifiedOnlyWrite) ||
-            (adminOnlyWrite && appUser != null && appUser.isAdmin) ||
+    return (!isAdminOnlyWrite && !verifiedOnlyWrite) ||
+            (isAdminOnlyWrite && appUser != null && appUser.isAdmin) ||
             (verifiedOnlyWrite && appUser != null && appUser.verified)
         ? FloatingActionButton(
             heroTag: heroTag,

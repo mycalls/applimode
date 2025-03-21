@@ -1505,6 +1505,18 @@ abstract class AppLocalizations {
   /// **'Other (Please specify)'**
   String get customReport;
 
+  /// No description provided for @adminsOnlyPosting.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins Only Posting'**
+  String get adminsOnlyPosting;
+
+  /// No description provided for @defaultVideoMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Video Mute'**
+  String get defaultVideoMute;
+
   /// No description provided for @unknown.
   ///
   /// In en, this message translates to:

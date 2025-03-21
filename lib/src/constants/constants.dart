@@ -26,6 +26,8 @@ const String showUserLikeCountKey = 'showUserLikeCount';
 const String showUserDislikeCountKey = 'showUserDislikeCount';
 const String showUserSumCountKey = 'showUserSumCount';
 const String isMaintenanceKey = 'isMaintenance';
+const String adminOnlyWriteKey = 'adminOnlyWrite';
+const String isPostsItemVideoMuteKey = 'isPostsItemVideoMute';
 
 // media max sizes for admin settings
 const List<double> mediaMaxMBSizesList = [

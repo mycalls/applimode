@@ -714,5 +714,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get customReport => '직접입력';
 
   @override
+  String get adminsOnlyPosting => '관리자 전용 게시 허용';
+
+  @override
+  String get defaultVideoMute => '비디오 기본 음소거';
+
+  @override
   String get unknown => '무명';
 }
