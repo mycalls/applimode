@@ -16,7 +16,7 @@ class ListEmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (emptyBuilder != null) {
       if (isPermissionDenied) {
-        return Text(context.loc.needPermission);
+        return Center(child: Text(context.loc.needPermission));
       }
       return emptyBuilder!.call(context);
     }

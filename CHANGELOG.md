@@ -3,6 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.3 (March 29, 2025)
+- Modify the location of the permission required message.
+- Updated a dependency to the latest release.
+
 ## Version 0.3.2 (March 21, 2025)
 - Used WebHtmlElementStrategy.fallback in Flutter web (CORS issue)
 - Added some settings to the admin settings.
