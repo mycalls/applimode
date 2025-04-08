@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.3.3+1';
+const String appVersion = '0.3.4+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
@@ -106,7 +106,7 @@ const String aiInstructions =
 
 // Model type to use as AI assistant
 // ai assistant로 사용할 모델 타입
-// gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.0-pro-exp-02-05, gemini-2.0-flash-thinking-exp-01-21
+// gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.5-pro-exp-03-25, gemini-2.0-flash-thinking-exp-01-21
 const String aiModelType = 'gemini-2.0-flash';
 
 // Color type of basic post box. single, gradient, animation. basic gradient
