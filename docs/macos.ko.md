@@ -699,6 +699,9 @@ dart run flutter_native_splash:create
 ```sh
 flutter pub run flutter_launcher_icons
 ```
+```sh
+node ./applimode-tool/index.js splash
+```
 
 
 
@@ -1188,6 +1191,9 @@ dart run flutter_native_splash:create
 flutter pub run flutter_launcher_icons
 ```
 ```sh
+node ./applimode-tool/index.js splash
+```
+```sh
 dart run build_runner build -d
 ```
 ```sh
@@ -1207,7 +1213,7 @@ firebase deploy --only storage
 > [!NOTE]
 > * 명령을 한 번에 모두 입력하려면 다음 명령을 실행하십시오.
 > ```sh
-> flutter pub get; dart run flutter_native_splash:create; flutter pub run flutter_launcher_icons; dart run build_runner build -d; flutterfire configure --platforms=android,ios,web; node ./applimode-tool/index.js firebaserc; firebase deploy --only firestore; firebase deploy --only storage;
+> flutter pub get; dart run flutter_native_splash:create; flutter pub run flutter_launcher_icons; node ./applimode-tool/index.js splash; dart run build_runner build -d; flutterfire configure --platforms=android,ios,web; node ./applimode-tool/index.js firebaserc; firebase deploy --only firestore; firebase deploy --only storage;
 > ```
 -->
 * 이전 프로젝트 폴더를 삭제합니다.

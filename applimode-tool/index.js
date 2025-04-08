@@ -1,4 +1,4 @@
-/// internal v24103002
+/// internal v25040801
 /// Move this file inside the applimode project
 /// applimode 프로젝트 내부로 이동
 
@@ -1168,6 +1168,8 @@ async function setAppMainColor() {
     { path: 'lib/src/utils/format.dart', regex: null },
     // 안드로이드 system bar를 검정색으로 유지하기 위해 변경하지 않음
     // { path: 'web/manifest.json', regex: /("theme_color": "#).*(",)/ },
+    // color of loading indicator in splash screen
+    { path: 'web/index.html', regex: /(background-color: #).*(; \/\* Dot color for light mode #aaaaaa \*\/)/ },
   ];
 
   for (const file of targetFiles) {
@@ -2082,6 +2084,55 @@ async function setFbAuthProviders() {
   console.log(`${yellow}👋 Firebase Authentication providers have been updated.${reset}`);
 }
 
+async function updateSplash() {
+  // Assume currentProjectPath is defined in the scope
+  const indexHtmlPath = `${currentProjectPath}/web/index.html`;
+
+  try {
+    let indexHtmlContent = await fs.readFile(indexHtmlPath, 'utf8');
+
+    // 찾을 원본 코드 블록 (정확한 들여쓰기와 줄바꿈이 중요할 수 있음)
+    // Find the original code block (exact indentation and line breaks might be important)
+    const originalCode = `      document.getElementById("splash-branding")?.remove();
+      document.body.style.background = "transparent";`;
+
+    // 변경할 새로운 코드 블록
+    // The new code block to replace with
+    const updatedCode = `      document.getElementById("splash-branding")?.remove();
+      // Also remove the loading indicator
+      document.getElementById("loading-indicator")?.remove();
+      // Stop the loading animation interval (defined later)
+      if (window.loadingIntervalId) {
+        clearInterval(window.loadingIntervalId);
+      }
+      document.body.style.background = "transparent";`;
+
+    // 파일 내용에 원본 코드가 포함되어 있는지 확인
+    // Check if the original code exists in the file content
+    if (!indexHtmlContent.includes(originalCode)) {
+      // 원본 코드를 찾지 못하면 경고를 출력하고 함수를 종료하거나 오류를 발생시킬 수 있습니다.
+      // If the original code is not found, print a warning and exit, or throw an error.
+      console.warn(`${red}Warning: Could not find the specific splash code block to update in ${indexHtmlPath}${reset}. The file might already be modified or has a different structure.`);
+      // 또는 오류 발생: throw new Error(`Could not find the specific splash code block in ${indexHtmlPath}`);
+      return; // 함수 종료
+    }
+
+    // 파일 내용 업데이트 (찾은 첫 번째 항목만 교체)
+    // Update file content (replaces the first occurrence found)
+    const updatedIndexHtmlContent = indexHtmlContent.replace(originalCode, updatedCode);
+
+    // 변경된 내용으로 파일 쓰기
+    // Write the updated content back to the file
+    await fs.writeFile(indexHtmlPath, updatedIndexHtmlContent, 'utf8');
+    console.log(`Updated splash removal logic in ${blue}${indexHtmlPath}${reset}`);
+
+  } catch (err) {
+    // 오류 처리
+    // Error handling
+    console.error(`${red}Error updating ${indexHtmlPath}: ${err.message}${reset}`);
+  }
+}
+
 // Check if the folder exists and execute the command
 // 폴더가 존재하는지 확인하고 명령어 실행
 fs.access(projectsPath)
@@ -2128,6 +2179,8 @@ fs.access(projectsPath)
       await addVerifiedToFirestoreRules();
     } else if (command[0].trim() == 'auth') {
       await setFbAuthProviders();
+    } else if (command[0].trim() == 'splash') {
+      await updateSplash();
     } else {
       console.error(`${red}Error:', 'The command must start with init, upgrade, fullname, shortname, organization, firebaserc, color, worker, fcm, ai, rtwo, cdn, done, rtwosecureget, youtubeimage, youtube video, security, write.${reset}`);
       process.exit(1);

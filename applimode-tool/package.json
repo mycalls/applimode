@@ -25,7 +25,8 @@
     "write": "node index.js write",
     "admin": "node index.js admin",
     "verified": "node index.js verified",
-    "auth": "node index.js auth"
+    "auth": "node index.js auth",
+    "splash": "node index.js splash"
   },
   "keywords": [],
   "author": "",

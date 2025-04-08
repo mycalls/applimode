@@ -19,7 +19,7 @@
   <meta name="description" content="My Applimode Project.">
   
   <!-- Android system bar color-->
-  <meta name=theme-color content=#000000>
+  <meta name="theme-color" content="#000000">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,6 +32,42 @@
 
   <title>My Applimode</title>
   <link rel="manifest" href="manifest.json">
+
+  <style id="loading-indicator-style">
+    /* --- START: Added CSS for Loading Indicator --- */
+    #loading-indicator {
+      position: absolute;
+      left: 50%;
+      /* Position it below the centered splash image */
+      /* Adjust '80px' based on your splash image size and desired spacing */
+      top: calc(60% + 80px); 
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px; /* Space between dots */
+      z-index: 10; /* Ensure it's visible */
+    }
+
+    .loading-dot {
+      width: 12px; /* Size of the dots */
+      height: 12px;
+      border-radius: 50%;
+      background-color: #FCB126; /* Dot color for light mode #aaaaaa */
+      opacity: 0.2; /* Initially dim */
+      transition: opacity 0.3s ease-in-out; /* Smooth transition for opacity change */
+    }
+    
+    /*
+    @media (prefers-color-scheme: dark) {
+      #loading-indicator .loading-dot {
+          background-color: #aaaaaa;
+      }
+    }
+    */
+    /* --- END: Added CSS for Loading Indicator --- */
+  </style>
+  
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
   <style id="splash-screen-style">
     html {
       height: 100%
@@ -100,10 +136,15 @@
     function removeSplashFromWeb() {
       document.getElementById("splash")?.remove();
       document.getElementById("splash-branding")?.remove();
+      // Also remove the loading indicator
+      document.getElementById("loading-indicator")?.remove();
+      // Stop the loading animation interval (defined later)
+      if (window.loadingIntervalId) {
+        clearInterval(window.loadingIntervalId);
+      }
       document.body.style.background = "transparent";
     }
   </script>
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 </head>
 <body>
   <picture id="splash">
@@ -111,6 +152,17 @@
       <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
+
+  <!-- START: Added HTML for Loading Indicator -->
+  <div id="loading-indicator">
+    <span class="loading-dot"></span>
+    <span class="loading-dot"></span>
+    <span class="loading-dot"></span>
+    <span class="loading-dot"></span>
+    <span class="loading-dot"></span>
+  </div>
+  <!-- END: Added HTML for Loading Indicator -->
+
   <!--flutter_bootstrap.js starts-->
   <script src="flutter_bootstrap.js" async=""></script>
   <!--When using push notification for web app-->
@@ -147,5 +199,36 @@
     .grecaptcha-badge { visibility: hidden; }
   </style>
 
+  <!-- START: Added JavaScript for Loading Indicator Animation -->
+  <script>
+    (function() {
+      const dots = document.querySelectorAll('#loading-indicator .loading-dot');
+      let visibleDotsCount = 0;
+      const totalDots = dots.length; // Should be 5
+      const intervalTime = 400; // Milliseconds between steps (adjust as needed)
+
+      function updateDots() {
+        for (let i = 0; i < totalDots; i++) {
+          // Set opacity to 1 (visible) if index is less than current count, else 0.2 (dim)
+          dots[i].style.opacity = (i < visibleDotsCount) ? '1' : '0.2';
+        }
+
+        // Increment count for the next step
+        visibleDotsCount++;
+
+        // Reset to 0 after showing all 5 dots (so the cycle is 0, 1, 2, 3, 4, 5 dots visible)
+        if (visibleDotsCount > totalDots) {
+          visibleDotsCount = 0;
+        }
+      }
+
+      // Start the animation loop and store the interval ID globally
+      window.loadingIntervalId = setInterval(updateDots, intervalTime);
+
+      // Initial call to set the 0-dot state immediately
+      updateDots();
+    })();
+  </script>
+  <!-- END: Added JavaScript for Loading Indicator Animation -->
 
 </body></html>

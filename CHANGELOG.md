@@ -5,6 +5,7 @@
 -->
 ## Version 0.3.4 (April 08, 2025)
 - Fixed error message in phone number sign-up.
+- Added progress indicator to splash screen.
 
 ## Version 0.3.3 (March 29, 2025)
 - Modify the location of the permission required message.
