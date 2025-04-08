@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.4 (April 08, 2025)
+- Fixed error message in phone number sign-up.
+
 ## Version 0.3.3 (March 29, 2025)
 - Modify the location of the permission required message.
 - Updated a dependency to the latest release.

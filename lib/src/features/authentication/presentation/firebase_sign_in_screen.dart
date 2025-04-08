@@ -36,7 +36,9 @@ class FirebaseSignInScreen extends ConsumerWidget {
         'wrong-password' => context.loc.wrongPassword,
         'invalid-login-credentials' => context.loc.invalidLoginCredentials,
         'invalid-credential' => context.loc.invalidCredential,
-        _ => context.loc.unknownIssueWithAuth,
+        // in phone auth, the error message shows up and goes away
+        // _ => context.loc.unknownIssueWithAuth,
+        _ => '',
       };
     };
     return Scaffold(
