@@ -59,6 +59,12 @@ class AppLocaleButton extends ConsumerWidget {
         return const Text('English');
       case 'ko':
         return const Text('한국어');
+      case 'es':
+        return const Text('Español');
+      case 'ja':
+        return const Text('日本語');
+      case 'zh':
+        return const Text('中文简体');
       default:
         return const Text('English');
     }
