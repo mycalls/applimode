@@ -65,7 +65,6 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
   List<String>? _remoteMedia;
 
   static const bottomBarHeight = 80.0;
-  static const widthBreak = 800.0;
 
   // for auto save when writing a new post
   Timer? _debounceSaveTempTimer;
@@ -368,20 +367,6 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                     contentString: _controller.text.trim(),
                   );
                   if (result != null && result.isNotEmpty) {
-                    /*
-                    final text = _controller.text;
-                    final selection = _controller.selection;
-                    final start = selection.start;
-                    final end = selection.end;
-                    final inserted = '\n$result\n';
-                    final newText = text.replaceRange(start, end, inserted);
-                    final newSelection = TextSelection.collapsed(
-                        offset: selection.baseOffset + inserted.length);
-                    _controller.value = TextEditingValue(
-                      text: newText,
-                      selection: newSelection,
-                    );
-                    */
                     _controller.text = result;
                     _focusNode.requestFocus();
                   }
@@ -405,19 +390,21 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         ),
         body: Column(
           children: [
-            IgnorePointer(
-              ignoring: screenWidth < widthBreak ? false : true,
-              child: TabBar(
+            if (screenWidth < pcWidthBreakpoint) ...[
+              TabBar(
                 physics: const NeverScrollableScrollPhysics(),
-                tabs: tabTitles.map((e) => Tab(text: e.title)).toList(),
+                tabs: tabTitles
+                    .map((e) => Tab(
+                          text: e.title,
+                          height: 32,
+                        ))
+                    .toList(),
                 onTap: (value) {
                   if (value == 1) {
                     FocusScope.of(context).unfocus();
                   }
                 },
               ),
-            ),
-            if (screenWidth < widthBreak)
               Expanded(
                 child: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
@@ -432,7 +419,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                   ],
                 ),
               ),
-            if (screenWidth >= widthBreak)
+            ] else
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

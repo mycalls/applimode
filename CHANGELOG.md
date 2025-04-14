@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.5 (April 16, 2025)
+- Code optimization.
+
 ## Version 0.3.4 (April 08, 2025)
 - Fixed error message in phone number sign-up.
 - Added progress indicator to splash screen.

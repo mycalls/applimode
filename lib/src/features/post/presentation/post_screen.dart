@@ -58,7 +58,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
   // Activation flag for the "Jump to CommentScreen" feature.
   bool _isRefreshing = false;
   // Additional scroll range required for the pullToCommentScreen functionality.
-  final double pushThreshold = -100;
+  final double pushThreshold = -140;
 
   @override
   void initState() {
