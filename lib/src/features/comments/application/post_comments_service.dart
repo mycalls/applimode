@@ -1,3 +1,6 @@
+import 'dart:developer' as dev;
+
+import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
@@ -7,9 +10,11 @@ import 'package:applimode_app/src/features/firebase_storage/firebase_storage_rep
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/nanoid.dart';
-import 'package:flutter/widgets.dart';
+import 'package:applimode_app/src/utils/need_image_compree.dart';
+import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 
 class PostCommentsService {
   const PostCommentsService(this.ref);
@@ -27,6 +32,7 @@ class PostCommentsService {
     XFile? xFile,
     String? mediaType,
   }) async {
+    final storageRepository = ref.read(firebaseStorageRepositoryProvider);
     // update comment count for post
     // when there is no post, function must stop
     await ref
@@ -46,6 +52,30 @@ class PostCommentsService {
     if (xFile != null) {
       final fileExt =
           mediaType == null ? '.jpeg' : Format.mimeTypeToExtWithDot(mediaType);
+      Uint8List bytes = await storageRepository.getBytes(xFile);
+      dev.log('originSize: ${bytes.lengthInBytes}');
+      // 이미지일 경우 압축
+      if (needImageCompree(mediaType ?? contentTypeJpeg)) {
+        bytes = kIsWeb
+            ? await WicStub().changeImageQuality(
+                imageUrl: xFile.path,
+                maxWidthThreshold: defaultImageMaxWidth,
+                quality: defaultImageQuality,
+              )
+            : await FlutterImageCompress.compressWithList(
+                bytes,
+                minWidth: defaultImageMaxWidth,
+                quality: defaultImageQuality,
+              );
+      }
+      dev.log('compressSize: ${bytes.lengthInBytes}');
+      remoteImageUrl = await storageRepository.uploadBytes(
+        bytes: bytes,
+        storagePathname: '$commentsPath/$postId',
+        filename: '${nanoid()}$fileExt',
+        contentType: mediaType ?? contentTypeJpeg,
+      );
+      /*
       remoteImageUrl =
           await ref.read(firebaseStorageRepositoryProvider).uploadXFile(
                 file: xFile,
@@ -53,6 +83,7 @@ class PostCommentsService {
                 filename: '${nanoid()}$fileExt',
                 contentType: mediaType ?? contentTypeJpeg,
               );
+      */
     }
 
     // create comment

@@ -147,8 +147,6 @@ class _PostCommentsScreenBottomBarState
                     onPressed: () async {
                       _pickedFile = await showImagePicker(
                         isImage: true,
-                        maxWidth: postImageMaxWidth,
-                        imageQuality: postImageQuality,
                         mediaMaxMBSize: mediaMaxMBSize,
                       );
                       if (_pickedFile != null) {

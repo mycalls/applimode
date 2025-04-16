@@ -209,8 +209,6 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
 
     final XFile? pickedFile = await showImagePicker(
       isImage: isThumbnail,
-      maxWidth: postImageMaxWidth,
-      imageQuality: postImageQuality,
       mediaMaxMBSize: mediaMaxMBSize,
     ).catchError((error) {
       debugPrint('showImagePicker: ${error.toString()}');

@@ -20,15 +20,17 @@ import 'package:applimode_app/src/utils/compare_lists.dart';
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/src/utils/nanoid.dart';
+import 'package:applimode_app/src/utils/need_image_compree.dart';
 import 'package:applimode_app/src/utils/now_to_int.dart';
 import 'package:applimode_app/src/utils/regex.dart';
 import 'package:applimode_app/src/utils/string_converter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 import 'package:applimode_app/src/utils/upload_progress_state.dart';
 import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
+import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 // import 'package:http/http.dart' as http;
@@ -209,6 +211,22 @@ class EditorScreenController extends _$EditorScreenController {
                     .getBytes(XFile(Format.fixMediaWithExt(match[2]!)))
                 : await storageRepository
                     .getBytes(XFile(Format.fixMediaWithExt(match[1]!)));
+            dev.log('originSize: ${bytes.lengthInBytes}');
+            // 이미지일 경우 압축
+            if (!isVideo && needImageCompree(mediaType)) {
+              bytes = kIsWeb
+                  ? await WicStub().changeImageQuality(
+                      imageUrl: Format.fixMediaWithExt(match[1]!),
+                      maxWidthThreshold: defaultImageMaxWidth,
+                      quality: defaultImageQuality,
+                    )
+                  : await FlutterImageCompress.compressWithList(
+                      bytes,
+                      minWidth: defaultImageMaxWidth,
+                      quality: defaultImageQuality,
+                    );
+            }
+            dev.log('compressSize: ${bytes.lengthInBytes}');
           } catch (e) {
             debugPrint('FailedMediaFileException: $e');
             state = AsyncError(FailedMediaFileException(), StackTrace.current);
@@ -228,8 +246,21 @@ class EditorScreenController extends _$EditorScreenController {
                 final thumbnailExt =
                     Format.mimeTypeToExtWithDot(thumbnailMediaType);
                 thumbnailFilename = '$filename-thumbnail$thumbnailExt';
-                final videoThumbnail = await storageRepository
+                Uint8List videoThumbnail = await storageRepository
                     .getBytes(XFile(Format.fixMediaWithExt(match[1]!)));
+                if (needImageCompree(thumbnailMediaType)) {
+                  videoThumbnail = kIsWeb
+                      ? await WicStub().changeImageQuality(
+                          imageUrl: Format.fixMediaWithExt(match[1]!),
+                          maxWidthThreshold: defaultImageMaxWidth,
+                          quality: defaultImageQuality,
+                        )
+                      : await FlutterImageCompress.compressWithList(
+                          videoThumbnail,
+                          minWidth: defaultImageMaxWidth,
+                          quality: defaultImageQuality,
+                        );
+                }
                 if (useRTwoStorage) {
                   final url = await rTwoRepository.uploadBytes(
                     bytes: videoThumbnail,
@@ -440,8 +471,21 @@ class EditorScreenController extends _$EditorScreenController {
                 final thumbnailExt =
                     Format.mimeTypeToExtWithDot(thumbnailMediaType);
                 String thumbnailFilename = '${nanoid()}-thumbnail$thumbnailExt';
-                final videoThumbnail = await storageRepository
+                Uint8List videoThumbnail = await storageRepository
                     .getBytes(XFile(Format.fixMediaWithExt(match[1]!)));
+                if (needImageCompree(thumbnailMediaType)) {
+                  videoThumbnail = kIsWeb
+                      ? await WicStub().changeImageQuality(
+                          imageUrl: Format.fixMediaWithExt(match[1]!),
+                          maxWidthThreshold: defaultImageMaxWidth,
+                          quality: defaultImageQuality,
+                        )
+                      : await FlutterImageCompress.compressWithList(
+                          videoThumbnail,
+                          minWidth: defaultImageMaxWidth,
+                          quality: defaultImageQuality,
+                        );
+                }
 
                 String newUrl = '';
                 // upload new thumbnail

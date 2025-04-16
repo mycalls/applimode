@@ -20,6 +20,11 @@ Firebase와 Flutter를 기반으로 개발된 Applimode는 현재 Android, iOS, 
 </p>
 
 
+## 데모 보기
+* [Applimode Demo Web](https://applimode-demo.web.app/)
+* [Applimode Dev Web (WASM)](https://applimode-type-b.web.app/)
+
+
 ## 어플리모드 앱 구성하기
 * [윈도우에서 구성하기](https://github.com/mycalls/applimode/blob/main/docs/windows.ko.md)
 * [macOS에서 구성하기](https://github.com/mycalls/applimode/blob/main/docs/macos.ko.md)
@@ -98,11 +103,6 @@ flutter pub get; dart run build_runner build -d; flutterfire configure --platfor
 * 앱 이름 변경 ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.ko.md#앱-이름-변경), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.ko.md#앱-이름-변경))
 * 앱의 조직 이름 변경 ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.ko.md#앱의-조직-이름-변경), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.ko.md#앱의-조직-이름-변경))
 * 문제 해결 ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.ko.md#문제-해결), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.ko.md#문제-해결))
-
-
-## 데모 보기
-* [Applimode Demo Web](https://applimode-demo.web.app/)
-* [Applimode Dev Web](https://applimode-type-b.web.app/) (WASM)
 
 
 ## 주요 기능

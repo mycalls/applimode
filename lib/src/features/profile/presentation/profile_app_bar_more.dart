@@ -86,8 +86,6 @@ class ProfileAppBarMore extends ConsumerWidget {
                       context.pop();
                       final pickedFile = await showImagePicker(
                         isImage: true,
-                        maxWidth: profileMaxWidth,
-                        maxHeight: profileMaxHeight,
                         mediaMaxMBSize: mediaMaxMBSize,
                       );
                       if (pickedFile != null) {
@@ -137,8 +135,6 @@ class ProfileAppBarMore extends ConsumerWidget {
                         context.pop();
                         final pickedFile = await showImagePicker(
                           isImage: true,
-                          maxWidth: storyMaxWidth,
-                          maxHeight: storyMaxHeight,
                           mediaMaxMBSize: mediaMaxMBSize,
                         );
                         if (pickedFile != null) {

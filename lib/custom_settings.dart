@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.3.4+1';
+const String appVersion = '0.3.5+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
@@ -174,33 +174,17 @@ const int videoMaxDuration = 60;
 // 포스트에서 비디오 영상 프레임 비율
 const double postVideoAspectRatio = 1.0;
 
-// Profile image max width
-// 프로필 이미지 최대 너비
-const double profileMaxWidth = 160.0;
+// Profile image max length
+// 프로필 이미지 최대 길이
+const int profileImageMaxLength = 240;
 
-// Profile image max height
-// 프로필 이미지 최대 높이
-const double profileMaxHeight = 160.0;
+// defalut image max width for post, comment
+// 기본 이미지 최대 너비 (포스트, 댓글 이미지에 적용)
+const int defaultImageMaxWidth = 1080;
 
-// Story image max width
-// 스토리 이미지 최대 너비
-const double storyMaxWidth = 1080.0;
-
-// Story image max height
-// 스토리 이미지 최대 높이
-const double storyMaxHeight = 1920.0;
-
-// Post image max width
-// 포스트 이미지 최대 너비
-const double postImageMaxWidth = 1080.0;
-
-// Post image max height
-// 포스트 이미지 최대 높이
-const double postImageMaxHeight = 1920.0;
-
-// Post image quality
-// 포스트 이미지 품질
-const int postImageQuality = 90;
+// default image quality
+// 기본 이미지 품질
+const int defaultImageQuality = 90;
 
 // Video thumbnail max width
 // 비디오 썸네일 최대 너비

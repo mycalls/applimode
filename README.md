@@ -20,10 +20,14 @@ Built on Firebase and Flutter, Applimode works smoothly on Android, iOS, and Web
 </p>
 
 
+## Demo
+* [Applimode Demo Web](https://applimode-demo.web.app/)
+* [Applimode Dev Web (WASM)](https://applimode-type-b.web.app/)
+
+
 ## Configure your Applimode app
 * [Configure Applimode for Windows](https://github.com/mycalls/applimode/blob/main/docs/windows.md)
 * [Configure Applimode for macOS](https://github.com/mycalls/applimode/blob/main/docs/macos.md)
-
 
 
 ## Overview of Configuration
@@ -98,11 +102,6 @@ Additionally, you can set or configure the following:
 * Change the app's name ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-apps-name), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-apps-name))
 * Change the organization name for the app ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#change-the-organization-name-for-the-app), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#change-the-organization-name-for-the-app))
 * Troubleshooting ([Win](https://github.com/mycalls/applimode/blob/main/docs/windows.md#troubleshooting), [mac](https://github.com/mycalls/applimode/blob/main/docs/macos.md#troubleshooting))
-
-
-## Demo
-* [Applimode Demo Web](https://applimode-demo.web.app/)
-* [Applimode Dev Web](https://applimode-type-b.web.app/) (WASM)
 
 
 ## Main Features
