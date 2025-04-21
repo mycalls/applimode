@@ -109,11 +109,7 @@ class BasicPostsItem extends ConsumerWidget {
                         videoUrl: UrlConverter.getIosWebVideoUrl(mainVideoUrl),
                         videoImageUrl: mainVideoImageUrl,
                         aspectRatio: aspectRatio ?? 1.0,
-                        writer: writer,
-                        post: post,
-                        index: index,
                         isPage: isPage,
-                        showVideoTitle: showVideoTitle,
                       ),
                     if (isContent && !isVideo)
                       mainImageUrl != null

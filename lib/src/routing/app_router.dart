@@ -43,7 +43,6 @@ import 'package:applimode_app/src/features/post/presentation/post_screen.dart';
 import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_screen.dart';
 import 'package:applimode_app/src/routing/go_router_refresh_stream.dart';
-import 'package:video_player/video_player.dart';
 
 part 'app_router.g.dart';
 
@@ -464,11 +463,12 @@ GoRouter goRouter(Ref ref) {
             videoUrl = '${splits[0]}/o/${splits[1].replaceAll('/', '%2f')}';
           }
 
-          final controller = state.extra as VideoPlayerController?;
+          final data = state.extra as Map<String, dynamic>;
           return _buildPage(
               child: FullVideoScreen(
             videoUrl: videoUrl,
-            videoController: controller,
+            videoController: data['controller'],
+            position: data['position'],
           ));
         },
       ),

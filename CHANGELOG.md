@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.6 (April 22, 2025)
+- Video player optimization.
+
 ## Version 0.3.5 (April 16, 2025)
 - Support for Spanish, Japanese, and Simplified Chinese.
 - Image upload optimization.

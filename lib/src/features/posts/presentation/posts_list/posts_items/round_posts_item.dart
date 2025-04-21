@@ -126,10 +126,6 @@ class RoundPostsItem extends ConsumerWidget {
                       videoUrl: UrlConverter.getIosWebVideoUrl(mainVideoUrl),
                       videoImageUrl: mainVideoImageUrl,
                       aspectRatio: aspectRatio ?? 16 / 9,
-                      writer: writer,
-                      post: post,
-                      index: index,
-                      showVideoTitle: showVideoTitle,
                       isRound: true,
                     ),
                   if (isContent && !isVideo)
