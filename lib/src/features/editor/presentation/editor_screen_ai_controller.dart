@@ -1,6 +1,5 @@
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.dart';
@@ -56,8 +55,7 @@ class EditorScreenAiController extends _$EditorScreenAiController {
           }
         }
       }
-      final basicPrompt =
-          '$basicPromptStartTag$aiInstructions$basicPromptEndTag';
+
       final userPrompt = predefinedPrompt.trim().isEmpty &&
               promptString.trim().isEmpty
           ? ''
@@ -65,7 +63,7 @@ class EditorScreenAiController extends _$EditorScreenAiController {
       final content = contentString == null || contentString.trim().isEmpty
           ? ''
           : '$contentStartTag$contentString$contentEndTag';
-      final fullPrompt = '$basicPrompt $userPrompt $content';
+      final fullPrompt = '$userPrompt $content';
       dev.log('fullPrompt: $fullPrompt');
       final prompt = imageParts.isEmpty
           ? [Content.text(fullPrompt)]

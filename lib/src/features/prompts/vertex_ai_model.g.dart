@@ -6,7 +6,7 @@ part of 'vertex_ai_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$vertexAiModelHash() => r'9369c03cae6da5215d3ee6e4bc70076ce2ec1a22';
+String _$vertexAiModelHash() => r'848a4d2b07e775eebc0918e3232985dd6e20a5dc';
 
 /// See also [vertexAiModel].
 @ProviderFor(vertexAiModel)

@@ -100,13 +100,9 @@ const bool useApns = false;
 // 파이어베이스 콘솔에서 vertex ai 사용 설정해야 함
 const bool useAiAssistant = false;
 
-// ai default instructions
-const String aiInstructions =
-    'These are the conditions for generating text. The basic prompt starts with <basicPromptStart> and ends with <basicPromptEnd>. The user prompt starts with <userPromptStart> and ends with <userPromptEnd>. The main content starts with <contentStart> and ends with <contentEnd>. The main content should be written using Markdown. Generate the text based on the language used in the main content. If the main content is missing or empty, generate the text based on the user prompt. Include the main content in the generated text and remove the <contentStart> and <contentEnd> tags in the final output. Do not modify any links, URLs, or URIs within the main content. Analyze the main content and if there is no title, add one in the format # Title and add a summary at the bottom of the content in the format * Summary: summary content. Analyze the main content and append search tags at the bottom in the format #tag #tag. Add a blank line before the search tags. For multi-word tags like "miscellaneous travel," format them as #miscellaneous_travel. Unless otherwise specified, only correct spelling errors in the main content.';
-
 // Model type to use as AI assistant
 // ai assistant로 사용할 모델 타입
-// gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.5-pro-exp-03-25, gemini-2.0-flash-thinking-exp-01-21
+// gemini-2.0-flash, gemini-2.0-flash-lite, gemini-2.5-pro-exp-03-25, gemini-2.5-flash-preview-04-17
 const String aiModelType = 'gemini-2.0-flash';
 
 // Color type of basic post box. single, gradient, animation. basic gradient

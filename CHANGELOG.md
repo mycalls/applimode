@@ -5,6 +5,7 @@
 -->
 ## Version 0.3.6 (April 22, 2025)
 - Video player optimization.
+- Optimized post generation feature using AI.
 
 ## Version 0.3.5 (April 16, 2025)
 - Support for Spanish, Japanese, and Simplified Chinese.
