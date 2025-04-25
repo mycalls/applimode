@@ -1523,6 +1523,12 @@ abstract class AppLocalizations {
   /// **'Default Video Mute'**
   String get defaultVideoMute;
 
+  /// No description provided for @processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get processing;
+
   /// No description provided for @unknown.
   ///
   /// In en, this message translates to:

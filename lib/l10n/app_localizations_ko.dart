@@ -720,5 +720,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get defaultVideoMute => '비디오 기본 음소거';
 
   @override
+  String get processing => '처리중...';
+
+  @override
   String get unknown => '무명';
 }

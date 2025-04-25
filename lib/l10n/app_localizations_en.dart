@@ -720,5 +720,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get defaultVideoMute => 'Default Video Mute';
 
   @override
+  String get processing => 'Processing...';
+
+  @override
   String get unknown => 'Unknown';
 }

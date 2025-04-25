@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.7 (April 30, 2025)
+- Code optimization.
+
 ## Version 0.3.6 (April 22, 2025)
 - Video player optimization.
 - Optimized post generation feature using AI.

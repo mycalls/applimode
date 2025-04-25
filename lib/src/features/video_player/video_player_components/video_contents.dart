@@ -69,16 +69,6 @@ class VideoContents extends ConsumerWidget {
                 profileImagesize: basicPostsItemProfileSize,
                 nameColor: Colors.white,
                 showSubtitle: true,
-                showMainCategory: adminSettings.useCategory,
-                showLikeCount: isPage ? false : adminSettings.showLikeCount,
-                showDislikeCount:
-                    isPage ? false : adminSettings.showDislikeCount,
-                showCommentCount:
-                    isPage ? false : adminSettings.showCommentCount,
-                showCommentPlusLikeCount:
-                    isPage ? false : adminSettings.showCommentPlusLikeCount,
-                showSumCount: isPage ? false : adminSettings.showSumCount,
-                isThumbUpToHeart: adminSettings.isThumbUpToHeart,
                 captionColor: Colors.white,
                 countColor: Colors.white,
                 index: index,

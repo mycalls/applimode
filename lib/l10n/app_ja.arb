@@ -236,5 +236,6 @@
   "customReport": "その他（具体的に記述してください）",
   "adminsOnlyPosting": "管理者のみ投稿可能",
   "defaultVideoMute": "デフォルトで動画をミュート",
+   "processing": "処理中...",
   "unknown": "不明"
 }

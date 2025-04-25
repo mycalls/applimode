@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:applimode_app/src/common_widgets/title_text_widget.dart';
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/post_sub_info_one_line.dart';
@@ -13,7 +12,6 @@ class SmallPostsItemContents extends ConsumerWidget {
     super.key,
     required this.post,
     required this.writer,
-    required this.mainCategory,
     this.isRankingPage = false,
     this.isLikeRanking = false,
     this.isDislikeRanking = false,
@@ -23,7 +21,6 @@ class SmallPostsItemContents extends ConsumerWidget {
 
   final Post post;
   final AppUser writer;
-  final List<MainCategory> mainCategory;
   final bool isRankingPage;
   final bool isLikeRanking;
   final bool isDislikeRanking;
@@ -32,7 +29,6 @@ class SmallPostsItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final adminSettings = ref.watch(adminSettingsProvider);
     final titleTextStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
           fontSize: smallPostsItemTitleSize,
         );
@@ -68,38 +64,43 @@ class SmallPostsItemContents extends ConsumerWidget {
                 maxLines: smallPostsItemTitleMaxLines,
               ),
         const SizedBox(height: 4),
-        PostSubInfoOneLine(
-          post: post,
-          mainCategory: mainCategory,
-          showMainCategory: adminSettings.useCategory,
-          writer: writer,
-          showCommentPlusLikeCount:
-              isLikeRanking || isDislikeRanking || isSumRanking
-                  ? false
-                  : adminSettings.showCommentPlusLikeCount,
-          showLikeCount: isLikeRanking
-              ? true
-              : isDislikeRanking || isSumRanking
-                  ? false
-                  : adminSettings.showLikeCount,
-          showDislikeCount: isDislikeRanking
-              ? true
-              : isLikeRanking || isSumRanking
-                  ? false
-                  : adminSettings.showDislikeCount,
-          showSumCount: isSumRanking
-              ? true
-              : isLikeRanking || isDislikeRanking
-                  ? false
-                  : adminSettings.showSumCount,
-          showCommentCount: adminSettings.showCommentCount,
-          fontSize: smallPostsItemSubInfoSize,
-          iconSize: smallPostsItemSubInfoSize + 2,
-          showUserAdminLabel: adminSettings.showUserAdminLabel,
-          showUserLikeLabel: adminSettings.showUserLikeCount,
-          showUserDislikeLabel: adminSettings.showUserDislikeCount,
-          showUserSumLabel: adminSettings.showUserSumCount,
-          isThumbUpToHeart: adminSettings.isThumbUpToHeart,
+        Consumer(
+          builder: (context, ref, child) {
+            final adminSettings = ref.watch(adminSettingsProvider);
+            return PostSubInfoOneLine(
+              post: post,
+              mainCategory: adminSettings.mainCategory,
+              showMainCategory: adminSettings.useCategory,
+              writer: writer,
+              showCommentPlusLikeCount:
+                  isLikeRanking || isDislikeRanking || isSumRanking
+                      ? false
+                      : adminSettings.showCommentPlusLikeCount,
+              showLikeCount: isLikeRanking
+                  ? true
+                  : isDislikeRanking || isSumRanking
+                      ? false
+                      : adminSettings.showLikeCount,
+              showDislikeCount: isDislikeRanking
+                  ? true
+                  : isLikeRanking || isSumRanking
+                      ? false
+                      : adminSettings.showDislikeCount,
+              showSumCount: isSumRanking
+                  ? true
+                  : isLikeRanking || isDislikeRanking
+                      ? false
+                      : adminSettings.showSumCount,
+              showCommentCount: adminSettings.showCommentCount,
+              fontSize: smallPostsItemSubInfoSize,
+              iconSize: smallPostsItemSubInfoSize + 2,
+              showUserAdminLabel: adminSettings.showUserAdminLabel,
+              showUserLikeLabel: adminSettings.showUserLikeCount,
+              showUserDislikeLabel: adminSettings.showUserDislikeCount,
+              showUserSumLabel: adminSettings.showUserSumCount,
+              isThumbUpToHeart: adminSettings.isThumbUpToHeart,
+            );
+          },
         ),
       ],
     );

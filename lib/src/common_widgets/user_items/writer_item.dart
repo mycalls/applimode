@@ -13,16 +13,11 @@ class WriterItem extends ConsumerWidget {
   const WriterItem({
     super.key,
     required this.writer,
+    this.isPage = false,
+    this.isAppBar = false,
     this.post,
     this.onTap,
     this.showSubtitle,
-    this.showMainCategory,
-    this.showCommentPlusLikeCount,
-    this.showSumCount,
-    this.showLikeCount,
-    this.showDislikeCount,
-    this.showCommentCount,
-    this.isThumbUpToHeart,
     this.mainAlignment,
     this.crossAlignment,
     this.axisSize,
@@ -40,16 +35,11 @@ class WriterItem extends ConsumerWidget {
   });
 
   final AppUser writer;
+  final bool isPage;
+  final bool isAppBar;
   final Post? post;
   final VoidCallback? onTap;
   final bool? showSubtitle;
-  final bool? showMainCategory;
-  final bool? showCommentPlusLikeCount;
-  final bool? showSumCount;
-  final bool? showLikeCount;
-  final bool? showDislikeCount;
-  final bool? showCommentCount;
-  final bool? isThumbUpToHeart;
   final MainAxisAlignment? mainAlignment;
   final CrossAxisAlignment? crossAlignment;
   final MainAxisSize? axisSize;
@@ -67,9 +57,6 @@ class WriterItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final adminSettings = ref.watch(adminSettingsProvider);
-    final mainCategory = adminSettings.mainCategory;
-
     return InkWell(
       onTap: onTap,
       child: SizedBox(
@@ -87,90 +74,110 @@ class WriterItem extends ConsumerWidget {
                   ),
             const SizedBox(width: 12),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+              child: Consumer(
+                builder: (context, ref, child) {
+                  final adminSettings = ref.watch(adminSettingsProvider);
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (adminSettings.showUserAdminLabel && writer.isAdmin)
-                        const Icon(
-                          Icons.verified_user,
-                          color: Color(userAdminColor),
-                          size: basicPostsItemNameSize,
-                        ),
-                      if (writer.verified)
-                        const Icon(
-                          Icons.verified,
-                          color: Color(0xFF00a5e3),
-                          size: basicPostsItemNameSize,
-                        ),
-                      if (writer.verified ||
-                          (adminSettings.showUserAdminLabel && writer.isAdmin))
-                        const SizedBox(width: 4),
-                      Flexible(
-                        child: Text(
-                          writer.displayName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.titleSmall?.copyWith(
+                      Row(
+                        children: [
+                          if (adminSettings.showUserAdminLabel &&
+                              writer.isAdmin)
+                            const Icon(
+                              Icons.verified_user,
+                              color: Color(userAdminColor),
+                              size: basicPostsItemNameSize,
+                            ),
+                          if (writer.verified)
+                            const Icon(
+                              Icons.verified,
+                              color: Color(0xFF00a5e3),
+                              size: basicPostsItemNameSize,
+                            ),
+                          if (writer.verified ||
+                              (adminSettings.showUserAdminLabel &&
+                                  writer.isAdmin))
+                            const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              writer.displayName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(
                                     color: nameColor,
                                     fontSize: nameSize,
                                   ),
-                        ),
+                            ),
+                          ),
+                          if (adminSettings.showUserLikeCount) ...[
+                            const SizedBox(width: 4),
+                            WriterLabel(
+                              //label: context.loc.likesCount,
+                              iconData: Icons.arrow_upward_rounded,
+                              color: const Color(userLikeCountColor),
+                              count: writer.likeCount,
+                              labelSize: writerLabelFontSize,
+                            ),
+                          ],
+                          if (adminSettings.showUserDislikeCount) ...[
+                            const SizedBox(width: 4),
+                            WriterLabel(
+                              // label: context.loc.dislikesCount,
+                              iconData: Icons.arrow_downward_rounded,
+                              color: const Color(userDislikeCountColor),
+                              count: writer.dislikeCount,
+                              labelSize: writerLabelFontSize,
+                            ),
+                          ],
+                          if (adminSettings.showUserSumCount) ...[
+                            const SizedBox(width: 4),
+                            WriterLabel(
+                              // label: context.loc.sumCount,
+                              iconData: Icons.swap_vert_rounded,
+                              color: const Color(userSumCountColor),
+                              count: writer.sumCount,
+                              labelSize: writerLabelFontSize,
+                            ),
+                          ]
+                        ],
                       ),
-                      if (adminSettings.showUserLikeCount) ...[
-                        const SizedBox(width: 4),
-                        WriterLabel(
-                          //label: context.loc.likesCount,
-                          iconData: Icons.arrow_upward_rounded,
-                          color: const Color(userLikeCountColor),
-                          count: writer.likeCount,
-                          labelSize: writerLabelFontSize,
+                      if (showSubtitle == true && post != null)
+                        PostSubInfoOneLine(
+                          post: post!,
+                          showMainCategory: adminSettings.useCategory,
+                          mainCategory: adminSettings.useCategory
+                              ? adminSettings.mainCategory
+                              : null,
+                          showCommentPlusLikeCount: isPage || isAppBar
+                              ? false
+                              : adminSettings.showCommentPlusLikeCount,
+                          showLikeCount: isPage || isAppBar
+                              ? false
+                              : adminSettings.showLikeCount,
+                          showDislikeCount: isPage || isAppBar
+                              ? false
+                              : adminSettings.showDislikeCount,
+                          showSumCount: isPage || isAppBar
+                              ? false
+                              : adminSettings.showSumCount,
+                          showCommentCount: isPage || isAppBar
+                              ? false
+                              : adminSettings.showCommentCount,
+                          isThumbUpToHeart: adminSettings.isThumbUpToHeart,
+                          captionColor: captionColor,
+                          countColor: countColor,
+                          categoryColor: categoryColor,
+                          fontSize: subInfoFontSize,
+                          iconSize: subInfoIconSize,
                         ),
-                      ],
-                      if (adminSettings.showUserDislikeCount) ...[
-                        const SizedBox(width: 4),
-                        WriterLabel(
-                          // label: context.loc.dislikesCount,
-                          iconData: Icons.arrow_downward_rounded,
-                          color: const Color(userDislikeCountColor),
-                          count: writer.dislikeCount,
-                          labelSize: writerLabelFontSize,
-                        ),
-                      ],
-                      if (adminSettings.showUserSumCount) ...[
-                        const SizedBox(width: 4),
-                        WriterLabel(
-                          // label: context.loc.sumCount,
-                          iconData: Icons.swap_vert_rounded,
-                          color: const Color(userSumCountColor),
-                          count: writer.sumCount,
-                          labelSize: writerLabelFontSize,
-                        ),
-                      ]
                     ],
-                  ),
-                  if (showSubtitle == true && post != null)
-                    PostSubInfoOneLine(
-                      post: post!,
-                      showMainCategory: showMainCategory,
-                      mainCategory:
-                          showMainCategory ?? false ? mainCategory : null,
-                      showCommentPlusLikeCount: showCommentPlusLikeCount,
-                      showLikeCount: showLikeCount,
-                      showDislikeCount: showDislikeCount,
-                      showSumCount: showSumCount,
-                      showCommentCount: showCommentCount,
-                      isThumbUpToHeart: isThumbUpToHeart,
-                      captionColor: captionColor,
-                      countColor: countColor,
-                      categoryColor: categoryColor,
-                      fontSize: subInfoFontSize,
-                      iconSize: subInfoIconSize,
-                    ),
-                ],
+                  );
+                },
               ),
             ),
           ],

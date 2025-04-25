@@ -24,7 +24,6 @@ import 'package:applimode_app/custom_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:applimode_app/src/utils/upload_progress_state.dart';
 
 class CustomProfileScreen extends ConsumerWidget {
   const CustomProfileScreen({
@@ -49,7 +48,6 @@ class CustomProfileScreen extends ConsumerWidget {
         : ref.watch(writerFutureProvider(uid));
     final screenState = ref.watch(profileScreenControllerProvider);
     final isLoading = ref.watch(profileAppBarMoreControllerProvider).isLoading;
-    final uploadState = ref.watch(uploadProgressStateProvider);
 
     final textTheme = Theme.of(context).textTheme;
     final primaryColor = Theme.of(context).colorScheme.primary;
@@ -241,10 +239,8 @@ class CustomProfileScreen extends ConsumerWidget {
       floatingActionButton: isLoading
           ? Center(
               child: PercentCircularIndicator(
-                // backgroundColor: Colors.white,
-                strokeWidth: 8,
-                percentage: uploadState.percentage,
-              ),
+                  // backgroundColor: Colors.white,
+                  ),
             )
           : null,
     );

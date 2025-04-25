@@ -5,7 +5,6 @@ import 'package:applimode_app/src/common_widgets/title_text_widget.dart';
 import 'package:applimode_app/src/common_widgets/user_items/writer_item.dart';
 import 'package:applimode_app/src/common_widgets/youtube_link_shot.dart';
 import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/round_block_item.dart';
 import 'package:applimode_app/src/features/video_player/main_video_player.dart';
@@ -52,7 +51,6 @@ class RoundPostsItem extends ConsumerWidget {
     // debugInvertOversizedImages = true;
 
     final writerAsync = ref.watch(writerFutureProvider(post.uid));
-    final adminSettings = ref.watch(adminSettingsProvider);
     final mainImageUrl = post.mainImageUrl;
     final mainVideoUrl = post.mainVideoUrl;
     final mainVideoImageUrl = post.mainVideoImageUrl;
@@ -233,17 +231,6 @@ class RoundPostsItem extends ConsumerWidget {
                                 profileImagesize: roundPostsItemProfileSize,
                                 nameColor: Colors.white,
                                 showSubtitle: true,
-                                showMainCategory: adminSettings.useCategory,
-                                showLikeCount: adminSettings.showLikeCount,
-                                showDislikeCount:
-                                    adminSettings.showDislikeCount,
-                                showCommentCount:
-                                    adminSettings.showCommentCount,
-                                showCommentPlusLikeCount:
-                                    adminSettings.showCommentPlusLikeCount,
-                                showSumCount: adminSettings.showSumCount,
-                                isThumbUpToHeart:
-                                    adminSettings.isThumbUpToHeart,
                                 captionColor: Colors.white,
                                 countColor: Colors.white,
                                 index: index,

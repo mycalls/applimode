@@ -1,6 +1,5 @@
 import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
 import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_block_item.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item_contents.dart';
 import 'package:applimode_app/custom_settings.dart';
@@ -44,7 +43,6 @@ class SmallPostsItem extends ConsumerWidget {
 
     final writerAsync = ref.watch(writerFutureProvider(post.uid));
     final mainMediaUrl = post.mainImageUrl ?? post.mainVideoImageUrl;
-    final mainCategory = ref.watch(adminSettingsProvider).mainCategory;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final horizontalPadding = screenWidth > pcWidthBreakpoint
@@ -92,7 +90,6 @@ class SmallPostsItem extends ConsumerWidget {
                           child: SmallPostsItemContents(
                             post: post,
                             writer: writer,
-                            mainCategory: mainCategory,
                             isRankingPage: isRankingPage,
                             isLikeRanking: isLikeRanking,
                             isDislikeRanking: isDislikeRanking,

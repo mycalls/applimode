@@ -5,7 +5,6 @@ import 'package:applimode_app/src/common_widgets/title_text_widget.dart';
 import 'package:applimode_app/src/common_widgets/user_items/writer_item.dart';
 import 'package:applimode_app/src/common_widgets/youtube_link_shot.dart';
 import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/basic_block_item.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/page_item_buttons.dart';
@@ -51,7 +50,6 @@ class BasicPostsItem extends ConsumerWidget {
     // debugInvertOversizedImages = true;
 
     final writerAsync = ref.watch(writerFutureProvider(post.uid));
-    final adminSettings = ref.watch(adminSettingsProvider);
     final mainImageUrl = post.mainImageUrl;
     final mainVideoUrl = post.mainVideoUrl;
     final mainVideoImageUrl = post.mainVideoImageUrl;
@@ -208,34 +206,17 @@ class BasicPostsItem extends ConsumerWidget {
                                 if (!post.isNoWriter)
                                   WriterItem(
                                     writer: writer,
+                                    isPage: isPage,
                                     post: post,
                                     width: getMaxWidth(
                                       context,
-                                      postsListType:
-                                          adminSettings.postsListType,
+                                      postsListType: isPage
+                                          ? PostsListType.page
+                                          : PostsListType.square,
                                     ),
                                     profileImagesize: basicPostsItemProfileSize,
                                     nameColor: Colors.white,
                                     showSubtitle: true,
-                                    showMainCategory: adminSettings.useCategory,
-                                    showLikeCount: isPage
-                                        ? false
-                                        : adminSettings.showLikeCount,
-                                    showDislikeCount: isPage
-                                        ? false
-                                        : adminSettings.showDislikeCount,
-                                    showCommentCount: isPage
-                                        ? false
-                                        : adminSettings.showCommentCount,
-                                    showCommentPlusLikeCount: isPage
-                                        ? false
-                                        : adminSettings
-                                            .showCommentPlusLikeCount,
-                                    showSumCount: isPage
-                                        ? false
-                                        : adminSettings.showSumCount,
-                                    isThumbUpToHeart:
-                                        adminSettings.isThumbUpToHeart,
                                     captionColor: Colors.white,
                                     countColor: Colors.white,
                                     index: index,
@@ -252,11 +233,10 @@ class BasicPostsItem extends ConsumerWidget {
                                     !post.isNoTitle) ...[
                                   const SizedBox(height: 12),
                                   SizedBox(
-                                    width: getMaxWidth(
-                                      context,
-                                      postsListType:
-                                          adminSettings.postsListType,
-                                    ),
+                                    width: getMaxWidth(context,
+                                        postsListType: isPage
+                                            ? PostsListType.page
+                                            : PostsListType.square),
                                     child: TitleTextWidget(
                                       title: post.title,
                                       textStyle: postTitleStyle,

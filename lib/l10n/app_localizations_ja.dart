@@ -720,5 +720,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get defaultVideoMute => 'デフォルトで動画をミュート';
 
   @override
+  String get processing => '処理中...';
+
+  @override
   String get unknown => '不明';
 }

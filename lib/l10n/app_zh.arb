@@ -236,5 +236,6 @@
   "customReport": "其他（请具体说明）",
   "adminsOnlyPosting": "仅限管理员发帖",
   "defaultVideoMute": "默认视频静音",
+   "processing": "处理中...",
   "unknown": "未知"
 }

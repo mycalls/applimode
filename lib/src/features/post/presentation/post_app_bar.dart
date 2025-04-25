@@ -1,4 +1,3 @@
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/common_widgets/user_items/writer_item.dart';
@@ -31,11 +30,6 @@ class PostAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesProvider).value;
-    final appUser =
-        user != null ? ref.watch(appUserStreamProvider(user.uid)).value : null;
-
-    final isLoading = ref.watch(postScreenControllerProvider).isLoading;
-    final useCategory = ref.watch(adminSettingsProvider).useCategory;
 
     return SliverAppBar(
       floating: true,
@@ -46,31 +40,44 @@ class PostAppBar extends ConsumerWidget implements PreferredSizeWidget {
       title: AsyncValueWidget(
         value: writerAsync,
         data: (writer) {
-          final isAppUser =
-              writer != null && appUser != null && writer.uid == appUser.uid;
           return writer == null
               ? const SizedBox.shrink()
-              : WriterItem(
-                  writer: isAppUser ? appUser : writer,
-                  post: post,
-                  showSubtitle: true,
-                  showMainCategory: useCategory,
-                  profileImagesize: profileSizeBig,
-                  nameColor: Theme.of(context).colorScheme.primary,
-                  onTap: () => context.push(
-                    ScreenPaths.profile(writer.uid),
-                  ),
+              : Consumer(
+                  builder: (context, ref, child) {
+                    final appUser = user != null
+                        ? ref.watch(appUserStreamProvider(user.uid)).value
+                        : null;
+                    final isAppUser =
+                        appUser != null && writer.uid == appUser.uid;
+                    return WriterItem(
+                      isAppBar: true,
+                      writer: isAppUser ? appUser : writer,
+                      post: post,
+                      showSubtitle: true,
+                      profileImagesize: profileSizeBig,
+                      nameColor: Theme.of(context).colorScheme.primary,
+                      onTap: () => context.push(
+                        ScreenPaths.profile(writer.uid),
+                      ),
+                    );
+                  },
                 );
         },
       ),
       actions: [
         if (writerAsync.value != null && user != null)
-          IgnorePointer(
-            ignoring: isLoading,
-            child: PostAppBarMore(
-              post: post,
-              writerAsync: writerAsync,
-            ),
+          Consumer(
+            builder: (context, ref, child) {
+              final isLoading =
+                  ref.watch(postScreenControllerProvider).isLoading;
+              return IgnorePointer(
+                ignoring: isLoading,
+                child: PostAppBarMore(
+                  post: post,
+                  writerAsync: writerAsync,
+                ),
+              );
+            },
           ),
       ],
     );

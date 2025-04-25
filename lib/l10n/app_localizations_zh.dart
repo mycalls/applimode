@@ -720,5 +720,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get defaultVideoMute => '默认视频静音';
 
   @override
+  String get processing => '处理中...';
+
+  @override
   String get unknown => '未知';
 }

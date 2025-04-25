@@ -236,5 +236,6 @@
   "customReport": "직접입력",
   "adminsOnlyPosting": "관리자 전용 게시 허용",
   "defaultVideoMute": "비디오 기본 음소거",
+   "processing": "처리중...",
   "unknown": "무명"
 }
