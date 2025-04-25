@@ -1,6 +1,7 @@
 import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 import 'package:applimode_app/src/features/video_player/base_video_player.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_gesture_detector.dart';
+import 'package:applimode_app/src/features/video_player/video_player_components/video_left_duration.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_player_center_icon.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_progress_bar.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_volume_button.dart';
@@ -117,10 +118,12 @@ class _MainVideoPlayerState extends BaseVideoPlayerState<MainVideoPlayer> {
                 alignment: Alignment.center,
                 child: CupertinoActivityIndicator(color: Colors.white),
               ),
-            if (!controller!.value.isPlaying)
+            if (!controller!.value.isPlaying) ...[
               VideoPlayerCenterIcon(
                 isRound: widget.isRound,
               ),
+              VideoLeftDuration(controller: controller!),
+            ],
             VideoPlayerGestureDetector(
               controller: controller!,
             ),
@@ -130,7 +133,6 @@ class _MainVideoPlayerState extends BaseVideoPlayerState<MainVideoPlayer> {
               left: widget.isPage ? true : false,
               right: widget.isPage ? true : false,
               child: VideoVolumeButton(
-                padding: const EdgeInsets.only(top: 8, left: 8),
                 controller: controller!,
               ),
             ),

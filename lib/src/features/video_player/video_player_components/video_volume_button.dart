@@ -23,10 +23,10 @@ class VideoVolumeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: padding ?? const EdgeInsets.all(8.0),
-      child: Align(
-        alignment: alignment ?? Alignment.topRight,
+    return Align(
+      alignment: alignment ?? Alignment.topRight,
+      child: Padding(
+        padding: padding ?? const EdgeInsets.only(top: 8, right: 8),
         child: IconButton(
           onPressed: () {
             if (controller.value.volume == 0.0) {

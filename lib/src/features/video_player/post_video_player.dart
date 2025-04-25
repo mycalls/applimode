@@ -2,20 +2,17 @@ import 'dart:io';
 
 import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 import 'package:applimode_app/src/features/video_player/base_video_player.dart';
+import 'package:applimode_app/src/features/video_player/video_player_components/full_video_screen_button.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_gesture_detector.dart';
+import 'package:applimode_app/src/features/video_player/video_player_components/video_left_duration.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_player_center_icon.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_progress_bar.dart';
 import 'package:applimode_app/src/features/video_player/video_player_components/video_volume_button.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/utils/custom_headers.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
 class PostVideoPlayer extends BaseVideoPlayer {
@@ -132,70 +129,21 @@ class _PostVideoPlayerState extends BaseVideoPlayerState<PostVideoPlayer> {
                   color: Colors.white,
                 ),
               ),
-            if (!controller!.value.isPlaying) const VideoPlayerCenterIcon(),
+            if (!controller!.value.isPlaying) ...[
+              const VideoPlayerCenterIcon(),
+              VideoLeftDuration(controller: controller!),
+            ],
             VideoPlayerGestureDetector(
               controller: controller!,
             ),
             VideoVolumeButton(
               controller: controller!,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  onPressed: () async {
-                    if (isFullScreen) {
-                      if (kIsWeb) {
-                        WebBackStub().back();
-                      } else {
-                        if (context.canPop()) {
-                          context.pop(widget.videoController);
-                        }
-                      }
-                    } else {
-                      if (kIsWeb) {
-                        controller!.pause();
-                        await context.push(
-                          ScreenPaths.fullVideo(widget.videoUrl),
-                          extra: {
-                            'controller': null,
-                            'position': controller?.value.position,
-                          },
-                        );
-                      } else {
-                        await context.push(
-                          ScreenPaths.fullVideo(widget.videoUrl),
-                          extra: {
-                            'controller': controller,
-                            'position': null,
-                          },
-                        );
-                      }
-                    }
-                  },
-                  icon: const Icon(
-                    Icons.fullscreen,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            FullVideoScreenButton(
+              videoUrl: widget.videoUrl,
+              isFullScreen: isFullScreen,
+              controller: controller,
             ),
-            if (!controller!.value.isPlaying)
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16, bottom: 16),
-                  child: Text(
-                    Format.durationToString(controller!.value.duration -
-                        controller!.value.position),
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
             VideoProgressBar(controller: controller!),
           ],
         ),
