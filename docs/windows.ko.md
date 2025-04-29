@@ -53,11 +53,11 @@ git --version
 
 ## VSCode 및 Flutter SDK 설치
 * [VSCode](https://code.visualstudio.com/)를 다운로드, 설치 및 실행합니다.
-* Command Palette를 열려면 VSCode 상단 메뉴에서 **View**를 클릭하고 **Command Palette...**를 선택합니다. (또는 ```Ctrl``` + ```Shift``` + ```P```를 누릅니다.)
-* *shell*을 입력하고 **Shell Command: Install 'code' command in PATH**를 선택합니다.
+<!--* Command Palette를 열려면 VSCode 상단 메뉴에서 **View**를 클릭하고 **Command Palette...**를 선택합니다. (또는 ```Ctrl``` + ```Shift``` + ```P```를 누릅니다.)
+* *shell*을 입력하고 **Shell Command: Install 'code' command in PATH**를 선택합니다.-->
 * VSCode 상단 메뉴에서 **View**를 클릭하고 **Extensions**를 선택합니다. (또는 ```Ctrl``` + ```Shift``` + ```X```를 누릅니다.)
 * *flutter*를 입력하고 **Install**을 클릭합니다.
-* VSCode 상단 메뉴에서 **View**를 클릭하고 **Command Palette...**를 선택합니다. (또는 ```Ctrl``` + ```Shift``` + ```P```를 누릅니다.)
+* Command Palette를 열려면 VSCode 상단 메뉴에서 **View**를 클릭하고 **Command Palette...**를 선택합니다. (또는 ```Ctrl``` + ```Shift``` + ```P```를 누릅니다.)
 * **Command Palette**에서 *flutter*를 입력합니다.
 * **Flutter: New Project**를 선택합니다.
 * 오른쪽 하단에서 **Download SDK**를 클릭합니다.

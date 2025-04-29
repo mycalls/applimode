@@ -6,6 +6,7 @@
 ## Version 0.3.7 (April 30, 2025)
 - Code optimization.
 - Enhanced video gesture functionality.
+- Updated a dependency to the latest release.
 
 ## Version 0.3.6 (April 22, 2025)
 - Video player optimization.

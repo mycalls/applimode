@@ -93,11 +93,11 @@ sudo softwareupdate --install-rosetta --agree-to-license
 
 ## VSCode 및 Flutter SDK 설치
 * [VSCode](https://code.visualstudio.com/)를 다운로드, 설치 및 실행합니다.
-* Command Palette를 열려면 ```Command``` + ```Shift``` + ```P```를 누릅니다. (또는 **View** > **Command Palette** 선택)
-* *shell*을 입력하고 **Shell Command: Install 'code' command in PATH**를 선택합니다.
+<!--* Command Palette를 열려면 ```Command``` + ```Shift``` + ```P```를 누릅니다. (또는 **View** > **Command Palette** 선택)
+* *shell*을 입력하고 **Shell Command: Install 'code' command in PATH**를 선택합니다.-->
 * ```Command``` + ```Shift``` + ```X```를 누릅니다. (또는 **View** > **Extensions** 선택)
 * *flutter*를 입력하고 **Install**을 클릭합니다.
-* ```Command``` + ```Shift``` + ```P```를 누릅니다.
+* Command Palette를 열려면 ```Command``` + ```Shift``` + ```P```를 누릅니다. (또는 **View** > **Command Palette** 선택)
 * **Command Palette**에서 *flutter*를 입력합니다.
 * **Flutter: New Project**를 선택합니다.
 * 오른쪽 하단에서 **Download SDK**를 클릭합니다.
