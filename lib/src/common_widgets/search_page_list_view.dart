@@ -55,9 +55,9 @@ class SearchPageListView<Document> extends ConsumerStatefulWidget {
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.useDidUpdateWidget = false,
-    this.refreshUpdatedDocs = false,
-    this.resetUpdatedDocIds,
-    this.updatedDocsState,
+    this.refreshUpdatedDoc = false,
+    // this.resetUpdatedDocIds,
+    this.updatedDocState,
     this.useUid = false,
     this.isSliver = false,
   });
@@ -89,9 +89,9 @@ class SearchPageListView<Document> extends ConsumerStatefulWidget {
   final String? restorationId;
   final Clip clipBehavior;
   final bool useDidUpdateWidget;
-  final bool refreshUpdatedDocs;
-  final VoidCallback? resetUpdatedDocIds;
-  final ProviderListenable<List<String>>? updatedDocsState;
+  final bool refreshUpdatedDoc;
+  // final VoidCallback? resetUpdatedDocIds;
+  final ProviderListenable<String?>? updatedDocState;
   final bool useUid;
   final bool isSliver;
 
@@ -238,29 +238,27 @@ class _SearchPageListViewState<Document>
     }
   }
 
-  Future<void> _updateDocs(List<String> updatedDocIds) async {
+  Future<void> _updateDocs(String updatedDocId) async {
     if (_isCancelled) return;
     try {
-      if (docs.isNotEmpty && updatedDocIds.isNotEmpty) {
+      if (docs.isNotEmpty) {
         final docIds = List.from(docs.map((snapshot) => snapshot.id));
-        for (final updatedDocId in updatedDocIds) {
-          if (docIds.contains(updatedDocId)) {
-            final newDoc = await widget.query(updatedDocId).get();
-            if (newDoc.data() == null) {
-              docs = docs.where((doc) => doc.id != updatedDocId).toList();
-            } else {
-              docs = [
-                for (final doc in docs)
-                  if (doc.id == updatedDocId) newDoc else doc
-              ];
-            }
+        if (docIds.contains(updatedDocId)) {
+          final newDoc = await widget.query(updatedDocId).get();
+          if (newDoc.data() == null) {
+            docs = docs.where((doc) => doc.id != updatedDocId).toList();
+          } else {
+            docs = [
+              for (final doc in docs)
+                if (doc.id == updatedDocId) newDoc else doc
+            ];
           }
         }
         if (_isCancelled) return;
         if (mounted) {
           safeBuildCall(() => setState(() {}));
         }
-        widget.resetUpdatedDocIds?.call();
+        // widget.resetUpdatedDocIds?.call();
       }
     } catch (e) {
       debugPrint('updateDocs error: ${e.toString()}');
@@ -280,10 +278,12 @@ class _SearchPageListViewState<Document>
       });
     }
 
-    if (widget.refreshUpdatedDocs && widget.updatedDocsState != null) {
-      ref.listen(widget.updatedDocsState!, (_, next) {
+    if (widget.refreshUpdatedDoc && widget.updatedDocState != null) {
+      ref.listen(widget.updatedDocState!, (_, next) {
         dev.log('updatedDocs: $next');
-        _updateDocs(next);
+        if (next != null) {
+          _updateDocs(next);
+        }
       });
     }
 

@@ -1,22 +1,24 @@
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/comments/application/post_comments_service.dart';
-import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
+import 'package:applimode_app/src/features/comments/application/user_post_comment_dislike_data_provider.dart';
+import 'package:applimode_app/src/features/comments/application/user_post_comment_like_data_provider.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/utils/app_states/updated_comment_id.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
+import 'package:applimode_app/src/utils/app_states/updated_user_id.dart';
 import 'package:applimode_app/src/utils/call_fcm_function.dart';
 import 'package:applimode_app/src/utils/is_firestore_not_found.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/src/utils/nanoid.dart';
 import 'package:applimode_app/src/utils/now_to_int.dart';
-import 'package:applimode_app/src/utils/updated_comment_ids_list.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
-import 'package:applimode_app/src/utils/updated_user_ids_list.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -36,27 +38,15 @@ class PostCommentController extends _$PostCommentController {
   }
 
   Future<bool> leaveComment({
-    String? postId,
+    required String postId,
     String? parentCommentId,
     required bool isReply,
     String? content,
     XFile? xFile,
     String? mediaType,
-    AppUser? postWriter,
     required String commentNotiString,
     required String replyNotiString,
   }) async {
-    final user = ref.read(authRepositoryProvider).currentUser;
-    final listState = ref.read(postCommentsListStateControllerProvider);
-    if (user == null) {
-      state = AsyncError(NeedLogInException(), StackTrace.current);
-      return false;
-    }
-    if (postId == null) {
-      state = AsyncError(PageNotFoundException(), StackTrace.current);
-      return false;
-    }
-
     if (content == null && xFile == null) {
       state = AsyncError(EmptyContentException(), StackTrace.current);
       return false;
@@ -64,15 +54,34 @@ class PostCommentController extends _$PostCommentController {
 
     state = const AsyncLoading();
 
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
+    final user = ref.read(authRepositoryProvider).currentUser;
+
+    if (user == null) {
+      state = AsyncError(NeedLogInException(), StackTrace.current);
+      return false;
+    }
+
+    Post? currentPost;
     try {
-      if (postWriter == null) {
-        final post = await ref.read(postsRepositoryProvider).fetchPost(postId);
-        if (post != null) {
-          postWriter = await ref.read(appUserFutureProvider(post.uid).future);
-        }
-      }
+      currentPost = await ref.read(postDataProvider(PostArgs(postId)).future);
     } catch (e) {
       state = AsyncError(PageNotFoundException(), StackTrace.current);
+      return false;
+    }
+
+    if (currentPost == null) {
+      state = AsyncError(PageNotFoundException(), StackTrace.current);
+      return false;
+    }
+
+    AppUser? postWriter;
+    try {
+      postWriter = await ref.read(appUserDataProvider(currentPost.uid).future);
+    } catch (e) {
+      state = AsyncError(PostWriterNotFoundException(), StackTrace.current);
       return false;
     }
 
@@ -80,6 +89,8 @@ class PostCommentController extends _$PostCommentController {
       state = AsyncError(PostWriterNotFoundException(), StackTrace.current);
       return false;
     }
+
+    final listState = ref.read(postCommentsListStateControllerProvider);
 
     final key = this.key;
     final id = nanoid();
@@ -100,7 +111,7 @@ class PostCommentController extends _$PostCommentController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -131,7 +142,8 @@ class PostCommentController extends _$PostCommentController {
     }
 
     // update posts list
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    postNotifier.optimisticIncreaseComment();
     // support live updage when only byCreatedAt
     // refresh comments list menually
     if (!listState.byCreatedAt) {
@@ -157,6 +169,10 @@ class PostCommentController extends _$PostCommentController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => PostCommentsService(ref).deletePostComment(
@@ -170,8 +186,8 @@ class PostCommentController extends _$PostCommentController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
-        ref.read(updatedCommentIdsListProvider.notifier).set(id);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
+        ref.read(updatedCommentIdProvider.notifier).set(id);
         return false;
       } else {
         state = newState;
@@ -183,10 +199,12 @@ class PostCommentController extends _$PostCommentController {
       return false;
     }
 
+    postNotifier.optimisticDecreaseComment();
+
     // update posts list
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
     // update comments list
-    ref.read(updatedCommentIdsListProvider.notifier).set(id);
+    ref.read(updatedCommentIdProvider.notifier).set(id);
 
     return true;
   }
@@ -207,6 +225,14 @@ class PostCommentController extends _$PostCommentController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(commentWriterId).notifier);
+    final commentLikeNotifier = ref.read(
+        userPostCommentLikeDataProvider(commentId: commentId, uid: user.uid)
+            .notifier);
+
     final key = this.key;
     final id = const Uuid().v7();
     final newState = await AsyncValue.guard(
@@ -224,7 +250,7 @@ class PostCommentController extends _$PostCommentController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+        ref.read(updatedCommentIdProvider.notifier).set(commentId);
         return false;
       } else {
         state = newState;
@@ -239,7 +265,7 @@ class PostCommentController extends _$PostCommentController {
     if (useFcmMessage) {
       try {
         commentWriter ??=
-            await ref.read(appUserFutureProvider(commentWriterId).future);
+            await ref.read(appUserDataProvider(commentWriterId).future);
 
         if (commentWriter != null &&
             commentWriter.fcmToken != null &&
@@ -256,14 +282,21 @@ class PostCommentController extends _$PostCommentController {
       }
     }
 
-    ref.invalidate(postCommentLikesByUserFutureProvider);
-    ref.invalidate(writerFutureProvider);
     // update comments list
-    ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+    ref.read(updatedCommentIdProvider.notifier).set(commentId);
     // update users list
-    ref.read(updatedUserIdsListProvider.notifier).set(commentWriterId);
+    ref.read(updatedUserIdProvider.notifier).set(commentWriterId);
     // refresh likes list
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.increaseOptimisticLike();
+    commentLikeNotifier.increaseOptimisticLike(
+      id: id,
+      postId: postId,
+      commentWriterId: commentWriterId,
+      postWriterId: postWriterId,
+      parentCommentId: parentCommentId,
+    );
 
     return true;
   }
@@ -280,6 +313,14 @@ class PostCommentController extends _$PostCommentController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(commentWriterId).notifier);
+    final commentLikeNotifier = ref.read(
+        userPostCommentLikeDataProvider(commentId: commentId, uid: user.uid)
+            .notifier);
+
     final key = this.key;
     final newState = await AsyncValue.guard(
       () => PostCommentsService(ref).decreasePostCommentLike(
@@ -292,7 +333,7 @@ class PostCommentController extends _$PostCommentController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+        ref.read(updatedCommentIdProvider.notifier).set(commentId);
         return false;
       } else {
         state = newState;
@@ -304,14 +345,15 @@ class PostCommentController extends _$PostCommentController {
       return false;
     }
 
-    ref.invalidate(postCommentLikesByUserFutureProvider);
-    ref.invalidate(writerFutureProvider);
     // update comments list
-    ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+    ref.read(updatedCommentIdProvider.notifier).set(commentId);
     // update users list
-    ref.read(updatedUserIdsListProvider.notifier).set(commentWriterId);
+    ref.read(updatedUserIdProvider.notifier).set(commentWriterId);
     // refresh likes list
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.decreaseOptimisticLike();
+    commentLikeNotifier.decreaseOptimisticLike();
 
     return true;
   }
@@ -330,6 +372,14 @@ class PostCommentController extends _$PostCommentController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(commentWriterId).notifier);
+    final commentLikeNotifier = ref.read(
+        userPostCommentDislikeDataProvider(commentId: commentId, uid: user.uid)
+            .notifier);
+
     final key = this.key;
     final id = const Uuid().v7();
     final newState = await AsyncValue.guard(
@@ -347,7 +397,7 @@ class PostCommentController extends _$PostCommentController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+        ref.read(updatedCommentIdProvider.notifier).set(commentId);
         return false;
       } else {
         state = newState;
@@ -359,14 +409,21 @@ class PostCommentController extends _$PostCommentController {
       return false;
     }
 
-    ref.invalidate(postCommentLikesByUserFutureProvider);
-    ref.invalidate(writerFutureProvider);
     // update comments list
-    ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+    ref.read(updatedCommentIdProvider.notifier).set(commentId);
     // update users list
-    ref.read(updatedUserIdsListProvider.notifier).set(commentWriterId);
+    ref.read(updatedUserIdProvider.notifier).set(commentWriterId);
     // refresh likes list
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.increaseOptimisticDislike();
+    commentLikeNotifier.increaseOptimisticDislike(
+      id: id,
+      postId: postId,
+      commentWriterId: commentWriterId,
+      postWriterId: postWriterId,
+      parentCommentId: parentCommentId,
+    );
 
     return true;
   }
@@ -383,6 +440,14 @@ class PostCommentController extends _$PostCommentController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(commentWriterId).notifier);
+    final commentLikeNotifier = ref.read(
+        userPostCommentDislikeDataProvider(commentId: commentId, uid: user.uid)
+            .notifier);
+
     final key = this.key;
     final newState = await AsyncValue.guard(
       () => PostCommentsService(ref).decreasePostCommentDislike(
@@ -395,7 +460,7 @@ class PostCommentController extends _$PostCommentController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+        ref.read(updatedCommentIdProvider.notifier).set(commentId);
         return false;
       } else {
         state = newState;
@@ -407,14 +472,15 @@ class PostCommentController extends _$PostCommentController {
       return false;
     }
 
-    ref.invalidate(postCommentLikesByUserFutureProvider);
-    ref.invalidate(writerFutureProvider);
     // update comments list
-    ref.read(updatedCommentIdsListProvider.notifier).set(commentId);
+    ref.read(updatedCommentIdProvider.notifier).set(commentId);
     // update users list
-    ref.read(updatedUserIdsListProvider.notifier).set(commentWriterId);
+    ref.read(updatedUserIdProvider.notifier).set(commentWriterId);
     // refresh likes list
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.decreaseOptimisticDislike();
+    commentLikeNotifier.decreaseOptimisticDislike();
 
     return true;
   }

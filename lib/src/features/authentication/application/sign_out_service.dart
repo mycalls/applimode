@@ -18,8 +18,6 @@ class SignOutService {
     }
     await _ref.read(authRepositoryProvider).signOut();
     // _ref.invalidate(authStateChangesProvider);
-    // _ref.invalidate(appUserFutureProvider);
-    // _ref.invalidate(appUserStreamProvider);
   }
 }
 

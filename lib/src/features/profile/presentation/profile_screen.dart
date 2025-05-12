@@ -1,4 +1,5 @@
 import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/animated_color_container.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
@@ -10,7 +11,6 @@ import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicat
 import 'package:applimode_app/src/common_widgets/user_items/user_item.dart';
 import 'package:applimode_app/src/common_widgets/web_back_button.dart';
 import 'package:applimode_app/src/features/authentication/application/sign_out_service.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/profile/presentation/buttons/profile_text_button.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_app_bar_more.dart';
@@ -43,9 +43,7 @@ class CustomProfileScreen extends ConsumerWidget {
 
     final user = ref.watch(authStateChangesProvider).value;
     final userEmail = user?.email;
-    final profileUserFuture = user != null && user.uid == uid
-        ? ref.watch(appUserFutureProvider(uid))
-        : ref.watch(writerFutureProvider(uid));
+    final profileUserFuture = ref.watch(appUserDataProvider(uid));
     final screenState = ref.watch(profileScreenControllerProvider);
     final isLoading = ref.watch(profileAppBarMoreControllerProvider).isLoading;
 
@@ -73,7 +71,7 @@ class CustomProfileScreen extends ConsumerWidget {
                   return ErrorScaffold(errorMessage: context.loc.userNotExist);
                 }
                 final adminUser = user != null
-                    ? ref.watch(appUserFutureProvider(user.uid)).value
+                    ? ref.watch(appUserDataProvider(user.uid)).value
                     : null;
                 return Stack(
                   children: [

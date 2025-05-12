@@ -1,3 +1,4 @@
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:flutter/widgets.dart';
@@ -35,7 +36,7 @@ class EditBioScreenController extends _$EditBioScreenController {
       return false;
     }
 
-    ref.invalidate(appUserFutureProvider);
+    ref.read(appUserDataProvider(user.uid).notifier).refresh();
 
     return true;
 

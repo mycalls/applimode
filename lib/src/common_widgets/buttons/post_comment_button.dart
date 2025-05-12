@@ -23,8 +23,7 @@ class PostCommentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return useIconButton
         ? IconButton(
-            onPressed: () =>
-                context.push(ScreenPaths.comments(postId), extra: postWriter),
+            onPressed: () => context.push(ScreenPaths.comments(postId)),
             icon: Icon(
               Icons.chat_bubble_outline_rounded,
               color: iconColor ?? Theme.of(context).colorScheme.secondary,
@@ -32,8 +31,7 @@ class PostCommentButton extends StatelessWidget {
             ),
           )
         : InkWell(
-            onTap: () =>
-                context.push(ScreenPaths.comments(postId), extra: postWriter),
+            onTap: () => context.push(ScreenPaths.comments(postId)),
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: const BoxDecoration(

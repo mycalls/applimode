@@ -3,7 +3,6 @@ import 'package:applimode_app/src/common_widgets/image_widgets/platform_image.da
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
 import 'package:applimode_app/src/utils/safe_build_call.dart';
 import 'package:flutter/foundation.dart';
@@ -22,12 +21,10 @@ class PostCommentsScreenBottomBar extends ConsumerStatefulWidget {
     super.key,
     required this.postId,
     this.parentCommentId,
-    this.postWriter,
   });
 
   final String postId;
   final String? parentCommentId;
-  final AppUser? postWriter;
 
   @override
   ConsumerState<PostCommentsScreenBottomBar> createState() =>
@@ -82,7 +79,6 @@ class _PostCommentsScreenBottomBarState
               content: _controller.text,
               xFile: _pickedFile,
               mediaType: _mediaType,
-              postWriter: widget.postWriter,
               commentNotiString: context.loc.commentNoti,
               replyNotiString: context.loc.replyNoti,
             );

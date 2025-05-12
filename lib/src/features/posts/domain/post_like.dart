@@ -41,6 +41,24 @@ class PostLike extends Equatable {
     };
   }
 
+  PostLike copyWith({
+    String? id,
+    String? uid,
+    String? postId,
+    String? postWriterId,
+    bool? isDislike,
+    DateTime? createdAt,
+  }) {
+    return PostLike(
+      id: id ?? this.id,
+      uid: uid ?? this.uid,
+      postId: postId ?? this.postId,
+      postWriterId: postWriterId ?? this.postWriterId,
+      isDislike: isDislike ?? this.isDislike,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
   @override
   bool? get stringify => true;
 

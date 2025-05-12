@@ -6,14 +6,16 @@ import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/exceptions/app_exception.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
+import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
 import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/r_two_storage/r_two_storage_repository.dart';
 import 'package:applimode_app/src/features/search/data/d_one_repository.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
 import 'package:applimode_app/src/utils/build_remote_media.dart';
 import 'package:applimode_app/src/utils/call_fcm_function.dart';
 import 'package:applimode_app/src/utils/compare_lists.dart';
@@ -27,7 +29,6 @@ import 'package:applimode_app/src/utils/string_converter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 import 'package:applimode_app/src/utils/upload_progress_state.dart';
 import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
 import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
@@ -60,11 +61,14 @@ class EditorScreenController extends _$EditorScreenController {
     required bool hasPostContent,
     String? postId,
     List<String>? oldRemoteMedia,
-    AppUser? writer,
     required String postNotiString,
+    Post? currentPost,
   }) async {
     WakelockPlus.enable();
     final user = ref.read(authRepositoryProvider).currentUser;
+    final writer = currentPost == null
+        ? null
+        : await ref.read(appUserDataProvider(currentPost.uid).future);
 
     if (user == null) {
       WakelockPlus.disable();
@@ -88,7 +92,11 @@ class EditorScreenController extends _$EditorScreenController {
 
     state = const AsyncLoading();
 
-    final appUser = await ref.read(appUserFutureProvider(user.uid).future);
+    if (postId != null && kIsWasm) {
+      ref.read(postDataProvider(PostArgs(postId)));
+    }
+
+    final appUser = await ref.read(appUserDataProvider(user.uid).future);
     // If only the administrator can write, check permissions
     // 관리자만 글쓰기가 가능할 경우, 권한 체크
     final isAdminOnlyWrite = ref.read(adminSettingsProvider).adminOnlyWrite;
@@ -136,6 +144,11 @@ class EditorScreenController extends _$EditorScreenController {
     String? mainImageUrl;
     String? mainVideoUrl;
     final List<String> hashtags = [];
+
+    String contentTitle = '';
+    bool isLongContent = false;
+    RegExpMatch? firstRemoteVideo;
+    RegExpMatch? firstWebVideo;
 
     final storageRepository = ref.read(firebaseStorageRepositoryProvider);
     final rTwoRepository = ref.read(rTwoStorageRepositoryProvider);
@@ -605,8 +618,8 @@ class EditorScreenController extends _$EditorScreenController {
 
       // get mainVideoUrl
       // no need to try-catch
-      final firstRemoteVideo = Regex.remoteVideoRegex.firstMatch(newContent);
-      final firstWebVideo = Regex.webVideoRegex.firstMatch(newContent);
+      firstRemoteVideo = Regex.remoteVideoRegex.firstMatch(newContent);
+      firstWebVideo = Regex.webVideoRegex.firstMatch(newContent);
       final firstWebUrlVideo = Regex.webVideoUrlRegex.firstMatch(newContent);
       if (firstRemoteVideo != null) {
         mainVideoUrl = firstRemoteVideo[2];
@@ -623,12 +636,12 @@ class EditorScreenController extends _$EditorScreenController {
       // get post title
       final preContentTitle = StringConverter.toTitle(newContent);
       // to shorten post title length
-      final contentTitle = preContentTitle.length > contentTitleSize
+      contentTitle = preContentTitle.length > contentTitleSize
           ? preContentTitle.substring(0, contentTitleSize)
           : preContentTitle;
 
       // when post content is very long
-      final isLongContent = utf8.encode(newContent).length > longContentSize;
+      isLongContent = utf8.encode(newContent).length > longContentSize;
       if (isLongContent) {
         // to shorten post content length when saving on firestore
         // firestore의 posts에 저장될 content 길이를 줄이기 위해
@@ -737,7 +750,26 @@ class EditorScreenController extends _$EditorScreenController {
       if (postId == null) {
         ref.read(postsListStateProvider.notifier).set(nowToInt());
       } else {
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
+        if (currentPost != null) {
+          ref
+              .read(postDataProvider(PostArgs(postId)).notifier)
+              .optimisticEdit(currentPost.copyWith(
+                // id: id,
+                // uid: postWriterId,
+                content: newContent,
+                title: contentTitle,
+                isLongContent: isLongContent,
+                isNoTitle: newContent.contains(noTitleTag),
+                isNoWriter: newContent.contains(noWriterTag),
+                category: category,
+                mainImageUrl: mainImageUrl,
+                mainVideoUrl: mainVideoUrl,
+                mainVideoImageUrl: firstRemoteVideo?[1] ?? firstWebVideo?[1],
+                tags: hashtags,
+                updatedAt: DateTime.now(),
+              ));
+        }
       }
 
       // ref.invalidate(mainPostsFutureProvider);
@@ -748,25 +780,5 @@ class EditorScreenController extends _$EditorScreenController {
     }
 
     return true;
-
-    /*
-    if (postId == null) {
-      if (ref.read(goRouterProvider).canPop()) {
-        ref.read(goRouterProvider).pop();
-      }
-    } else {
-      // refresh post
-      // 기존 포스트 새로고침
-      ref.invalidate(postFutureProvider);
-      if (ref.read(goRouterProvider).canPop()) {
-        ref.read(goRouterProvider).pop();
-      }
-      if (ref.read(goRouterProvider).canPop()) {
-        ref.read(goRouterProvider).replace(
-              ScreenPaths.post(id),
-            );
-      }
-    }
-    */
   }
 }

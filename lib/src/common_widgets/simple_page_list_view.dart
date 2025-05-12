@@ -68,11 +68,11 @@ class SimplePageListView<Document> extends ConsumerStatefulWidget {
     this.padEnds = true,
     this.recentDocQuery,
     this.useDidUpdateWidget = false,
-    this.refreshUpdatedDocs = false,
+    this.refreshUpdatedDoc = false,
     this.updatedDocQuery,
     this.isRootTabel = false,
-    this.resetUpdatedDocIds,
-    this.updatedDocsState,
+    // this.resetUpdatedDocIds,
+    this.updatedDocState,
     this.useUid = false,
     this.isSearchView = false,
     this.isNoGridView = false,
@@ -117,11 +117,11 @@ class SimplePageListView<Document> extends ConsumerStatefulWidget {
   final bool padEnds;
   final Query<Document>? recentDocQuery;
   final bool useDidUpdateWidget;
-  final bool refreshUpdatedDocs;
+  final bool refreshUpdatedDoc;
   final Query<Document>? updatedDocQuery;
   final bool isRootTabel;
-  final VoidCallback? resetUpdatedDocIds;
-  final ProviderListenable<List<String>>? updatedDocsState;
+  // final VoidCallback? resetUpdatedDocIds;
+  final ProviderListenable<String?>? updatedDocState;
   final bool useUid;
   final bool isSearchView;
   final bool isNoGridView;
@@ -137,25 +137,25 @@ class SimplePageListView<Document> extends ConsumerStatefulWidget {
 class _SimplePageListViewState<Document>
     extends ConsumerState<SimplePageListView<Document>>
     with WidgetsBindingObserver {
-  List<QueryDocumentSnapshot<Document>> docs = [];
+  List<QueryDocumentSnapshot<Document>> _docs = [];
   // Check if the first page of the list is being loaded
   // 리스트의 첫 페이지를 불러오는 중인지 확인
-  bool isFetching = false;
+  bool _isFetching = false;
   // Check if the next page of the list is being loaded
   // 리스트의 다음 페이지를 불러오는 중인지 확인
-  bool isFetchingMore = false;
+  bool _isFetchingMore = false;
   // Check if there are more items to load
   // 더 불러올 아이템이 있는지 확인
-  bool hasMore = false;
+  bool _hasMore = false;
   // Check if the list needs to be refreshed
   // 리스트의 새로고침이 필요할 경우 확인
-  int refreshTime = DateTime.now().millisecondsSinceEpoch;
+  int _refreshTime = DateTime.now().millisecondsSinceEpoch;
   // Check if there is a main item at the top of the list
   // 리스트 최상단에 위치하는 메인 아이템이 있는지 확인
-  bool hasMain = false;
+  bool _hasMain = false;
   // If blocked by firestore security rule
   // firestore security rule 에서 막혔을 경우
-  bool isPermissionDenied = false;
+  bool _isPermissionDenied = false;
 
   bool _isCancelled = false;
 
@@ -213,16 +213,16 @@ class _SimplePageListViewState<Document>
       // 앱이 백그라운드에서 포그라운드로 바뀔 경우 호출
       // 백그라운 상태로 앱이 2시간 이상 유지되었을 경우, 리스트 새로 불러오기
       // 그 외에, 최근 아이템을 비교해, 새로운 아이템들만 추가해 주기
-      if (!isFetching || !isFetchingMore) {
+      if (!_isFetching || !_isFetchingMore) {
         final pauseDurationInMinute = Duration(
                 milliseconds:
-                    DateTime.now().millisecondsSinceEpoch - refreshTime)
+                    DateTime.now().millisecondsSinceEpoch - _refreshTime)
             .inMinutes;
         if (pauseDurationInMinute > 120) {
           // docs = [];
           _fetchDocs();
         } else if (pauseDurationInMinute > 1) {
-          if (docs.isEmpty) {
+          if (_docs.isEmpty) {
             // docs = [];
             _fetchDocs();
           } else {
@@ -264,7 +264,7 @@ class _SimplePageListViewState<Document>
   }
 
   void _scrollListener() {
-    if (isFetching || isFetchingMore || !hasMore) return;
+    if (_isFetching || _isFetchingMore || !_hasMore) return;
     if (widget.controller != null) {
       final position = widget.controller!.position;
       if (position.pixels >= (position.maxScrollExtent - 50)) {
@@ -284,15 +284,15 @@ class _SimplePageListViewState<Document>
     // The reason we used a recent document comparison method rather than a stream
     // is to minimize the number of times posts are loaded.
     // 스트림이 아닌 최근 문서 비교 방식을 사용한 이유는 새 글을 부르는 횟수를 최소화하기 위해
-    if (_isCancelled || isFetching || isFetchingMore) return;
+    if (_isCancelled || _isFetching || _isFetchingMore) return;
     try {
       if (widget.recentDocQuery != null) {
         final snapshot = await widget.recentDocQuery!.get();
-        if (snapshot.docs.isNotEmpty && docs.isNotEmpty) {
+        if (snapshot.docs.isNotEmpty && _docs.isNotEmpty) {
           final recentDoc = snapshot.docs.first;
           // If hasMain, the length of docs is always at least 2.
           // hasMain인 경우 무조건 docs의 길이는 2 이상이다.
-          final firstDoc = hasMain ? docs[1] : docs[0];
+          final firstDoc = _hasMain ? _docs[1] : _docs[0];
           if (recentDoc.id != firstDoc.id) {
             // Get the items after the most recent item in the current docs
             // 현재 docs의 가장 최근 아이템 후의 아이템들을 가져오기
@@ -307,13 +307,13 @@ class _SimplePageListViewState<Document>
                   setState(() {
                     // If there is a main item, add new posts after the main item
                     // 메인 아이템이 있는 경우에는 메인 아이템 이후로 추가
-                    docs = hasMain
+                    _docs = _hasMain
                         ? [
-                            docs.first,
+                            _docs.first,
                             ...recentSnapshot.docs,
-                            ...docs.sublist(1)
+                            ..._docs.sublist(1)
                           ]
-                        : [...recentSnapshot.docs, ...docs];
+                        : [...recentSnapshot.docs, ..._docs];
                   });
                 });
               }
@@ -331,25 +331,25 @@ class _SimplePageListViewState<Document>
     try {
       final latestDocQuery = widget.query.limit(1);
       _liveSubscription = latestDocQuery.snapshots().listen((event) async {
-        if (isFetching || isFetchingMore) return;
-        if (docs.isEmpty) {
+        if (_isFetching || _isFetchingMore) return;
+        if (_docs.isEmpty) {
           // there is no doc in list
           // cancel when there is no doc in event
           if (event.docs.isEmpty || _isCancelled) return;
           if (mounted) {
             safeBuildCall(() {
               setState(() {
-                docs = event.docs;
+                _docs = event.docs;
               });
             });
           }
         } else {
           // there are docs in list
-          final firstDoc = hasMain ? docs[1] : docs[0];
+          final firstDoc = _hasMain ? _docs[1] : _docs[0];
           final recentSnapshot =
               await widget.query.endBeforeDocument(firstDoc).get();
           if (_isCancelled || recentSnapshot.docs.isEmpty) return;
-          final existingDocIds = docs.map((doc) => doc.id).toSet();
+          final existingDocIds = _docs.map((doc) => doc.id).toSet();
           final newDocs = recentSnapshot.docs
               .where((doc) => !existingDocIds.contains(doc.id))
               .toList();
@@ -360,9 +360,9 @@ class _SimplePageListViewState<Document>
                 setState(() {
                   // If there is a main item, add new posts after the main item
                   // 메인 아이템이 있는 경우에는 메인 아이템 이후로 추가
-                  docs = hasMain
-                      ? [docs.first, ...newDocs, ...docs.sublist(1)]
-                      : [...newDocs, ...docs];
+                  _docs = _hasMain
+                      ? [_docs.first, ...newDocs, ..._docs.sublist(1)]
+                      : [...newDocs, ..._docs];
                 });
               });
             });
@@ -377,7 +377,7 @@ class _SimplePageListViewState<Document>
   void _fetchNextPage() {
     // Executes when the last item in the list is visible and hasMore is true
     // 리스트의 마지막 아이템이 표시되고 hasMore가 참일 경우 실행
-    if (isFetching || isFetchingMore || !hasMore) {
+    if (_isFetching || _isFetchingMore || !_hasMore) {
       // Stop if loading items or there are no items to load
       // 아이템을 불러오는 중이거나, 불러올 아이템이 없을 경우 중지
       return;
@@ -396,16 +396,16 @@ class _SimplePageListViewState<Document>
       if (nextPage) {
         // when loading more
         // 로드 모어일 경우
-        isFetchingMore = true;
+        _isFetchingMore = true;
       } else {
         _liveSubscription?.cancel();
-        docs.clear();
+        _docs.clear();
         // when first page
         // 첫 페이지를 경우
-        isFetching = true;
+        _isFetching = true;
         // If docs are reloaded, such as when refreshed, hasMain is also initialized again.
         // 새로 고침했을 경우와 같이 docs를 새로 부르면 hasMain도 다시 초기화
-        hasMain = false;
+        _hasMain = false;
         if (mounted) {
           safeBuildCall(() => setState(() {}));
           /*
@@ -423,7 +423,7 @@ class _SimplePageListViewState<Document>
         // when loading more
         // 로드 모어일 경우
         querySnapshot = await widget.query
-            .startAfterDocument(docs.last)
+            .startAfterDocument(_docs.last)
             .limit(listFetchLimit + 1)
             .get();
       } else {
@@ -444,7 +444,7 @@ class _SimplePageListViewState<Document>
             // If there is a document in the main query
             // 메인쿼리에 문서가 있을 경우
             mainSnapshot = mainQuerySnapshot.docs.first;
-            hasMain = true;
+            _hasMain = true;
           }
         } else {
           // when there is no main query
@@ -457,7 +457,7 @@ class _SimplePageListViewState<Document>
         // 예를 들어 사용자가 문서를 삭제할 경우 refreshTime을 변경하고
         // Refresh the documents by comparing it to the existing refreshTime.
         // 기존의 refreshTime과 비교해 문서를 새로고침함
-        refreshTime = DateTime.now().millisecondsSinceEpoch;
+        _refreshTime = DateTime.now().millisecondsSinceEpoch;
       }
       final result = mainSnapshot != null
           ? [mainSnapshot, ...querySnapshot.docs]
@@ -467,12 +467,12 @@ class _SimplePageListViewState<Document>
       // change to a state where load more can be called.
       // 기본 쿼리의 문서수가 리미트를 초과할 경우 더 부르기 가능 상태로 변경
       if (querySnapshot.docs.length > listFetchLimit) {
-        hasMore = true;
+        _hasMore = true;
         result.removeLast();
       } else {
-        hasMore = false;
+        _hasMore = false;
       }
-      docs = [...docs, ...result];
+      _docs = [..._docs, ...result];
       // test empty table
       // 빈 창 테스트
       // docs.clear();
@@ -483,8 +483,8 @@ class _SimplePageListViewState<Document>
       if (mounted) {
         safeBuildCall(() {
           setState(() {
-            isFetching = false;
-            isFetchingMore = false;
+            _isFetching = false;
+            _isFetchingMore = false;
           });
         });
       }
@@ -505,7 +505,7 @@ class _SimplePageListViewState<Document>
       if (e.toString().contains('permission-denied') && mounted) {
         safeBuildCall(() {
           setState(() {
-            isPermissionDenied = true;
+            _isPermissionDenied = true;
           });
         });
         debugPrint('fetch docs error: ${e.toString()}');
@@ -517,37 +517,36 @@ class _SimplePageListViewState<Document>
   // 사용자가 문서를 수정했을 경우 그 해당 문서만 업데이트해주는 함수
   // To minimize the number of reads from firestore and maintain scrolling state
   // firestore의 read수를 최소한으로 줄이고 스크롤 상태를 유지시키기 위해
-  Future<void> _updateDocs(List<String> updatedDocIds) async {
+  Future<void> _updateDocs(String updatedDocId) async {
     if (_isCancelled) return;
     try {
-      if (docs.isNotEmpty && updatedDocIds.isNotEmpty) {
+      if (_docs.isNotEmpty) {
         // Document IDs modified by the user
         // 사용자가 수정한 문서 id들
-        final docIds = List.from(docs.map((snapshot) => snapshot.id));
-        for (final updatedDocId in updatedDocIds) {
-          // If the current document list contains the modified document ID
-          // 현재 문서리스트에 수정한 문서 id가 포함되어 있을 경우
-          if (docIds.contains(updatedDocId)) {
-            // Get updated information for modified documents
-            // 수정된 문서의 업데이트 된 정보 가져오기
-            final querySnapshot = await widget.updatedDocQuery!
-                .where(widget.useUid ? 'uid' : 'id', isEqualTo: updatedDocId)
-                .limit(1)
-                .get();
-            final newDoc =
-                querySnapshot.docs.isNotEmpty ? querySnapshot.docs[0] : null;
-            if (newDoc == null) {
-              // 사용자가 문서를 삭제했을 경우 로컬에서 변경
-              docs = docs.where((doc) => doc.id != updatedDocId).toList();
-            } else {
-              // Change existing document to updated document
-              // 업데이트 된 문서로 기존 문서 변경
-              docs = [
-                for (final doc in docs)
-                  if (doc.id == updatedDocId) newDoc else doc
-              ];
-            }
-            /*
+        final docIds = List.from(_docs.map((snapshot) => snapshot.id));
+        // If the current document list contains the modified document ID
+        // 현재 문서리스트에 수정한 문서 id가 포함되어 있을 경우
+        if (docIds.contains(updatedDocId)) {
+          // Get updated information for modified documents
+          // 수정된 문서의 업데이트 된 정보 가져오기
+          final querySnapshot = await widget.updatedDocQuery!
+              .where(widget.useUid ? 'uid' : 'id', isEqualTo: updatedDocId)
+              .limit(1)
+              .get();
+          final newDoc =
+              querySnapshot.docs.isNotEmpty ? querySnapshot.docs[0] : null;
+          if (newDoc == null) {
+            // 사용자가 문서를 삭제했을 경우 로컬에서 변경
+            _docs = _docs.where((doc) => doc.id != updatedDocId).toList();
+          } else {
+            // Change existing document to updated document
+            // 업데이트 된 문서로 기존 문서 변경
+            _docs = [
+              for (final doc in _docs)
+                if (doc.id == updatedDocId) newDoc else doc
+            ];
+          }
+          /*
             if (newDoc != null) {
               // Change existing document to updated document
               // 업데이트 된 문서로 기존 문서 변경
@@ -557,7 +556,6 @@ class _SimplePageListViewState<Document>
               ];
             }
             */
-          }
         }
         if (_isCancelled) return;
         if (mounted) {
@@ -567,7 +565,7 @@ class _SimplePageListViewState<Document>
         }
         // Initialize the list to be modified when the update is finished
         // 업데이트가 끝날 경우 수정할 목록을 초기화
-        widget.resetUpdatedDocIds?.call();
+        // widget.resetUpdatedDocIds?.call();
       }
     } catch (e) {
       debugPrint('updateDocs error: ${e.toString()}');
@@ -576,7 +574,7 @@ class _SimplePageListViewState<Document>
 
   @override
   Widget build(BuildContext context) {
-    dev.log('docs: ${docs.length}');
+    dev.log('docs: ${_docs.length}');
     final appSettings = ref.watch(appSettingsControllerProvider);
     final adminSettings = ref.watch(adminSettingsProvider);
 
@@ -585,7 +583,7 @@ class _SimplePageListViewState<Document>
     // 문서를 삭제하거나, 풀투리프레시를 했을 경우
     if (widget.listState != null) {
       ref.listen(widget.listState!, (_, next) {
-        if (next > refreshTime && !isFetching && !isFetchingMore) {
+        if (next > _refreshTime && !_isFetching && !_isFetchingMore) {
           // docs = [];
           _fetchDocs();
         }
@@ -594,17 +592,19 @@ class _SimplePageListViewState<Document>
 
     // When a user edits a document (including likes and comments)
     // 사용자가 문서를 수정했을 경우 (좋아요, 댓글 포함)
-    if (widget.refreshUpdatedDocs &&
+    if (widget.refreshUpdatedDoc &&
         widget.updatedDocQuery != null &&
-        widget.updatedDocsState != null) {
-      ref.listen(widget.updatedDocsState!, (_, next) {
+        widget.updatedDocState != null) {
+      ref.listen(widget.updatedDocState!, (_, next) {
         dev.log('updatedDocs: $next');
-        _updateDocs(next);
+        if (next != null) {
+          _updateDocs(next);
+        }
       });
     }
 
     // when fist fetch loading
-    if (isFetching && !isPermissionDenied) {
+    if (_isFetching && !_isPermissionDenied) {
       return widget.isSliver
           ? SliverFillRemaining(
               child: ListLoadingWidget(
@@ -617,17 +617,17 @@ class _SimplePageListViewState<Document>
     }
 
     // when doc is empty
-    if (docs.isEmpty) {
+    if (_docs.isEmpty) {
       dev.log('doc is empty');
       return widget.isSliver
           ? SliverFillRemaining(
               child: ListEmptyWidget(
-                isPermissionDenied: isPermissionDenied,
+                isPermissionDenied: _isPermissionDenied,
                 emptyBuilder: widget.emptyBuilder,
               ),
             )
           : ListEmptyWidget(
-              isPermissionDenied: isPermissionDenied,
+              isPermissionDenied: _isPermissionDenied,
               emptyBuilder: widget.emptyBuilder,
             );
     }
@@ -635,7 +635,7 @@ class _SimplePageListViewState<Document>
     if (widget.isPage) {
       return PageView.builder(
         itemBuilder: _itemBuilder,
-        itemCount: docs.length,
+        itemCount: _docs.length,
         scrollDirection: widget.scrollDirection,
         reverse: widget.reverse,
         controller: widget.pageController,
@@ -673,7 +673,7 @@ class _SimplePageListViewState<Document>
                       crossAxisSpacing: 12.0,
                     ),
                     itemBuilder: _itemBuilder,
-                    itemCount: docs.length,
+                    itemCount: _docs.length,
                     addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
                     addRepaintBoundaries: widget.addRepaintBoundaries,
                     addSemanticIndexes: widget.addSemanticIndexes,
@@ -686,7 +686,7 @@ class _SimplePageListViewState<Document>
                     crossAxisSpacing: 12.0,
                   ),
                   itemBuilder: _itemBuilder,
-                  itemCount: docs.length,
+                  itemCount: _docs.length,
                   addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
                   addRepaintBoundaries: widget.addRepaintBoundaries,
                   addSemanticIndexes: widget.addSemanticIndexes,
@@ -698,7 +698,7 @@ class _SimplePageListViewState<Document>
                 crossAxisSpacing: 12.0,
               ),
               itemBuilder: _itemBuilder,
-              itemCount: docs.length,
+              itemCount: _docs.length,
               scrollDirection: widget.scrollDirection,
               reverse: widget.reverse,
               controller: widget.controller,
@@ -723,7 +723,7 @@ class _SimplePageListViewState<Document>
                 padding: widget.padding!,
                 sliver: SliverList.builder(
                   itemBuilder: _itemBuilder,
-                  itemCount: docs.length,
+                  itemCount: _docs.length,
                   addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
                   addRepaintBoundaries: widget.addRepaintBoundaries,
                   addSemanticIndexes: widget.addSemanticIndexes,
@@ -731,14 +731,14 @@ class _SimplePageListViewState<Document>
               )
             : SliverList.builder(
                 itemBuilder: _itemBuilder,
-                itemCount: docs.length,
+                itemCount: _docs.length,
                 addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
                 addRepaintBoundaries: widget.addRepaintBoundaries,
                 addSemanticIndexes: widget.addSemanticIndexes,
               )
         : ListView.builder(
             itemBuilder: _itemBuilder,
-            itemCount: docs.length,
+            itemCount: _docs.length,
             scrollDirection: widget.scrollDirection,
             reverse: widget.reverse,
             controller: widget.controller,
@@ -762,10 +762,10 @@ class _SimplePageListViewState<Document>
 
   Widget? _itemBuilder(BuildContext context, int index) {
     if (widget.controller == null) {
-      final isLastItem = index + 1 == docs.length;
-      if (isLastItem && hasMore) _fetchNextPage();
+      final isLastItem = index + 1 == _docs.length;
+      if (isLastItem && _hasMore) _fetchNextPage();
     }
-    final doc = docs[index];
+    final doc = _docs[index];
     return widget.itemBuilder(context, index, doc);
   }
 }

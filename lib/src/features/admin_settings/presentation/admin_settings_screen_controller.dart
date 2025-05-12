@@ -1,7 +1,7 @@
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,7 +57,7 @@ class AdminSettingsScreenController extends _$AdminSettingsScreenController {
 
     state = const AsyncLoading();
 
-    final appUser = await ref.read(appUserFutureProvider(user.uid).future);
+    final appUser = await ref.read(appUserDataProvider(user.uid).future);
     if (appUser == null || !appUser.isAdmin) {
       state = AsyncError(Exception('permission error'), StackTrace.current);
       return false;

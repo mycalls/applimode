@@ -5,7 +5,7 @@ import 'package:applimode_app/src/common_widgets/title_text_widget.dart';
 import 'package:applimode_app/src/common_widgets/user_items/writer_item.dart';
 import 'package:applimode_app/src/common_widgets/youtube_link_shot.dart';
 import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/basic_block_item.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/page_item_buttons.dart';
 import 'package:applimode_app/src/features/video_player/main_video_player.dart';
@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -49,7 +48,7 @@ class BasicPostsItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // debugInvertOversizedImages = true;
 
-    final writerAsync = ref.watch(writerFutureProvider(post.uid));
+    final writerAsync = ref.watch(appUserDataProvider(post.uid));
     final mainImageUrl = post.mainImageUrl;
     final mainVideoUrl = post.mainVideoUrl;
     final mainVideoImageUrl = post.mainVideoImageUrl;
@@ -69,6 +68,7 @@ class BasicPostsItem extends ConsumerWidget {
       value: writerAsync,
       data: (writer) {
         // debugPrint('BasicPostsItem build: $index');
+        /*
         final isContent = writer != null && !writer.isBlock && !post.isBlock;
         if (writer == null) {
           return BasicBlockItem(
@@ -77,20 +77,22 @@ class BasicPostsItem extends ConsumerWidget {
             index: index,
           );
         }
-        if (writer.isBlock || post.isBlock) {
+        */
+        final isBlock = (writer != null && writer.isBlock) || post.isBlock;
+        if (isBlock) {
           return BasicBlockItem(
             aspectRatio: aspectRatio,
             isPage: isPage,
             index: index,
             postId: post.id,
-            postAndWriter: PostAndWriter(post: post, writer: writer),
+            post: post,
           );
         }
         return InkWell(
-          onTap: isContent && isTappable && !isVideo
+          onTap: isTappable && !isVideo
               ? () => context.push(
                     ScreenPaths.post(post.id),
-                    extra: PostAndWriter(post: post, writer: writer),
+                    extra: post,
                   )
               : null,
           child: Column(
@@ -100,7 +102,7 @@ class BasicPostsItem extends ConsumerWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    if (isContent && isVideo)
+                    if (isVideo)
                       MainVideoPlayer(
                         // when delete video post, resolve old video remain
                         key: UniqueKey(),
@@ -109,7 +111,7 @@ class BasicPostsItem extends ConsumerWidget {
                         aspectRatio: aspectRatio ?? 1.0,
                         isPage: isPage,
                       ),
-                    if (isContent && !isVideo)
+                    if (!isVideo)
                       mainImageUrl != null
                           ? Positioned.fill(
                               child: PlatformNetworkImage(
@@ -178,7 +180,7 @@ class BasicPostsItem extends ConsumerWidget {
                         },
                         child: const YoutubePlayIcon(),
                       ),
-                    if (isContent) ...[
+                    ...[
                       Positioned(
                         left: 16,
                         bottom: 24,
@@ -194,10 +196,7 @@ class BasicPostsItem extends ConsumerWidget {
                                   .setFalseAndTrue();
                               context.push(
                                 ScreenPaths.post(post.id),
-                                extra: PostAndWriter(
-                                  post: post,
-                                  writer: writer,
-                                ),
+                                extra: post,
                               );
                             },
                             child: Column(
@@ -205,7 +204,7 @@ class BasicPostsItem extends ConsumerWidget {
                               children: [
                                 if (!post.isNoWriter)
                                   WriterItem(
-                                    writer: writer,
+                                    writerId: post.uid,
                                     isPage: isPage,
                                     post: post,
                                     width: getMaxWidth(
@@ -252,18 +251,17 @@ class BasicPostsItem extends ConsumerWidget {
                         ),
                       ),
                     ],
-                    if (isContent && isPage)
+                    if (isPage)
                       Positioned(
                         right: 16,
                         bottom: 96,
                         child: SafeArea(
                           child: PageItemButtons(
                             post: post,
-                            postWriter: writer,
                           ),
                         ),
                       ),
-                    if (isContent && showMainLabel && post.isHeader)
+                    if (showMainLabel && post.isHeader)
                       const MainLabel(left: 16, top: 24),
                   ],
                 ),

@@ -4,13 +4,13 @@ import 'package:applimode_app/src/common_widgets/error_widgets/error_scaffold.da
 import 'package:applimode_app/src/common_widgets/image_widgets/full_image_screen.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/admin_settings/presentation/admin_settings_screen.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/presentation/firebase_phone_screen.dart';
 import 'package:applimode_app/src/features/like_users/like_users_screen.dart';
 import 'package:applimode_app/src/features/policies/app_privacy_screen.dart';
 import 'package:applimode_app/src/features/policies/app_terms_screen.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/posts/presentation/main_posts_screen.dart';
 import 'package:applimode_app/src/features/posts/presentation/search_screen.dart';
 import 'package:applimode_app/src/features/posts/presentation/sub_posts_screen.dart';
@@ -40,7 +40,6 @@ import 'package:applimode_app/src/features/authentication/presentation/firebase_
 import 'package:applimode_app/src/features/comments/presentation/post_comments_screen.dart';
 import 'package:applimode_app/src/features/editor/presentation/editor_screen.dart';
 import 'package:applimode_app/src/features/post/presentation/post_screen.dart';
-import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_screen.dart';
 import 'package:applimode_app/src/routing/go_router_refresh_stream.dart';
 
@@ -117,7 +116,7 @@ GoRouter goRouter(Ref ref) {
         if (user == null) {
           return ScreenPaths.maintenance;
         } else {
-          final asyncAppUser = ref.watch(appUserFutureProvider(user.uid));
+          final asyncAppUser = ref.watch(appUserDataProvider(user.uid));
           asyncAppUser.when(
             data: (appUser) {
               if (appUser == null || !appUser.isAdmin) {
@@ -239,11 +238,11 @@ GoRouter goRouter(Ref ref) {
         path: '/post/:id',
         pageBuilder: (context, state) {
           final postId = state.pathParameters['id']!;
-          final postAndWriter = state.extra as PostAndWriter?;
+          final post = state.extra as Post?;
           return _buildPage(
               child: PostScreen(
             postId: postId,
-            postAndWriter: postAndWriter,
+            post: post,
           ));
         },
         routes: [
@@ -251,11 +250,11 @@ GoRouter goRouter(Ref ref) {
             path: 'edit',
             pageBuilder: (context, state) {
               final postId = state.pathParameters['id'];
-              final postAndWriter = state.extra as PostAndWriter?;
+              final post = state.extra as Post?;
               return _buildPage(
                 child: EditorScreen(
                   postId: postId,
-                  postAndWriter: postAndWriter,
+                  post: post,
                 ),
                 // isFullScreen: true,
               );
@@ -291,11 +290,9 @@ GoRouter goRouter(Ref ref) {
             path: 'comments',
             pageBuilder: (context, state) {
               final postId = state.pathParameters['id']!;
-              final postWriter = state.extra as AppUser?;
               return _buildPage(
                 child: PostCommentsScreen(
                   postId: postId,
-                  postWriter: postWriter,
                 ),
                 // isFullScreen: true,
               );

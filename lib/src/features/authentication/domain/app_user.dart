@@ -92,6 +92,42 @@ class AppUser extends Equatable {
     };
   }
 
+  AppUser copyWith({
+    String? uid,
+    String? displayName,
+    bool? isAdmin,
+    bool? isBlock,
+    bool? isHideInfo,
+    String? photoUrl,
+    String? storyUrl,
+    String? bio,
+    int? gender,
+    DateTime? birthday,
+    int? likeCount,
+    int? dislikeCount,
+    int? sumCount,
+    bool? verified,
+    String? fcmToken,
+  }) {
+    return AppUser(
+      uid: uid ?? this.uid,
+      displayName: displayName ?? this.displayName,
+      isAdmin: isAdmin ?? this.isAdmin,
+      isBlock: isBlock ?? this.isBlock,
+      isHideInfo: isHideInfo ?? this.isHideInfo,
+      photoUrl: photoUrl ?? this.photoUrl,
+      storyUrl: storyUrl ?? this.storyUrl,
+      bio: bio ?? this.bio,
+      gender: gender ?? this.gender,
+      birthday: birthday ?? this.birthday,
+      likeCount: likeCount ?? this.likeCount,
+      dislikeCount: dislikeCount ?? this.dislikeCount,
+      sumCount: sumCount ?? this.sumCount,
+      verified: verified ?? this.verified,
+      fcmToken: fcmToken ?? this.fcmToken,
+    );
+  }
+
   @override
   bool? get stringify => true;
 

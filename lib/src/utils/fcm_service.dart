@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/utils/call_fcm_function.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -98,7 +99,7 @@ class FCMService {
         if (user == null) {
           return;
         }
-        final appUser = await _ref.read(appUserFutureProvider(user.uid).future);
+        final appUser = await _ref.read(appUserDataProvider(user.uid).future);
         final sharedPreferences =
             _ref.read(prefsWithCacheProvider).requireValue;
         final isLikeComment = sharedPreferences.getBool('likeCommentNoti');
@@ -121,7 +122,7 @@ class FCMService {
                 .read(prefsWithCacheProvider)
                 .requireValue
                 .setBool('likeCommentNoti', true);
-            _ref.invalidate(appUserFutureProvider);
+            _ref.read(appUserDataProvider(user.uid).notifier).refresh();
           } catch (e) {
             debugPrint('likeCommentNotiInitError: ${e.toString()}');
           }

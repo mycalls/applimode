@@ -180,12 +180,6 @@ FutureOr<AppUser?> appUserFuture(Ref ref, String uid) {
 }
 
 @riverpod
-FutureOr<AppUser?> writerFuture(Ref ref, String uid) {
-  final appUserRepository = ref.watch(appUserRepositoryProvider);
-  return appUserRepository.fetchAppUser(uid);
-}
-
-@riverpod
 Stream<AppUser?> appUserStream(Ref ref, String uid) {
   final appUserRepository = ref.watch(appUserRepositoryProvider);
   return appUserRepository.watchAppUser(uid);

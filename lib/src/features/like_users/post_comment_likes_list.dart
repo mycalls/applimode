@@ -1,7 +1,7 @@
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
 import 'package:applimode_app/src/common_widgets/user_items/user_item.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/custom_settings.dart';
@@ -31,7 +31,7 @@ class PostCommentLikesList extends ConsumerWidget {
         isNoGridView: true,
         itemBuilder: (context, index, doc) {
           final postCommentLike = doc.data();
-          final likeUser = ref.watch(writerFutureProvider(postCommentLike.uid));
+          final likeUser = ref.watch(appUserDataProvider(postCommentLike.uid));
           return AsyncValueWidget(
             value: likeUser,
             data: (likeUser) {

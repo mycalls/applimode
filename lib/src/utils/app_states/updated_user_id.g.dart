@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'updated_comment_ids_list.dart';
+part of 'updated_user_id.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$updatedCommentIdsListHash() =>
-    r'292f2cd0eceda95550ce98f5827116e8969703bc';
+String _$updatedUserIdHash() => r'3db9cd14ca290b6455cbe55f3d4edebf767b9648';
 
-/// See also [UpdatedCommentIdsList].
-@ProviderFor(UpdatedCommentIdsList)
-final updatedCommentIdsListProvider =
-    AutoDisposeNotifierProvider<UpdatedCommentIdsList, List<String>>.internal(
-  UpdatedCommentIdsList.new,
-  name: r'updatedCommentIdsListProvider',
+/// See also [UpdatedUserId].
+@ProviderFor(UpdatedUserId)
+final updatedUserIdProvider =
+    AutoDisposeNotifierProvider<UpdatedUserId, String?>.internal(
+  UpdatedUserId.new,
+  name: r'updatedUserIdProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$updatedCommentIdsListHash,
+      : _$updatedUserIdHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UpdatedCommentIdsList = AutoDisposeNotifier<List<String>>;
+typedef _$UpdatedUserId = AutoDisposeNotifier<String?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

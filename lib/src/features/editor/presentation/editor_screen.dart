@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 
 import 'package:applimode_app/src/exceptions/app_exception.dart';
 import 'package:applimode_app/src/features/editor/presentation/editor_screen_ai_controller.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/prompts/show_ai_dialog.dart';
 import 'package:applimode_app/src/utils/adaptive_back.dart';
 import 'package:applimode_app/src/utils/format.dart';
@@ -19,7 +20,6 @@ import 'package:applimode_app/src/features/editor/presentation/editor_screen_con
 import 'package:applimode_app/src/features/editor/presentation/markdown_field.dart';
 import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
-import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/async_value_ui.dart';
 import 'package:applimode_app/src/utils/build_remote_media.dart';
@@ -45,11 +45,11 @@ class EditorScreen extends ConsumerStatefulWidget {
   const EditorScreen({
     super.key,
     this.postId,
-    this.postAndWriter,
+    this.post,
   });
 
   final String? postId;
-  final PostAndWriter? postAndWriter;
+  final Post? post;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _EditorScreenState();
@@ -71,14 +71,17 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
   bool _isCancelled = false;
   bool _isFilePicking = false;
 
+  Post? _currentPost;
+
   @override
   void initState() {
     if (widget.postId != null) {
       // when editing a existing post
-      if (widget.postAndWriter != null) {
+      if (widget.post != null) {
+        _currentPost = widget.post;
         // when postAndWriter is not null
         // postAndWriter가 null이 아닐 경우
-        if (widget.postAndWriter!.post.isLongContent) {
+        if (widget.post!.isLongContent) {
           // when post content is very long
           // 포스트의 컨테츠 길이가 긴 경우
           // If the post content length is too long, it is saved separately due to performance issues.
@@ -87,8 +90,8 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
         } else {
           // normal content
           // 일반적인 컨텐츠의 경우
-          _controller.text = widget.postAndWriter?.post.content ?? '';
-          _currentCategory = widget.postAndWriter?.post.category ?? 0;
+          _controller.text = widget.post?.content ?? '';
+          _currentCategory = widget.post?.category ?? 0;
           _remoteMedia = buildRemoteMedia(_controller.text);
         }
       } else {
@@ -169,6 +172,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
     try {
       final currentPost =
           await ref.read(postFutureProvider(widget.postId!).future);
+      _currentPost = currentPost;
       if (currentPost != null && currentPost.isLongContent) {
         _buildLongContent();
       } else {
@@ -464,7 +468,7 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
                 catetory: _currentCategory,
                 hasPostContent: _hasPostContent,
                 remoteMedia: _remoteMedia,
-                writer: widget.postAndWriter?.writer,
+                currentPost: _currentPost,
               ),
             ],
           ),

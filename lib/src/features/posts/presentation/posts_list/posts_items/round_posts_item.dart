@@ -5,7 +5,7 @@ import 'package:applimode_app/src/common_widgets/title_text_widget.dart';
 import 'package:applimode_app/src/common_widgets/user_items/writer_item.dart';
 import 'package:applimode_app/src/common_widgets/youtube_link_shot.dart';
 import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/round_block_item.dart';
 import 'package:applimode_app/src/features/video_player/main_video_player.dart';
 import 'package:applimode_app/src/utils/custom_headers.dart';
@@ -19,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,7 +49,7 @@ class RoundPostsItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // debugInvertOversizedImages = true;
 
-    final writerAsync = ref.watch(writerFutureProvider(post.uid));
+    final writerAsync = ref.watch(appUserDataProvider(post.uid));
     final mainImageUrl = post.mainImageUrl;
     final mainVideoUrl = post.mainVideoUrl;
     final mainVideoImageUrl = post.mainVideoImageUrl;
@@ -73,6 +72,7 @@ class RoundPostsItem extends ConsumerWidget {
       value: writerAsync,
       data: (writer) {
         // debugPrint('roundPostsItem build: $index');
+        /*
         final isContent = writer != null && !writer.isBlock && !post.isBlock;
         if (writer == null) {
           return RoundBlockItem(
@@ -82,21 +82,23 @@ class RoundPostsItem extends ConsumerWidget {
             needBottomMargin: needBottomMargin,
           );
         }
-        if (writer.isBlock || post.isBlock) {
+        */
+        final isBlock = (writer != null && writer.isBlock) || post.isBlock;
+        if (isBlock) {
           return RoundBlockItem(
             aspectRatio: aspectRatio,
             index: index,
             postId: post.id,
-            postAndWriter: PostAndWriter(post: post, writer: writer),
+            post: post,
             needTopMargin: needTopMargin,
             needBottomMargin: needBottomMargin,
           );
         }
         return InkWell(
-          onTap: isContent && isTappable && !isVideo
+          onTap: isTappable && !isVideo
               ? () => context.push(
                     ScreenPaths.post(post.id),
-                    extra: PostAndWriter(post: post, writer: writer),
+                    extra: post,
                   )
               : null,
           child: Container(
@@ -117,7 +119,7 @@ class RoundPostsItem extends ConsumerWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (isContent && isVideo)
+                  if (isVideo)
                     MainVideoPlayer(
                       // when delete video post, resolve old video remain
                       key: UniqueKey(),
@@ -126,7 +128,7 @@ class RoundPostsItem extends ConsumerWidget {
                       aspectRatio: aspectRatio ?? 16 / 9,
                       isRound: true,
                     ),
-                  if (isContent && !isVideo)
+                  if (!isVideo)
                     mainImageUrl != null
                         ? Positioned.fill(
                             child: PlatformNetworkImage(
@@ -200,7 +202,7 @@ class RoundPostsItem extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  if (isContent) ...[
+                  ...[
                     Positioned(
                       left: 16,
                       bottom: 24,
@@ -211,10 +213,7 @@ class RoundPostsItem extends ConsumerWidget {
                               .setFalseAndTrue();
                           context.push(
                             ScreenPaths.post(post.id),
-                            extra: PostAndWriter(
-                              post: post,
-                              writer: writer,
-                            ),
+                            extra: post,
                           );
                         },
                         child: Column(
@@ -222,7 +221,7 @@ class RoundPostsItem extends ConsumerWidget {
                           children: [
                             if (!post.isNoWriter)
                               WriterItem(
-                                writer: writer,
+                                writerId: post.uid,
                                 post: post,
                                 width: getMaxWidth(
                                   context,
@@ -263,7 +262,7 @@ class RoundPostsItem extends ConsumerWidget {
                       ),
                     ),
                   ],
-                  if (isContent && showMainLabel && post.isHeader)
+                  if (showMainLabel && post.isHeader)
                     MainLabel(
                       left: 16,
                       top: 16,

@@ -1,5 +1,6 @@
 import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
 import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_block_item.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item_contents.dart';
 import 'package:applimode_app/custom_settings.dart';
@@ -8,9 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/common_widgets/image_widgets/cached_border_image.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 
 class SmallPostsItem extends ConsumerWidget {
@@ -41,7 +40,7 @@ class SmallPostsItem extends ConsumerWidget {
       );
     }
 
-    final writerAsync = ref.watch(writerFutureProvider(post.uid));
+    final writerAsync = ref.watch(appUserDataProvider(post.uid));
     final mainMediaUrl = post.mainImageUrl ?? post.mainVideoImageUrl;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -53,20 +52,23 @@ class SmallPostsItem extends ConsumerWidget {
       value: writerAsync,
       data: (writer) {
         // debugPrint('SmallPostsItem build $index');
+        /*
         if (writer == null) {
           return const SmallBlockItem();
         }
-        if (writer.isBlock || post.isBlock) {
+        */
+        final isBlock = (writer != null && writer.isBlock) || post.isBlock;
+        if (isBlock) {
           return SmallBlockItem(
             postId: post.id,
-            postAndWriter: PostAndWriter(post: post, writer: writer),
+            post: post,
           );
         }
         return InkWell(
           onTap: () {
             context.push(
               ScreenPaths.post(post.id),
-              extra: PostAndWriter(post: post, writer: writer),
+              extra: post,
             );
           },
           child: Column(
@@ -89,7 +91,6 @@ class SmallPostsItem extends ConsumerWidget {
                         Expanded(
                           child: SmallPostsItemContents(
                             post: post,
-                            writer: writer,
                             isRankingPage: isRankingPage,
                             isLikeRanking: isLikeRanking,
                             isDislikeRanking: isDislikeRanking,

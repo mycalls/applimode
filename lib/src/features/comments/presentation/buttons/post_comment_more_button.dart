@@ -1,7 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
@@ -27,7 +27,7 @@ class PostCommentMoreButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesProvider).value;
     final appUser = user != null
-        ? ref.watch(appUserFutureProvider(user.uid))
+        ? ref.watch(appUserDataProvider(user.uid))
         : const AsyncData(null);
 
     final postCommentState = ref.watch(postCommentControllerProvider);

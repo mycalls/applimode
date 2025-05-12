@@ -1,15 +1,14 @@
 import 'package:applimode_app/src/common_widgets/center_circular_indicator.dart';
 import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
 import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_item.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_screen_app_bar.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_screen_bottom_bar.dart';
+import 'package:applimode_app/src/utils/app_states/updated_comment_id.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/updated_comment_ids_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:applimode_app/src/utils/async_value_ui.dart';
@@ -20,12 +19,12 @@ class PostCommentsScreen extends ConsumerWidget {
     super.key,
     required this.postId,
     this.parentCommentId,
-    this.postWriter,
+    // this.postWriter,
   });
 
   final String postId;
   final String? parentCommentId;
-  final AppUser? postWriter;
+  // final AppUser? postWriter;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,8 +66,6 @@ class PostCommentsScreen extends ConsumerWidget {
         : ref.watch(postCommentRepliesQueryProvider(parentCommentId!));
     final updatedCommentQuery =
         ref.watch(postCommentsRepositoryProvider).postCommentsRef();
-    final resetUpdatedDocIds =
-        ref.watch(updatedCommentIdsListProvider.notifier).removeAll;
 
     return Scaffold(
       appBar: PostCommentsScreenAppBar(),
@@ -90,10 +87,9 @@ class PostCommentsScreen extends ConsumerWidget {
                     parentCommentId: parentCommentId,
                   );
                 },
-                refreshUpdatedDocs: true,
+                refreshUpdatedDoc: true,
                 updatedDocQuery: updatedCommentQuery,
-                resetUpdatedDocIds: resetUpdatedDocIds,
-                updatedDocsState: updatedCommentIdsListProvider,
+                updatedDocState: updatedCommentIdProvider,
                 useDidUpdateWidget: true,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
@@ -103,7 +99,6 @@ class PostCommentsScreen extends ConsumerWidget {
           PostCommentsScreenBottomBar(
             postId: postId,
             parentCommentId: parentCommentId,
-            postWriter: postWriter,
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/utils/fcm_service.dart';
@@ -27,14 +28,6 @@ class LikeCommentNotiButtonController
 
     state = const AsyncLoading();
 
-    /*
-    final appUser = await ref.read(appUserFutureProvider(user.uid).future);
-    if (appUser == null) {
-      state = AsyncError(Exception('appUser is not exist'), StackTrace.current);
-      return false;
-    }
-    */
-
     final fcmService = ref.read(fcmServiceProvider);
 
     final token = await fcmService.fcmToken;
@@ -61,7 +54,7 @@ class LikeCommentNotiButtonController
       return false;
     }
 
-    ref.invalidate(appUserFutureProvider);
+    ref.read(appUserDataProvider(user.uid).notifier).refresh();
     return true;
   }
 
@@ -73,14 +66,6 @@ class LikeCommentNotiButtonController
     }
 
     state = const AsyncLoading();
-
-    /*
-    final appUser = await ref.read(appUserFutureProvider(user.uid).future);
-    if (appUser == null) {
-      state = AsyncError(Exception('appUser is not exist'), StackTrace.current);
-      return false;
-    }
-    */
 
     final key = this.key;
     final newState = await AsyncValue.guard(() async {
@@ -99,7 +84,7 @@ class LikeCommentNotiButtonController
       return false;
     }
 
-    ref.invalidate(appUserFutureProvider);
+    ref.read(appUserDataProvider(user.uid).notifier).refresh();
     return true;
   }
 }

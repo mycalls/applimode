@@ -1,8 +1,8 @@
+import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
-import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
+import 'package:applimode_app/src/features/comments/application/user_post_comment_like_data_provider.dart';
 import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
-import 'package:applimode_app/src/features/comments/domain/post_comment_like.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class PostCommentLikeButton extends ConsumerStatefulWidget {
+class PostCommentLikeButton extends ConsumerWidget {
   const PostCommentLikeButton({
     super.key,
     required this.comment,
@@ -26,81 +26,87 @@ class PostCommentLikeButton extends ConsumerStatefulWidget {
   final AppUser? commentWriter;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _PostCommentLikeButtonState();
-}
-
-class _PostCommentLikeButtonState extends ConsumerState<PostCommentLikeButton> {
-  List<PostCommentLike>? userCommentLikes;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final mainColor = Theme.of(context).colorScheme.secondary;
     final textTheme = Theme.of(context).textTheme;
-    final user = ref.watch(authStateChangesProvider).value;
-
-    final postCommentController =
-        ref.watch(postCommentControllerProvider.notifier);
-    final postCommentState = ref.watch(postCommentControllerProvider);
-
-    if (user != null) {
-      userCommentLikes = ref
-          .watch(postCommentLikesByUserFutureProvider(
-            commentId: widget.comment.id,
-            uid: user.uid,
-          ))
-          .value;
-    }
 
     return Row(
       children: [
-        InkWell(
-          onTap: userCommentLikes == null || postCommentState.isLoading
-              ? null
-              : userCommentLikes!.isEmpty
-                  ? () async {
-                      await postCommentController.increasePostCommentLike(
-                        postId: widget.comment.postId,
-                        commentId: widget.comment.id,
-                        commentWriterId: widget.comment.uid,
-                        commentWriter: widget.commentWriter,
-                        postWriterId: widget.comment.postWriterId,
-                        parentCommentId: widget.comment.parentCommentId,
-                        commentLikeNotiString: context.loc.commentLikeNoti,
-                      );
-                    }
-                  : () async {
-                      await postCommentController.decreasePostCommentLike(
-                        id: userCommentLikes!.first.id,
-                        commentId: widget.comment.id,
-                        commentWriterId: widget.comment.uid,
-                      );
-                    },
-          child: Padding(
-            padding:
-                const EdgeInsets.only(top: 8, bottom: 8, left: 2, right: 4),
-            child: Icon(
-              userCommentLikes == null || userCommentLikes!.isEmpty
-                  ? widget.isHeart
-                      ? Icons.favorite_outline_rounded
-                      : Icons.thumb_up_outlined
-                  : widget.isHeart
-                      ? Icons.favorite_rounded
-                      : Icons.thumb_up,
-              color: mainColor,
-              size: 18,
-            ),
-          ),
+        Consumer(
+          builder: (context, ref, child) {
+            final postCommentController =
+                ref.watch(postCommentControllerProvider.notifier);
+            final postCommentState = ref.watch(postCommentControllerProvider);
+
+            final user = ref.watch(authStateChangesProvider).value;
+            final userCommentLikes = user != null
+                ? ref.watch(userPostCommentLikeDataProvider(
+                    commentId: comment.id, uid: user.uid))
+                : AsyncValue.data(null);
+
+            return AsyncValueWidget(
+              value: userCommentLikes,
+              data: (commentLikes) {
+                final isDisable = user == null ||
+                    commentLikes == null ||
+                    postCommentState.isLoading;
+                final isIconEmpty =
+                    commentLikes == null || commentLikes.isEmpty;
+
+                return InkWell(
+                  onTap: isDisable
+                      ? null
+                      : commentLikes.isEmpty
+                          ? () async {
+                              await postCommentController
+                                  .increasePostCommentLike(
+                                postId: comment.postId,
+                                commentId: comment.id,
+                                commentWriterId: comment.uid,
+                                commentWriter: commentWriter,
+                                postWriterId: comment.postWriterId,
+                                parentCommentId: comment.parentCommentId,
+                                commentLikeNotiString:
+                                    context.loc.commentLikeNoti,
+                              );
+                            }
+                          : () async {
+                              await postCommentController
+                                  .decreasePostCommentLike(
+                                id: commentLikes.first.id,
+                                commentId: comment.id,
+                                commentWriterId: comment.uid,
+                              );
+                            },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 8, left: 2, right: 4),
+                    child: Icon(
+                      isIconEmpty
+                          ? isHeart
+                              ? Icons.favorite_outline_rounded
+                              : Icons.thumb_up_outlined
+                          : isHeart
+                              ? Icons.favorite_rounded
+                              : Icons.thumb_up,
+                      color: mainColor,
+                      size: 18,
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         ),
         InkWell(
           onTap: () {
-            context.push(ScreenPaths.commentLikes(widget.comment.id));
+            context.push(ScreenPaths.commentLikes(comment.id));
           },
           child: Padding(
             padding:
                 const EdgeInsets.only(top: 8, bottom: 8, left: 2, right: 16),
             child: Text(
-              Format.formatNumber(context, widget.likeCount),
+              Format.formatNumber(context, likeCount),
               style: textTheme.bodyMedium?.copyWith(color: mainColor),
             ),
           ),

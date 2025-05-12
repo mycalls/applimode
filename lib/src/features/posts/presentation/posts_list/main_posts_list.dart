@@ -9,9 +9,9 @@ import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_i
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/round_posts_item.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/src/utils/now_to_int.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 import 'package:applimode_app/custom_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -116,8 +116,6 @@ class _MainPostsListState extends ConsumerState<MainPostsList> {
     final mainQuery = ref.watch(postsRepositoryProvider).mainPostsQuery();
     final recentDocQuery = ref.watch(postsRepositoryProvider).recentPostQuery();
     final updatedPostQuery = ref.watch(postsRepositoryProvider).postsRef();
-    final resetUpdatedDocIds =
-        ref.watch(updatedPostIdsListProvider.notifier).removeAll;
 
     final screenWidth = MediaQuery.sizeOf(context).width;
     final horizontalMargin = screenWidth > pcWidthBreakpoint
@@ -146,10 +144,9 @@ class _MainPostsListState extends ConsumerState<MainPostsList> {
           listState: postsListStateProvider,
           emptyBuilder: _startPostBuilder,
           itemBuilder: _itemBuilder,
-          refreshUpdatedDocs: true,
+          refreshUpdatedDoc: true,
           updatedDocQuery: updatedPostQuery,
-          resetUpdatedDocIds: resetUpdatedDocIds,
-          updatedDocsState: updatedPostIdsListProvider,
+          updatedDocState: updatedPostIdProvider,
         ),
       );
     }
@@ -190,10 +187,9 @@ class _MainPostsListState extends ConsumerState<MainPostsList> {
           },
           emptyBuilder: _startPostBuilder,
           itemBuilder: _itemBuilder,
-          refreshUpdatedDocs: true,
+          refreshUpdatedDoc: true,
           updatedDocQuery: updatedPostQuery,
-          resetUpdatedDocIds: resetUpdatedDocIds,
-          updatedDocsState: updatedPostIdsListProvider,
+          updatedDocState: updatedPostIdProvider,
           isSliver: true,
           controller: _controller,
         )

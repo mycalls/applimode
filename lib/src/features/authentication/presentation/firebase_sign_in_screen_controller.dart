@@ -1,6 +1,6 @@
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/features/authentication/application/app_user_check_service.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -27,7 +27,7 @@ class FirebaseSignInScreenController extends _$FirebaseSignInScreenController {
 
     state = const AsyncLoading();
     final key = this.key;
-    final appUser = await ref.read(appUserFutureProvider(user.uid).future);
+    final appUser = await ref.read(appUserDataProvider(user.uid).future);
     if (appUser == null) {
       final appUserCheckService = ref.read(appUserCheckServiceProvider);
       final newState = await AsyncValue.guard(
@@ -35,8 +35,6 @@ class FirebaseSignInScreenController extends _$FirebaseSignInScreenController {
       if (key == this.key) {
         state = newState;
       }
-      ref.invalidate(appUserFutureProvider);
-      // ref.invalidate(appUserStreamProvider);
     }
     if (state.hasError) {
       debugPrint('initializeAppUsr: ${state.error.toString()}');

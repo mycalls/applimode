@@ -1,6 +1,7 @@
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/round_posts_item.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
@@ -10,7 +11,6 @@ import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_i
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 import 'package:applimode_app/custom_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,8 +75,7 @@ class ProfilePostsScreen extends ConsumerWidget {
     final isPage = type == PostsListType.page;
 
     final updatedPostQuery = ref.watch(postsRepositoryProvider).postsRef();
-    final resetUpdatedDocIds =
-        ref.watch(updatedPostIdsListProvider.notifier).removeAll;
+
     final query = ref.watch(postsRepositoryProvider).userPostsQuery(uid);
 
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -101,10 +100,9 @@ class ProfilePostsScreen extends ConsumerWidget {
               isPage: true,
               listState: postsListStateProvider,
               itemBuilder: _itemBuilder,
-              refreshUpdatedDocs: true,
+              refreshUpdatedDoc: true,
               updatedDocQuery: updatedPostQuery,
-              resetUpdatedDocIds: resetUpdatedDocIds,
-              updatedDocsState: updatedPostIdsListProvider,
+              updatedDocState: updatedPostIdProvider,
             )
           : CustomScrollView(
               slivers: [
@@ -133,10 +131,9 @@ class ProfilePostsScreen extends ConsumerWidget {
                     _ => null,
                   },
                   itemBuilder: _itemBuilder,
-                  refreshUpdatedDocs: true,
+                  refreshUpdatedDoc: true,
                   updatedDocQuery: updatedPostQuery,
-                  resetUpdatedDocIds: resetUpdatedDocIds,
-                  updatedDocsState: updatedPostIdsListProvider,
+                  updatedDocState: updatedPostIdProvider,
                   isSliver: true,
                 )
               ],

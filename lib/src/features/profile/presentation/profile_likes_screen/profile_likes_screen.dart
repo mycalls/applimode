@@ -1,12 +1,13 @@
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/round_posts_item.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
 import 'package:applimode_app/src/common_widgets/web_back_button.dart';
 import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/basic_posts_item.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
@@ -61,7 +62,7 @@ class ProfileLikesScreen extends StatelessWidget {
                 itemBuilder: (context, index, doc) {
                   final postLike = doc.data();
                   final postAsync =
-                      ref.watch(postFutureProvider(postLike.postId));
+                      ref.watch(postDataProvider(PostArgs(postLike.postId)));
                   return AsyncValueWidget(
                     value: postAsync,
                     data: (post) {
@@ -109,7 +110,7 @@ class ProfileLikesScreen extends StatelessWidget {
                 itemBuilder: (context, index, doc) {
                   final postLike = doc.data();
                   final postAsync =
-                      ref.watch(postFutureProvider(postLike.postId));
+                      ref.watch(postDataProvider(PostArgs(postLike.postId)));
                   return AsyncValueWidget(
                     value: postAsync,
                     data: (post) {

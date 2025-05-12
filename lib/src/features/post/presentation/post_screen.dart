@@ -1,15 +1,15 @@
+// ignore: unused_import
+import 'dart:developer' as dev;
+
 import 'package:applimode_app/src/common_widgets/center_circular_indicator.dart';
 import 'package:applimode_app/src/common_widgets/error_widgets/error_message_button.dart';
 import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/post/presentation/post_app_bar.dart';
 import 'package:applimode_app/src/features/post/presentation/post_screen_bottom_bar.dart';
 import 'package:applimode_app/src/features/post/presentation/post_screen_controller.dart';
+import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
 import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/posts/domain/post_and_writer.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:applimode_app/src/utils/adaptive_back.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
@@ -20,7 +20,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 import 'package:go_router/go_router.dart';
 
 // Use SliverList to make the AppBar scrollable, maximizing content space.
@@ -38,12 +37,12 @@ class PostScreen extends ConsumerStatefulWidget {
   const PostScreen({
     super.key,
     required this.postId,
-    this.postAndWriter,
+    this.post,
   });
 
   final String postId;
   // Because GoRouter's extra property can only pass one object, combine Post and Writer objects into one for passing.
-  final PostAndWriter? postAndWriter;
+  final Post? post;
 
   @override
   ConsumerState<PostScreen> createState() => _PostScreenState();
@@ -51,26 +50,17 @@ class PostScreen extends ConsumerStatefulWidget {
 
 class _PostScreenState extends ConsumerState<PostScreen> {
   // Use AsyncValue to manage state, considering cases where data is received directly from the parent page and cases where data needs to be fetched again from the remote DB.
-  AsyncValue<Post?> postAsync = AsyncData(null);
-  AsyncValue<AppUser?> writerAsync = AsyncData(null);
 
   final ScrollController _controller = ScrollController();
   // Activation flag for the "Jump to CommentScreen" feature.
   bool _isRefreshing = false;
   // Additional scroll range required for the pullToCommentScreen functionality.
-  final double pushThreshold = -140;
+  final double _pushThreshold = -140;
 
   @override
   void initState() {
-    final postAndWriter = widget.postAndWriter;
     super.initState();
     // Distinguish between cases where data is passed from the parent page and cases where it needs to be fetched again.
-    postAsync = postAndWriter != null
-        ? AsyncData(widget.postAndWriter?.post)
-        : const AsyncData(null);
-    writerAsync = postAndWriter != null
-        ? AsyncData(widget.postAndWriter?.writer)
-        : const AsyncData(null);
     _controller.addListener(_scrollListenerCallback);
   }
 
@@ -86,7 +76,7 @@ class _PostScreenState extends ConsumerState<PostScreen> {
     debugPrint('isRefreshing: $_isRefreshing');
     // Calls _handlePushComment when scrolling exceeds a certain threshold.
     if (position.outOfRange &&
-        (position.maxScrollExtent - position.pixels) < pushThreshold &&
+        (position.maxScrollExtent - position.pixels) < _pushThreshold &&
         !_isRefreshing) {
       _handlePushComment();
     }
@@ -98,13 +88,14 @@ class _PostScreenState extends ConsumerState<PostScreen> {
   }
 
   void _handlePushComment() {
-    if (postAsync.value != null && writerAsync.value != null) {
+    final currentPost =
+        ref.read(postDataProvider(PostArgs(widget.postId))).value;
+    if (currentPost != null) {
       if (!_isRefreshing) {
         _isRefreshing = true;
         context
             .push(
-          ScreenPaths.comments(postAsync.value!.id),
-          extra: writerAsync.value,
+          ScreenPaths.comments(currentPost.id),
         )
             .then((_) {
           if (_isRefreshing) {
@@ -130,7 +121,6 @@ class _PostScreenState extends ConsumerState<PostScreen> {
       slivers: [
         PostAppBar(
           post: post,
-          writerAsync: writerAsync,
         ),
         SliverSafeArea(
           // for iOS
@@ -184,32 +174,14 @@ class _PostScreenState extends ConsumerState<PostScreen> {
       }
     });
 
-    // If an item is modified in a child screen, update the state to trigger a reload.
-    ref.listen(updatedPostIdsListProvider, (_, state) {
-      if (state.contains(widget.postId)) {
-        //Only reload postAsync, writerAsync will be reloaded automatically based on postAsync
-        postAsync = const AsyncData(null);
-        // writerAsync = const AsyncData(null);
-      }
-    });
-
-    // If postAsync is null (web refresh, item changed), reload the document from the remote DB.
-    if (postAsync.value == null) {
-      postAsync = ref.watch(postFutureProvider(widget.postId));
-    }
-
-    // If writerAsync is null (web refresh, item changed), reload the document from remote DB.
-    // If postAsync is null, writerAsync cannot be loaded, so handle it as null.
-    // writerAsync's value changes depending on the changes of postAsync value.
-    if (writerAsync.value == null && postAsync.value != null) {
-      writerAsync = ref.watch(writerFutureProvider(postAsync.value!.uid));
-    }
-
     // Track screen width to change the layout for wider screens like desktops or tablets.
     final screenWidth = MediaQuery.sizeOf(context).width;
     final sidePadding = screenWidth > pcWidthBreakpoint
         ? (screenWidth - pcWidthBreakpoint) / 2
         : 16.0;
+
+    final postAsync =
+        ref.watch(postDataProvider(PostArgs(widget.postId, widget.post)));
 
     return Scaffold(
       body: postAsync.when(
@@ -259,7 +231,6 @@ class _PostScreenState extends ConsumerState<PostScreen> {
           }
           return PostScreenBottomBar(
             post: post,
-            postWriter: writerAsync.value,
           );
         },
         error: (error, stackTrace) => const SizedBox.shrink(),

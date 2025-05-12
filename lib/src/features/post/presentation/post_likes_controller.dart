@@ -1,16 +1,19 @@
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/post/application/post_likes_service.dart';
-import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
+import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
+import 'package:applimode_app/src/features/posts/application/user_post_dislike_data_provider.dart';
+import 'package:applimode_app/src/features/posts/application/user_post_like_data_provider.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
+import 'package:applimode_app/src/utils/app_states/updated_user_id.dart';
 import 'package:applimode_app/src/utils/call_fcm_function.dart';
 import 'package:applimode_app/src/utils/is_firestore_not_found.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/src/utils/now_to_int.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
-import 'package:applimode_app/src/utils/updated_user_ids_list.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -40,6 +43,14 @@ class PostLikesController extends _$PostLikesController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(postWriterId).notifier);
+    final postLikeNotifier = ref
+        .read(userPostLikeDataProvider(postId: postId, uid: user.uid).notifier);
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final id = const Uuid().v7();
     final newState = await AsyncValue.guard(
@@ -53,7 +64,7 @@ class PostLikesController extends _$PostLikesController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -67,8 +78,7 @@ class PostLikesController extends _$PostLikesController {
 
     if (useFcmMessage) {
       try {
-        postWriter ??=
-            await ref.read(appUserFutureProvider(postWriterId).future);
+        postWriter ??= await ref.read(appUserDataProvider(postWriterId).future);
 
         if (postWriter != null &&
             postWriter.fcmToken != null &&
@@ -85,12 +95,13 @@ class PostLikesController extends _$PostLikesController {
       }
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
-    ref.read(updatedUserIdsListProvider.notifier).set(postWriterId);
-    ref.invalidate(writerFutureProvider);
-
-    ref.invalidate(postLikesByUserFutureProvider);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    ref.read(updatedUserIdProvider.notifier).set(postWriterId);
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.increaseOptimisticLike();
+    postLikeNotifier.increaseOptimisticLike(id, postWriterId);
+    postNotifier.optimisticIncreaseLike();
 
     return true;
   }
@@ -107,6 +118,14 @@ class PostLikesController extends _$PostLikesController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(postWriterId).notifier);
+    final postLikeNotifier = ref
+        .read(userPostLikeDataProvider(postId: postId, uid: user.uid).notifier);
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState = await AsyncValue.guard(
       () => PostLikesService(ref).decreasePostLikeCount(
@@ -119,7 +138,7 @@ class PostLikesController extends _$PostLikesController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -131,12 +150,13 @@ class PostLikesController extends _$PostLikesController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
-    ref.read(updatedUserIdsListProvider.notifier).set(postWriterId);
-    ref.invalidate(writerFutureProvider);
-
-    ref.invalidate(postLikesByUserFutureProvider);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    ref.read(updatedUserIdProvider.notifier).set(postWriterId);
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.decreaseOptimisticLike();
+    postLikeNotifier.decreaseOptimisticLike();
+    postNotifier.optimisticDecreaseLike();
 
     return true;
   }
@@ -152,6 +172,14 @@ class PostLikesController extends _$PostLikesController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(postWriterId).notifier);
+    final postLikeNotifier = ref.read(
+        userPostDislikeDataProvider(postId: postId, uid: user.uid).notifier);
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final id = const Uuid().v7();
     final newState = await AsyncValue.guard(
@@ -166,7 +194,7 @@ class PostLikesController extends _$PostLikesController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -178,12 +206,13 @@ class PostLikesController extends _$PostLikesController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
-    ref.read(updatedUserIdsListProvider.notifier).set(postWriterId);
-    ref.invalidate(writerFutureProvider);
-
-    ref.invalidate(postLikesByUserFutureProvider);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    ref.read(updatedUserIdProvider.notifier).set(postWriterId);
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.increaseOptimisticDislike();
+    postLikeNotifier.increaseOptimisticDislike(id, postWriterId);
+    postNotifier.optimisticIncreaseDislike();
 
     return true;
   }
@@ -200,6 +229,14 @@ class PostLikesController extends _$PostLikesController {
     }
 
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final appUserNotifier =
+        ref.read(appUserDataProvider(postWriterId).notifier);
+    final postLikeNotifier = ref.read(
+        userPostDislikeDataProvider(postId: postId, uid: user.uid).notifier);
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState = await AsyncValue.guard(
       () => PostLikesService(ref).decreasePostDislikeCount(
@@ -212,7 +249,7 @@ class PostLikesController extends _$PostLikesController {
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -224,12 +261,13 @@ class PostLikesController extends _$PostLikesController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
-    ref.read(updatedUserIdsListProvider.notifier).set(postWriterId);
-    ref.invalidate(writerFutureProvider);
-
-    ref.invalidate(postLikesByUserFutureProvider);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    ref.read(updatedUserIdProvider.notifier).set(postWriterId);
     ref.read(likesListStateProvider.notifier).set(nowToInt());
+
+    appUserNotifier.decreaseOptimisticDislike();
+    postLikeNotifier.decreaseOptimisticDislike();
+    postNotifier.optimisticDecreaseDislike();
 
     return true;
   }

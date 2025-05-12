@@ -2,8 +2,8 @@ import 'package:applimode_app/src/common_widgets/color_circle.dart';
 import 'package:applimode_app/src/common_widgets/image_widgets/cached_circle_image.dart';
 import 'package:applimode_app/src/constants/constants.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/application/sign_out_service.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_drawer/app_locale_button.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_drawer/app_style_button.dart';
@@ -27,7 +27,7 @@ class PostsDrawer extends ConsumerWidget {
     // dev.log('Posts Drawer build');
     final user = ref.watch(authStateChangesProvider).value;
     final appUser =
-        user != null ? ref.watch(appUserFutureProvider(user.uid)).value : null;
+        user != null ? ref.watch(appUserDataProvider(user.uid)).value : null;
     final adminSettings = ref.watch(adminSettingsProvider);
     return Drawer(
       child: SafeArea(

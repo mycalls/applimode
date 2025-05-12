@@ -1,13 +1,14 @@
 import 'package:applimode_app/src/exceptions/app_exception.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/post/application/post_delete_service.dart';
+import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
 import 'package:applimode_app/src/features/posts/data/post_reports_repository.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
 import 'package:applimode_app/src/utils/is_firestore_not_found.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/src/utils/now_to_int.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -48,7 +49,7 @@ class PostScreenController extends _$PostScreenController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
     // ref.read(postsListStateProvider.notifier).set(nowToInt());
 
     return true;
@@ -70,13 +71,17 @@ class PostScreenController extends _$PostScreenController {
     }
     final postsRepository = ref.read(postsRepositoryProvider);
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => postsRepository.blockPost(postId));
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -88,7 +93,8 @@ class PostScreenController extends _$PostScreenController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    postNotifier.optimisticBlock();
 
     return true;
 
@@ -109,13 +115,17 @@ class PostScreenController extends _$PostScreenController {
     }
     final postsRepository = ref.read(postsRepositoryProvider);
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => postsRepository.unblockPost(postId));
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -127,7 +137,8 @@ class PostScreenController extends _$PostScreenController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    postNotifier.optimisticUnblock();
 
     return true;
 
@@ -148,13 +159,17 @@ class PostScreenController extends _$PostScreenController {
     }
     final postsRepository = ref.read(postsRepositoryProvider);
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => postsRepository.recommendPost(postId));
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -166,7 +181,8 @@ class PostScreenController extends _$PostScreenController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    postNotifier.optimisticRecommend();
 
     return true;
 
@@ -187,13 +203,17 @@ class PostScreenController extends _$PostScreenController {
     }
     final postsRepository = ref.read(postsRepositoryProvider);
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => postsRepository.unrecommendPost(postId));
     if (key == this.key) {
       if (newState.hasError && isFirestoreNotFound(newState.error.toString())) {
         state = AsyncError(PageNotFoundException(), StackTrace.current);
-        ref.read(updatedPostIdsListProvider.notifier).set(postId);
+        ref.read(updatedPostIdProvider.notifier).set(postId);
         return false;
       } else {
         state = newState;
@@ -205,7 +225,8 @@ class PostScreenController extends _$PostScreenController {
       return false;
     }
 
-    ref.read(updatedPostIdsListProvider.notifier).set(postId);
+    ref.read(updatedPostIdProvider.notifier).set(postId);
+    postNotifier.optimisticUnrecommend();
 
     return true;
 
@@ -226,6 +247,10 @@ class PostScreenController extends _$PostScreenController {
     }
     final postsRepository = ref.read(postsRepositoryProvider);
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => postsRepository.toMainPost(postId));
@@ -245,6 +270,7 @@ class PostScreenController extends _$PostScreenController {
     }
 
     ref.read(postsListStateProvider.notifier).set(nowToInt());
+    postNotifier.optimisticMain();
 
     return true;
 
@@ -265,6 +291,10 @@ class PostScreenController extends _$PostScreenController {
     }
     final postsRepository = ref.read(postsRepositoryProvider);
     state = const AsyncLoading();
+
+    // on WASM, sometimes state changes AsycLoading and not work
+    final postNotifier = ref.read(postDataProvider(PostArgs(postId)).notifier);
+
     final key = this.key;
     final newState =
         await AsyncValue.guard(() => postsRepository.toGeneralPost(postId));
@@ -284,6 +314,7 @@ class PostScreenController extends _$PostScreenController {
     }
 
     ref.read(postsListStateProvider.notifier).set(nowToInt());
+    postNotifier.optimisticGeneral();
 
     return true;
 

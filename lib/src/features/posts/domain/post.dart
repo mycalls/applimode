@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:applimode_app/src/constants/constants.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
 class Post extends Equatable {
   const Post({
     required this.id,
@@ -130,6 +132,66 @@ class Post extends Equatable {
     };
   }
 
+  Post copyWith({
+    String? id,
+    String? uid,
+    String? content,
+    String? title,
+    bool? needUpdate,
+    bool? isLongContent,
+    bool? isHeader,
+    bool? isBlock,
+    bool? isRecommended,
+    bool? isNoTitle,
+    bool? isNoWriter,
+    int? category,
+    String? mainImageUrl,
+    String? mainVideoUrl,
+    String? mainVideoImageUrl,
+    List<String>? tags,
+    int? postCommentCount,
+    int? viewCount,
+    int? likeCount,
+    int? dislikeCount,
+    int? sumCount,
+    int? reportCount,
+    int? day,
+    int? month,
+    int? year,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Post(
+      id: id ?? this.id,
+      uid: uid ?? this.uid,
+      content: content ?? this.content,
+      title: title ?? this.title,
+      needUpdate: needUpdate ?? this.needUpdate,
+      isLongContent: isLongContent ?? this.isLongContent,
+      isHeader: isHeader ?? this.isHeader,
+      isBlock: isBlock ?? this.isBlock,
+      isRecommended: isRecommended ?? this.isRecommended,
+      isNoTitle: isNoTitle ?? this.isNoTitle,
+      isNoWriter: isNoWriter ?? this.isNoWriter,
+      category: category ?? this.category,
+      mainImageUrl: mainImageUrl ?? this.mainImageUrl,
+      mainVideoUrl: mainVideoUrl ?? this.mainVideoUrl,
+      mainVideoImageUrl: mainVideoImageUrl ?? this.mainVideoImageUrl,
+      tags: tags ?? this.tags,
+      postCommentCount: postCommentCount ?? this.postCommentCount,
+      viewCount: viewCount ?? this.viewCount,
+      likeCount: likeCount ?? this.likeCount,
+      dislikeCount: dislikeCount ?? this.dislikeCount,
+      sumCount: sumCount ?? this.sumCount,
+      reportCount: reportCount ?? this.reportCount,
+      day: day ?? this.day,
+      month: month ?? this.month,
+      year: year ?? this.year,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   factory Post.deleted() {
     return Post(
       id: deleted,
@@ -174,4 +236,23 @@ class Post extends Equatable {
         createdAt,
         updatedAt,
       ];
+}
+
+@immutable
+class PostArgs {
+  const PostArgs(this.postId, [this.initialPost]);
+
+  final String postId;
+  final Post? initialPost;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is PostArgs &&
+        runtimeType == other.runtimeType &&
+        postId == other.postId; // 오직 documentId만 비교!
+  }
+
+  @override
+  int get hashCode => postId.hashCode;
 }

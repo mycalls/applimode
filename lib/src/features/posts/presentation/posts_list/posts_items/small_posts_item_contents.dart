@@ -1,9 +1,9 @@
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:applimode_app/src/common_widgets/title_text_widget.dart';
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/post_sub_info_one_line.dart';
 
@@ -11,7 +11,6 @@ class SmallPostsItemContents extends ConsumerWidget {
   const SmallPostsItemContents({
     super.key,
     required this.post,
-    required this.writer,
     this.isRankingPage = false,
     this.isLikeRanking = false,
     this.isDislikeRanking = false,
@@ -20,7 +19,6 @@ class SmallPostsItemContents extends ConsumerWidget {
   });
 
   final Post post;
-  final AppUser writer;
   final bool isRankingPage;
   final bool isLikeRanking;
   final bool isDislikeRanking;
@@ -67,11 +65,12 @@ class SmallPostsItemContents extends ConsumerWidget {
         Consumer(
           builder: (context, ref, child) {
             final adminSettings = ref.watch(adminSettingsProvider);
+            final writerAsync = ref.watch(appUserDataProvider(post.uid));
             return PostSubInfoOneLine(
               post: post,
               mainCategory: adminSettings.mainCategory,
               showMainCategory: adminSettings.useCategory,
-              writer: writer,
+              writer: writerAsync.value,
               showCommentPlusLikeCount:
                   isLikeRanking || isDislikeRanking || isSumRanking
                       ? false

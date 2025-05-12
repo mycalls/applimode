@@ -1,4 +1,7 @@
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/utils/app_states/updated_comment_id.dart';
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
+import 'package:applimode_app/src/utils/app_states/updated_user_id.dart';
 import 'package:applimode_app/src/utils/safe_build_call.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
@@ -16,9 +19,6 @@ import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_i
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/updated_comment_ids_list.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
-import 'package:applimode_app/src/utils/updated_user_ids_list.dart';
 import 'package:applimode_app/custom_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -101,25 +101,14 @@ class _RankingScreenState extends ConsumerState<RankingScreen> {
     }
   }
 
-  void Function() _buildResetUpdatedDocIds() {
+  ProviderListenable<String?> _buildUpdatedDocsState() {
     switch (firstFilter) {
       case RankFirstFilter.post:
-        return ref.watch(updatedPostIdsListProvider.notifier).removeAll;
+        return updatedPostIdProvider;
       case RankFirstFilter.comment:
-        return ref.watch(updatedCommentIdsListProvider.notifier).removeAll;
+        return updatedCommentIdProvider;
       case RankFirstFilter.user:
-        return ref.watch(updatedUserIdsListProvider.notifier).removeAll;
-    }
-  }
-
-  ProviderListenable<List<String>> _buildUpdatedDocsState() {
-    switch (firstFilter) {
-      case RankFirstFilter.post:
-        return updatedPostIdsListProvider;
-      case RankFirstFilter.comment:
-        return updatedCommentIdsListProvider;
-      case RankFirstFilter.user:
-        return updatedUserIdsListProvider;
+        return updatedUserIdProvider;
     }
   }
 
@@ -653,10 +642,9 @@ class _RankingScreenState extends ConsumerState<RankingScreen> {
             useDidUpdateWidget: true,
             isNoGridView: true,
             listState: _buildListState(),
-            refreshUpdatedDocs: true,
+            refreshUpdatedDoc: true,
             updatedDocQuery: _buildUpdatedDocQuery(),
-            resetUpdatedDocIds: _buildResetUpdatedDocIds(),
-            updatedDocsState: _buildUpdatedDocsState(),
+            updatedDocState: _buildUpdatedDocsState(),
             useUid: firstFilter == RankFirstFilter.user ? true : false,
             itemBuilder: (context, index, doc) {
               final item = doc.data();

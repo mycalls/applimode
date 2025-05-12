@@ -1,3 +1,4 @@
+import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
 import 'package:applimode_app/src/utils/safe_build_call.dart';
 import 'package:flutter/foundation.dart';
 import 'package:applimode_app/custom_settings.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:applimode_app/src/features/search/data/d_one_repository.dart';
 import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/updated_post_ids_list.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
@@ -79,8 +79,6 @@ class _SearchScreenState extends State<SearchScreen> {
           final dOneRepository = ref.watch(dOneRepositoryProvider);
           final updatedPostQuery =
               ref.watch(postsRepositoryProvider).postsRef();
-          final resetUpdatedDocIds =
-              ref.watch(updatedPostIdsListProvider.notifier).removeAll;
 
           if (useDOneForSearch && !searchWords.startsWith(r'#')) {
             return SearchPageListView(
@@ -90,9 +88,8 @@ class _SearchScreenState extends State<SearchScreen> {
               itemExtent: listSmallItemHeight,
               listState: postsListStateProvider,
               useDidUpdateWidget: true,
-              refreshUpdatedDocs: true,
-              resetUpdatedDocIds: resetUpdatedDocIds,
-              updatedDocsState: updatedPostIdsListProvider,
+              refreshUpdatedDoc: true,
+              updatedDocState: updatedPostIdProvider,
               itemBuilder: (context, index, doc) {
                 final post = doc.data();
                 if (post == null) {
@@ -121,10 +118,9 @@ class _SearchScreenState extends State<SearchScreen> {
               );
             },
             listState: postsListStateProvider,
-            refreshUpdatedDocs: true,
+            refreshUpdatedDoc: true,
             updatedDocQuery: updatedPostQuery,
-            resetUpdatedDocIds: resetUpdatedDocIds,
-            updatedDocsState: updatedPostIdsListProvider,
+            updatedDocState: updatedPostIdProvider,
             searchWords: searchWords.replaceAll(RegExp(r'[#_ ]'), '').trim(),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           );

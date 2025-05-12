@@ -3,7 +3,7 @@ import 'package:applimode_app/src/common_widgets/image_widgets/cached_circle_ima
 import 'package:applimode_app/src/common_widgets/image_widgets/cached_padding_image.dart';
 import 'package:applimode_app/src/constants/color_palettes.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
 import 'package:applimode_app/src/features/comments/presentation/buttons/post_comment_like_button.dart';
@@ -40,7 +40,7 @@ class PostCommentsItem extends ConsumerWidget {
     final user = ref.watch(authStateChangesProvider).value;
     final adminSettings = ref.watch(adminSettingsProvider);
 
-    final writerAsync = ref.watch(writerFutureProvider(comment.uid));
+    final writerAsync = ref.watch(appUserDataProvider(comment.uid));
 
     return writerAsync.when(
       data: (writer) {

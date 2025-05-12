@@ -1,7 +1,7 @@
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 import 'package:applimode_app/src/features/editor/presentation/editor_screen_controller.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/check_category.dart';
@@ -23,7 +23,7 @@ class EditorBottomBar extends ConsumerStatefulWidget {
     this.catetory,
     this.hasPostContent,
     this.remoteMedia,
-    this.writer,
+    this.currentPost,
   });
 
   final double bottomBarHeight;
@@ -33,7 +33,7 @@ class EditorBottomBar extends ConsumerStatefulWidget {
   final int? catetory;
   final bool? hasPostContent;
   final List<String>? remoteMedia;
-  final AppUser? writer;
+  final Post? currentPost;
 
   @override
   ConsumerState<EditorBottomBar> createState() => _EditorBottomBarState();
@@ -195,8 +195,8 @@ class _EditorBottomBarState extends ConsumerState<EditorBottomBar> {
                                 hasPostContent: widget.hasPostContent ?? false,
                                 postId: widget.postId,
                                 oldRemoteMedia: widget.remoteMedia,
-                                writer: widget.writer,
                                 postNotiString: context.loc.postNoti,
+                                currentPost: widget.currentPost,
                               );
                           if (mounted && result) {
                             // When the post writing is complete,

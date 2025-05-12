@@ -7,7 +7,7 @@ part of 'like_comment_noti_button_controller.dart';
 // **************************************************************************
 
 String _$likeCommentNotiButtonControllerHash() =>
-    r'76e708ad12a06d7622d0e70912639cfb488857cc';
+    r'436d4063e7372cc0bd2d1913ee1a2c86edb65026';
 
 /// See also [LikeCommentNotiButtonController].
 @ProviderFor(LikeCommentNotiButtonController)
