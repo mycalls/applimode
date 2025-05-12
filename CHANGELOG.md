@@ -3,6 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.8 (May 12, 2025)
+- State management optimization.
+- Updated a dependency to the latest release.
+
 ## Version 0.3.7 (April 30, 2025)
 - Code optimization.
 - Enhanced video gesture functionality.
