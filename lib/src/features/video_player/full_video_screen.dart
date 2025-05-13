@@ -89,7 +89,7 @@ class _FullVideoScreenState extends State<FullVideoScreen>
       _isDragging = false;
     });
 
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final dismissThresholdDistance =
         screenHeight * _dismissThresholdDistanceFactor;
 
@@ -130,7 +130,7 @@ class _FullVideoScreenState extends State<FullVideoScreen>
 
   // Calculate background opacity based on drag distance for a fade-out effect
   double _calculateBackgroundOpacity() {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     // Start fading after dragging 10% of the screen height, fully transparent at 50%
     const startFadeFraction = 0.1;
     const fullFadeFraction = 0.5;

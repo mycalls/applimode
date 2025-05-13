@@ -10,7 +10,7 @@ double getMaxWidth(
 }) {
   final mediaWidth = MediaQuery.sizeOf(context).width;
   final isLandscape =
-      MediaQuery.of(context).orientation == Orientation.landscape;
+      MediaQuery.orientationOf(context) == Orientation.landscape;
   final extraPadding = isLandscape ? 160.0 : 0;
 
   if (breakPoint == 0 || postsListType == PostsListType.page) {

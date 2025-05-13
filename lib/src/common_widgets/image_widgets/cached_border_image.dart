@@ -30,7 +30,7 @@ class CachedBorderImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceRatio = MediaQuery.of(context).devicePixelRatio;
+    final deviceRatio = MediaQuery.devicePixelRatioOf(context);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: hPadding ?? 0,

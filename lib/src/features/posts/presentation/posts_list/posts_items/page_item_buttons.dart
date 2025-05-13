@@ -61,7 +61,7 @@ class PageItemButtons extends ConsumerWidget {
           const SizedBox(height: 16),
         ],
         if (adminSettings.showDislikeCount &&
-            MediaQuery.of(context).orientation == Orientation.portrait) ...[
+            MediaQuery.orientationOf(context) == Orientation.portrait) ...[
           PostDislikeButton(
             post: post,
             iconColor: const Color(basicPostsItemButtonColor),

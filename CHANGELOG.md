@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.3.9 (May 16, 2025)
+- Removed usage of MediaQuery.of(context).
+
 ## Version 0.3.8 (May 12, 2025)
 - State management optimization.
 - Updated a dependency to the latest release.
