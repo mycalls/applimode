@@ -5,6 +5,7 @@
 -->
 ## Version 0.3.9 (May 16, 2025)
 - Removed usage of MediaQuery.of(context).
+- Improved FullImageScreen.
 
 ## Version 0.3.8 (May 12, 2025)
 - State management optimization.
