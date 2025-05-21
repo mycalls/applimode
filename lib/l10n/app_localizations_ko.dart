@@ -231,7 +231,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tryAgain => '다시 시도';
 
   @override
-  String get failedPostSubmit => '네트워크 상태 또는 미디어 파일을 확인해 주세요. 파일 이름에 대괄호([])는 사용할 수 없습니다.';
+  String get failedPostSubmit =>
+      '네트워크 상태 또는 미디어 파일을 확인해 주세요. 파일 이름에 대괄호([])는 사용할 수 없습니다.';
 
   @override
   String get failedMediaFile => '첨부한 미디어 파일을 인식할 수 없습니다. 확인해 주세요.';
@@ -444,7 +445,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get maxFileSizeErrorTitle => '초대 파일 크기 초과';
 
   @override
-  String get maxFileSizedErrorContent => '최대 파일 크기를 초과했습니다. 파일 크기을 줄여서 다시 시도해 주세요.';
+  String get maxFileSizedErrorContent =>
+      '최대 파일 크기를 초과했습니다. 파일 크기을 줄여서 다시 시도해 주세요.';
 
   @override
   String get appStyle => '앱 스타일';
@@ -669,7 +671,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String get previousPrompts => '이전 메시지들';
 
   @override
-  String get promptHint => '메시지를 입력하지 않을 경우, 작성한 글에 대한 제목, 요약, 검색태그가 추가된 글을 생성합니다.';
+  String get promptHint =>
+      '메시지를 입력하지 않을 경우, 작성한 글에 대한 제목, 요약, 검색태그가 추가된 글을 생성합니다.';
 
   @override
   String get predefinedPrompt => '사전 정의 메시지';

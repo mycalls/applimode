@@ -4,8 +4,10 @@
 ### Bug Fixes
 -->
 ## Version 0.3.9 (May 16, 2025)
+- Requires Flutter 3.32 (please upgrade to Flutter 3.32).
 - Removed usage of MediaQuery.of(context).
 - Improved FullImageScreen.
+- Updated a dependency to the latest release.
 
 ## Version 0.3.8 (May 12, 2025)
 - State management optimization.

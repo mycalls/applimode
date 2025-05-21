@@ -231,13 +231,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tryAgain => '再試行';
 
   @override
-  String get failedPostSubmit => 'ネットワークまたはメディアファイルを確認してください。ファイル名に角括弧（[]）は使用できません。';
+  String get failedPostSubmit =>
+      'ネットワークまたはメディアファイルを確認してください。ファイル名に角括弧（[]）は使用できません。';
 
   @override
   String get failedMediaFile => 'メディアファイルを認識できませんでした。ファイルを確認してください';
 
   @override
-  String get failedUploadMediaFile => 'メディアファイルのアップロードに失敗しました。ネットワーク接続を確認してください。';
+  String get failedUploadMediaFile =>
+      'メディアファイルのアップロードに失敗しました。ネットワーク接続を確認してください。';
 
   @override
   String get ooops => 'おっと！';
@@ -444,7 +446,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get maxFileSizeErrorTitle => '最大ファイルサイズ超過';
 
   @override
-  String get maxFileSizedErrorContent => '最大ファイルサイズを超えました。ファイルサイズを小さくして、もう一度お試しください。';
+  String get maxFileSizedErrorContent =>
+      '最大ファイルサイズを超えました。ファイルサイズを小さくして、もう一度お試しください。';
 
   @override
   String get appStyle => 'アプリスタイル';
@@ -669,7 +672,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get previousPrompts => '以前のプロンプト';
 
   @override
-  String get promptHint => 'メッセージが入力されていない場合、生成されたテキストには、書かれたコンテンツのタイトル、要約、検索タグが含まれます。';
+  String get promptHint =>
+      'メッセージが入力されていない場合、生成されたテキストには、書かれたコンテンツのタイトル、要約、検索タグが含まれます。';
 
   @override
   String get predefinedPrompt => '事前定義プロンプト';

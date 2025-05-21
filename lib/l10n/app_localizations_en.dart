@@ -27,7 +27,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notFound404 => '404 - Page not found!';
 
   @override
-  String get emptyPlaceholderDefault => 'Oops something went wrong.\nPlease try again later.';
+  String get emptyPlaceholderDefault =>
+      'Oops something went wrong.\nPlease try again later.';
 
   @override
   String get appTheme => 'Theme';
@@ -195,7 +196,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailAlreadyInUse => 'This email is already in use.';
 
   @override
-  String get weakPassword => 'This password is weak. Please change the password.';
+  String get weakPassword =>
+      'This password is weak. Please change the password.';
 
   @override
   String get invalidLoginCredentials => 'Your email or password is incorrect.';
@@ -207,7 +209,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unknownIssueWithAuth => 'Something is wrong. Please try later.';
 
   @override
-  String get shortPassword => 'Please enter a password that is at least 6 characters long';
+  String get shortPassword =>
+      'Please enter a password that is at least 6 characters long';
 
   @override
   String get ok => 'OK';
@@ -231,13 +234,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tryAgain => 'Try Again';
 
   @override
-  String get failedPostSubmit => 'Please check your network or media files. Square brackets ([]) cannot be used in file names.';
+  String get failedPostSubmit =>
+      'Please check your network or media files. Square brackets ([]) cannot be used in file names.';
 
   @override
-  String get failedMediaFile => 'The media files could not be recognized. Please check the files';
+  String get failedMediaFile =>
+      'The media files could not be recognized. Please check the files';
 
   @override
-  String get failedUploadMediaFile => 'Unable to upload the media files. Please check your network connection.';
+  String get failedUploadMediaFile =>
+      'Unable to upload the media files. Please check your network connection.';
 
   @override
   String get ooops => 'Ooops';
@@ -333,7 +339,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userNotExist => 'This user does not exist.';
 
   @override
-  String get enterPasswordForEmail => 'Enter your password to change your email address.';
+  String get enterPasswordForEmail =>
+      'Enter your password to change your email address.';
 
   @override
   String get currentPassword => 'Current password';
@@ -444,7 +451,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get maxFileSizeErrorTitle => 'Maximum file size exceeded';
 
   @override
-  String get maxFileSizedErrorContent => 'The maximum file size has been exceeded. Please reduce the file size and try again.';
+  String get maxFileSizedErrorContent =>
+      'The maximum file size has been exceeded. Please reduce the file size and try again.';
 
   @override
   String get appStyle => 'App style';
@@ -495,7 +503,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpAgain => 'Something is wrong. Please try signing up again.';
 
   @override
-  String get signInAgain => 'User initialization failed. Please try signing in.';
+  String get signInAgain =>
+      'User initialization failed. Please try signing in.';
 
   @override
   String get adminSettings => 'Admin settings';
@@ -669,13 +678,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get previousPrompts => 'Previous Prompts';
 
   @override
-  String get promptHint => 'If no message is entered, a generated text will include a title, summary, and search tags for the written content.';
+  String get promptHint =>
+      'If no message is entered, a generated text will include a title, summary, and search tags for the written content.';
 
   @override
   String get predefinedPrompt => 'Predefined Prompt';
 
   @override
-  String get predefinedPromptHint => 'Enter a prompt that is entered repeatedly';
+  String get predefinedPromptHint =>
+      'Enter a prompt that is entered repeatedly';
 
   @override
   String get reportIssue => 'Report an issue';
@@ -702,7 +713,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profanityReport => 'Profanity/Violent/Hateful/Discriminatory';
 
   @override
-  String get defamationReport => 'Defamation/Privacy Violation/Personal Information Exposure';
+  String get defamationReport =>
+      'Defamation/Privacy Violation/Personal Information Exposure';
 
   @override
   String get scamReport => 'Scam/Fraud/False Information';

@@ -27,7 +27,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notFound404 => '404 - ¡Página no encontrada!';
 
   @override
-  String get emptyPlaceholderDefault => 'Ups, algo salió mal.\nPor favor, inténtalo de nuevo más tarde.';
+  String get emptyPlaceholderDefault =>
+      'Ups, algo salió mal.\nPor favor, inténtalo de nuevo más tarde.';
 
   @override
   String get appTheme => 'Tema';
@@ -198,16 +199,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get weakPassword => 'Esta contraseña es débil. Por favor, cámbiala.';
 
   @override
-  String get invalidLoginCredentials => 'Tu correo electrónico o contraseña son incorrectos.';
+  String get invalidLoginCredentials =>
+      'Tu correo electrónico o contraseña son incorrectos.';
 
   @override
-  String get invalidCredential => 'Por favor, revisa tu correo electrónico o contraseña.';
+  String get invalidCredential =>
+      'Por favor, revisa tu correo electrónico o contraseña.';
 
   @override
-  String get unknownIssueWithAuth => 'Algo salió mal. Por favor, inténtalo más tarde.';
+  String get unknownIssueWithAuth =>
+      'Algo salió mal. Por favor, inténtalo más tarde.';
 
   @override
-  String get shortPassword => 'Por favor, introduce una contraseña de al menos 6 caracteres';
+  String get shortPassword =>
+      'Por favor, introduce una contraseña de al menos 6 caracteres';
 
   @override
   String get ok => 'Aceptar';
@@ -225,25 +230,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tryLater => 'Algo salió mal. Por favor, inténtalo más tarde.';
 
   @override
-  String get failedInitializing => 'Falló la inicialización. Inténtalo de nuevo.';
+  String get failedInitializing =>
+      'Falló la inicialización. Inténtalo de nuevo.';
 
   @override
   String get tryAgain => 'Intentar de nuevo';
 
   @override
-  String get failedPostSubmit => 'Por favor, revisa tu red o archivos multimedia. No se pueden usar corchetes ([]) en los nombres de archivo.';
+  String get failedPostSubmit =>
+      'Por favor, revisa tu red o archivos multimedia. No se pueden usar corchetes ([]) en los nombres de archivo.';
 
   @override
-  String get failedMediaFile => 'No se pudieron reconocer los archivos multimedia. Por favor, revisa los archivos';
+  String get failedMediaFile =>
+      'No se pudieron reconocer los archivos multimedia. Por favor, revisa los archivos';
 
   @override
-  String get failedUploadMediaFile => 'No se pudieron subir los archivos multimedia. Por favor, revisa tu conexión de red.';
+  String get failedUploadMediaFile =>
+      'No se pudieron subir los archivos multimedia. Por favor, revisa tu conexión de red.';
 
   @override
   String get ooops => '¡Ups!';
 
   @override
-  String get emptyContent => 'Tu contenido está vacío. Por favor, introduce contenido.';
+  String get emptyContent =>
+      'Tu contenido está vacío. Por favor, introduce contenido.';
 
   @override
   String get needLogin => 'Se requiere iniciar sesión.';
@@ -333,7 +343,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get userNotExist => 'Este usuario no existe.';
 
   @override
-  String get enterPasswordForEmail => 'Introduce tu contraseña para cambiar tu dirección de correo electrónico.';
+  String get enterPasswordForEmail =>
+      'Introduce tu contraseña para cambiar tu dirección de correo electrónico.';
 
   @override
   String get currentPassword => 'Contraseña actual';
@@ -444,7 +455,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get maxFileSizeErrorTitle => 'Tamaño máximo de archivo excedido';
 
   @override
-  String get maxFileSizedErrorContent => 'Se ha excedido el tamaño máximo de archivo. Por favor, reduce el tamaño del archivo e inténtalo de nuevo.';
+  String get maxFileSizedErrorContent =>
+      'Se ha excedido el tamaño máximo de archivo. Por favor, reduce el tamaño del archivo e inténtalo de nuevo.';
 
   @override
   String get appStyle => 'Estilo de la aplicación';
@@ -492,16 +504,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get commentLikeNoti => 'le gusta tu comentario.';
 
   @override
-  String get signUpAgain => 'Algo salió mal. Por favor, intenta registrarte de nuevo.';
+  String get signUpAgain =>
+      'Algo salió mal. Por favor, intenta registrarte de nuevo.';
 
   @override
-  String get signInAgain => 'Falló la inicialización del usuario. Por favor, intenta iniciar sesión.';
+  String get signInAgain =>
+      'Falló la inicialización del usuario. Por favor, intenta iniciar sesión.';
 
   @override
   String get adminSettings => 'Configuración de administrador';
 
   @override
-  String get homeTitleSetting => 'Configuración del título de la barra de aplicaciones de inicio';
+  String get homeTitleSetting =>
+      'Configuración del título de la barra de aplicaciones de inicio';
 
   @override
   String get mainColorSetting => 'Configuración del color principal';
@@ -603,7 +618,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get showSumCount => 'Mostrar suma de Me gusta + No me gusta';
 
   @override
-  String get showCommentPlusLikeCount => 'Mostrar suma de comentarios + Me gusta';
+  String get showCommentPlusLikeCount =>
+      'Mostrar suma de comentarios + Me gusta';
 
   @override
   String get isThumbUpToHeart => 'Mostrar \'Me gusta\' con corazones';
@@ -612,13 +628,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get showUserAdminLabel => 'Mostrar icono de administrador';
 
   @override
-  String get showUserLikeCount => 'Mostrar contador de \'Me gusta\' del usuario';
+  String get showUserLikeCount =>
+      'Mostrar contador de \'Me gusta\' del usuario';
 
   @override
-  String get showUserDislikeCount => 'Mostrar contador de \'No me gusta\' del usuario';
+  String get showUserDislikeCount =>
+      'Mostrar contador de \'No me gusta\' del usuario';
 
   @override
-  String get showUserSumCount => 'Mostrar suma de Me gusta + No me gusta del usuario';
+  String get showUserSumCount =>
+      'Mostrar suma de Me gusta + No me gusta del usuario';
 
   @override
   String get save => 'Guardar';
@@ -642,7 +661,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get maintenanceTitle => 'Mantenimiento del sistema';
 
   @override
-  String get maintenanceMessage => 'El sistema está actualmente en mantenimiento.';
+  String get maintenanceMessage =>
+      'El sistema está actualmente en mantenimiento.';
 
   @override
   String get maintenanceAccess => 'Solo acceso de administrador.';
@@ -669,13 +689,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get previousPrompts => 'Indicaciones anteriores';
 
   @override
-  String get promptHint => 'Si no se ingresa ningún mensaje, un texto generado incluirá un título, resumen y etiquetas de búsqueda para el contenido escrito.';
+  String get promptHint =>
+      'Si no se ingresa ningún mensaje, un texto generado incluirá un título, resumen y etiquetas de búsqueda para el contenido escrito.';
 
   @override
   String get predefinedPrompt => 'Indicación predefinida';
 
   @override
-  String get predefinedPromptHint => 'Introduce una indicación que se introduce repetidamente';
+  String get predefinedPromptHint =>
+      'Introduce una indicación que se introduce repetidamente';
 
   @override
   String get reportIssue => 'Reportar un problema';
@@ -702,7 +724,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profanityReport => 'Profanidad/Violento/Odioso/Discriminatorio';
 
   @override
-  String get defamationReport => 'Difamación/Violación de privacidad/Exposición de información personal';
+  String get defamationReport =>
+      'Difamación/Violación de privacidad/Exposición de información personal';
 
   @override
   String get scamReport => 'Estafa/Fraude/Información falsa';

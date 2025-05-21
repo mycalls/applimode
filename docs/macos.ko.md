@@ -1288,9 +1288,10 @@ node ./applimode-tool/index.js ai
 * 웹 브라우저에서 [Firebase console](https://console.firebase.google.com/)을 열거나 이동합니다.
 * 프로젝트를 클릭합니다.
 * 현재 페이지를 새로고침합니다.
-* **Build with Gemini** (왼쪽 사이드바)를 클릭합니다.
-* **Firebase용 Vertex AI** 카드에서 **시작하기**를 클릭합니다.
-* **API 사용 설정**을 클릭한 다음 **계속**를 클릭합니다.
+* **AI** (왼쪽 사이드바)를 클릭하고 **AI Logic**을 클릭합니다.
+* **시작하기**를 클릭합니다.
+* **Gemini Developer API** 섹션에서 **이 API 시작하기**를 클릭하세요.
+* * **사용 설정**을 클릭한 다음 **계속**를 클릭합니다.
 <!--
 * **VSCode**로 돌아와 터미널에서 다음 명령어를 실행하세요.
 ```sh

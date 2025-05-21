@@ -1300,9 +1300,10 @@ node ./applimode-tool/index.js ai
 * Open or go to your [Firebase console](https://console.firebase.google.com/) in your web browser.
 * Click your project.
 * Refresh the current page.
-* Click **Build with Gemini** (on the left sidebar).
-* Click **Get started** on the **Vertex AI in Firebase** card.
-* Click **Enable APIs**, then click **Continue**.
+* Click **AI** (on the left sidebar) and then click **AI Logic**.
+* Click **Get started**.
+* Click **Get started with this API** the **Gemini Developer API** section.
+* Click **Enable**, then click **Continue**.
 
 
 

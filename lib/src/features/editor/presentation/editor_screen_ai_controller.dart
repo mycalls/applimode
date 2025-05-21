@@ -6,7 +6,7 @@ import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.
 import 'package:applimode_app/src/features/prompts/vertex_ai_model.dart';
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/regex.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart';
+import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
