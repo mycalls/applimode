@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.4.0 (June, 2025)
+- Imporved CustomColorPicker.
+
 ## Version 0.3.9 (May 16, 2025)
 - Requires Flutter 3.32 (please upgrade to Flutter 3.32).
 - Removed usage of MediaQuery.of(context).
