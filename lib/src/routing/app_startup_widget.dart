@@ -45,9 +45,9 @@ class AppStartupLoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // English: Using Material widget to ensure a consistent background and theming.
-    // Korean: 일관된 배경과 테마를 보장하기 위해 Material 위젯을 사용합니다.
-    return const Material(child: Center(child: CupertinoActivityIndicator()));
+    // English: When using Material widgets, the screen changes too much depending on the theme.
+    // Korean: Material 위젯을 사용할 경우 테마별로 화면 변화가 너무 심함
+    return Center(child: CupertinoActivityIndicator());
   }
 }
 
