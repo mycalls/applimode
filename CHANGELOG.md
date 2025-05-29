@@ -6,6 +6,7 @@
 ## Version 0.4.0 (June, 2025)
 - Imporved CustomColorPicker.
 - Updated Android Gradle Files.
+- Refactored routing logic.
 
 ## Version 0.3.9 (May 16, 2025)
 - Requires Flutter 3.32 (please upgrade to Flutter 3.32).
