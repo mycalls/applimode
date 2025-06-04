@@ -174,14 +174,14 @@ class _PostFutureProviderElement extends AutoDisposeFutureProviderElement<Post?>
   String get id => (origin as PostFutureProvider).id;
 }
 
-String _$postStreamHash() => r'9e07dbf73eb1a2b81c51cc372c7903081a6bfd29';
+String _$postStreamHash() => r'ed2dca018507a9e1be49fd23da960d2d7c698519';
 
 /// See also [postStream].
 @ProviderFor(postStream)
 const postStreamProvider = PostStreamFamily();
 
 /// See also [postStream].
-class PostStreamFamily extends Family<AsyncValue<Post>> {
+class PostStreamFamily extends Family<AsyncValue<Post?>> {
   /// See also [postStream].
   const PostStreamFamily();
 
@@ -219,7 +219,7 @@ class PostStreamFamily extends Family<AsyncValue<Post>> {
 }
 
 /// See also [postStream].
-class PostStreamProvider extends AutoDisposeStreamProvider<Post> {
+class PostStreamProvider extends AutoDisposeStreamProvider<Post?> {
   /// See also [postStream].
   PostStreamProvider(
     String id,
@@ -254,7 +254,7 @@ class PostStreamProvider extends AutoDisposeStreamProvider<Post> {
 
   @override
   Override overrideWith(
-    Stream<Post> Function(PostStreamRef provider) create,
+    Stream<Post?> Function(PostStreamRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -271,7 +271,7 @@ class PostStreamProvider extends AutoDisposeStreamProvider<Post> {
   }
 
   @override
-  AutoDisposeStreamProviderElement<Post> createElement() {
+  AutoDisposeStreamProviderElement<Post?> createElement() {
     return _PostStreamProviderElement(this);
   }
 
@@ -291,12 +291,12 @@ class PostStreamProvider extends AutoDisposeStreamProvider<Post> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin PostStreamRef on AutoDisposeStreamProviderRef<Post> {
+mixin PostStreamRef on AutoDisposeStreamProviderRef<Post?> {
   /// The parameter `id` of this provider.
   String get id;
 }
 
-class _PostStreamProviderElement extends AutoDisposeStreamProviderElement<Post>
+class _PostStreamProviderElement extends AutoDisposeStreamProviderElement<Post?>
     with PostStreamRef {
   _PostStreamProviderElement(super.provider);
 

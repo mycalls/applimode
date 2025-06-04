@@ -6,7 +6,7 @@ part of 'user_post_like_data_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userPostLikeDataHash() => r'521cf2d60b5e32018c20f63d806499e237a8db27';
+String _$userPostLikeDataHash() => r'551e4df709100e954899f5bc4ee44057042e5a91';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -7,7 +7,7 @@ part of 'new_post_noti_button_controller.dart';
 // **************************************************************************
 
 String _$newPostNotiButtonControllerHash() =>
-    r'607ea55e554155767cece1e1467bf26225a6fb21';
+    r'7b5214dbe1aed6f48ffc0ddad11a20170bb9c63e';
 
 /// See also [NewPostNotiButtonController].
 @ProviderFor(NewPostNotiButtonController)

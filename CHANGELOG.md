@@ -3,7 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
-## Version 0.4.0 (June, 2025)
+## Version 0.4.1 (June, 2025)
+- Refactored posts feature logic.
+
+## Version 0.4.0 (May 29, 2025)
 - Imporved CustomColorPicker.
 - Updated Android Gradle Files.
 - Refactored routing logic.
