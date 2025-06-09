@@ -1,15 +1,15 @@
+// lib/src/features/admin_settings/presentation/admin_settings_screen.dart
+
 import 'dart:developer' as dev;
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_image.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
-import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
-import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
 import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
-import 'package:applimode_app/src/features/admin_settings/presentation/admin_settings_screen_controller.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/async_value_ui.dart';
 import 'package:applimode_app/src/utils/format.dart';
@@ -19,21 +19,33 @@ import 'package:applimode_app/src/utils/show_color_picker.dart';
 import 'package:applimode_app/src/utils/show_image_picker.dart';
 import 'package:applimode_app/src/utils/show_selection_dialog.dart';
 import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_image.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
+import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
+import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
+import 'package:applimode_app/src/common_widgets/web_back_button.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
+import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
+import 'package:applimode_app/src/features/admin_settings/presentation/admin_settings_screen_controller.dart';
 
+// Enum to represent different styles for the home app bar title.
+// 홈 앱 바 제목의 다양한 스타일을 나타내는 열거형입니다.
 enum HomeBarTitleStyle {
   text,
   image,
   textimage;
 }
 
+// AdminSettingsScreen: A StatefulWidget that allows administrators to configure application settings.
+// It uses Riverpod for state management and interacts with AdminSettingsService to save changes.
+// AdminSettingsScreen: 관리자가 애플리케이션 설정을 구성할 수 있게 하는 StatefulWidget입니다.
+// Riverpod를 사용하여 상태를 관리하고 AdminSettingsService와 상호 작용하여 변경 사항을 저장합니다.
 class AdminSettingsScreen extends ConsumerStatefulWidget {
   const AdminSettingsScreen({super.key});
 
+  // Creates the mutable state for this widget.
+  // 이 위젯의 변경 가능한 상태를 생성합니다.
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _AdminSettingsScreenState();
@@ -42,36 +54,98 @@ class AdminSettingsScreen extends ConsumerStatefulWidget {
 class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleTextController = TextEditingController();
+
+  // State variables for admin settings, initialized with default or current values.
+  // 기본값 또는 현재 값으로 초기화된 관리자 설정의 상태 변수입니다.
+
+  // Home app bar title style.
+  // 홈 앱 바 제목 스타일입니다.
   int _titleStyle = spareHomeBarStyle;
+  // Home app bar title image URL.
+  // 홈 앱 바 제목 이미지 URL입니다.
   String _titleImageUrl = spareHomeBarImageUrl;
+  // Picked image file for the app bar title.
+  // 앱 바 제목을 위해 선택된 이미지 파일입니다.
   XFile? _pickedFile;
+  // Media type of the picked image file.
+  // 선택된 이미지 파일의 미디어 유형입니다.
   String? _pickedFileMediaType;
+  // Main theme color of the application.
+  // 애플리케이션의 주요 테마 색상입니다.
   Color _mainColor = Format.hexStringToColor(spareMainColor);
+  // List of category controllers for managing main categories.
+  // 주요 카테고리 관리를 위한 카테고리 컨트롤러 목록입니다.
   final List<CategoryController> _categories = [];
+  // Whether to show the app style option in settings.
+  // 설정에서 앱 스타일 옵션을 표시할지 여부입니다.
   bool _showAppStyleOption = spareShowAppStyleOption;
+  // Type of posts list display.
+  // 게시물 목록 표시 유형입니다.
   PostsListType _postsListType = sparePostsListType;
+  // Color type for post item boxes.
+  // 게시물 항목 상자의 색상 유형입니다.
   BoxColorType _boxColorType = spareBoxColorType;
+  // Maximum media file size in MB.
+  // 최대 미디어 파일 크기(MB)입니다.
   double _mediaMaxMBSize = spareMediaMaxMBSize;
+  // Whether to use the recommendation feature.
+  // 추천 기능을 사용할지 여부입니다.
   bool _useRecommendation = spareUseRecommendation;
+  // Whether to use the ranking feature.
+  // 랭킹 기능을 사용할지 여부입니다.
   bool _useRanking = spareUseRanking;
+  // Whether to use categories.
+  // 카테고리를 사용할지 여부입니다.
   bool _useCategory = spareUseCategory;
+  // Whether to show the logout button in the drawer.
+  // 드로어에 로그아웃 버튼을 표시할지 여부입니다.
   bool _showLogoutOnDrawer = spareShowLogoutOnDrawer;
+  // Whether to show like counts on posts.
+  // 게시물에 좋아요 수를 표시할지 여부입니다.
   bool _showLikeCount = spareShowLikeCount;
+  // Whether to show dislike counts on posts.
+  // 게시물에 싫어요 수를 표시할지 여부입니다.
   bool _showDislikeCount = spareShowDislikeCount;
+  // Whether to show comment counts on posts.
+  // 게시물에 댓글 수를 표시할지 여부입니다.
   bool _showCommentCount = spareShowCommentCount;
+  // Whether to show the sum of likes and dislikes on posts.
+  // 게시물에 좋아요와 싫어요 합계를 표시할지 여부입니다.
   bool _showSumCount = spareShowSumCount;
+  // Whether to show the sum of comments and likes on posts.
+  // 게시물에 댓글과 좋아요 합계를 표시할지 여부입니다.
   bool _showCommentPlusLikeCount = spareShowCommentPlusLikeCount;
+  // Whether to change the thumb-up icon to a heart icon.
+  // 좋아요 아이콘을 하트 아이콘으로 변경할지 여부입니다.
   bool _isThumbUpToHeart = spareIsThumbUpToHeart;
+  // Whether to show admin labels on user profiles.
+  // 사용자 프로필에 관리자 라벨을 표시할지 여부입니다.
   bool _showUserAdminLabel = spareShowUserAdminLabel;
+  // Whether to show like counts on user profiles.
+  // 사용자 프로필에 좋아요 수를 표시할지 여부입니다.
   bool _showUserLikeCount = spareShowUserLikeCount;
+  // Whether to show dislike counts on user profiles.
+  // 사용자 프로필에 싫어요 수를 표시할지 여부입니다.
   bool _showUserDislikeCount = spareShowUserDislikeCount;
+  // Whether to show the sum of likes and dislikes on user profiles.
+  // 사용자 프로필에 좋아요와 싫어요 합계를 표시할지 여부입니다.
   bool _showUserSumCount = spareShowUserSumCount;
+  // Whether the application is in maintenance mode.
+  // 애플리케이션이 유지보수 모드인지 여부입니다.
   bool _isMaintenance = false;
+  // Whether only admins can write posts.
+  // 관리자만 게시물을 작성할 수 있는지 여부입니다.
   bool _adminOnlyWrite = spareAdminOnlyWrite;
+  // Whether videos in post items are muted by default.
+  // 게시물 항목의 비디오가 기본적으로 음소거되는지 여부입니다.
   bool _isPostsItemVideoMute = spareIsPostsItemVideoMute;
 
+  // Flag to prevent calling setState after dispose.
+  // dispose 후 setState 호출을 방지하기 위한 플래그입니다.
   bool _isCancelled = false;
 
+  // Initializes the state from the current admin settings provided by Riverpod.
+  // Riverpod에서 제공하는 현재 관리자 설정으로 상태를 초기화합니다.
   @override
   void initState() {
     super.initState();
@@ -123,6 +197,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     _isPostsItemVideoMute = currentValues.isPostsItemVideoMute;
   }
 
+  // Disposes resources like TextEditingControllers when the widget is removed from the tree.
+  // 위젯이 트리에서 제거될 때 TextEditingController와 같은 리소스를 해제합니다.
   @override
   void dispose() {
     _isCancelled = true;
@@ -134,6 +210,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     super.dispose();
   }
 
+  // Safely calls setState only if the widget is still mounted.
+  // 위젯이 여전히 마운트된 경우에만 안전하게 setState를 호출합니다.
   void _safeSetState([VoidCallback? callback]) {
     if (_isCancelled) return;
     if (mounted) {
@@ -143,48 +221,58 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     }
   }
 
+  // Constructs an AdminSettings object from the current state of the form fields.
+  // 현재 폼 필드의 상태로부터 AdminSettings 객체를 구성합니다.
+  AdminSettings _buildAdminSettings() {
+    final mainCategory = _categories
+        .map((e) => MainCategory(
+              index: e.index,
+              path: '/${e.pathController.text}',
+              title: e.titleController.text,
+              color: e.color,
+            ))
+        .toList();
+    dev.log('mainCategory: $mainCategory');
+    return AdminSettings(
+      homeBarTitle: _titleTextController.text,
+      homeBarStyle: _titleStyle,
+      homeBarImageUrl: _titleImageUrl,
+      mainColor: _mainColor,
+      mainCategory: mainCategory,
+      showAppStyleOption: _showAppStyleOption,
+      postsListType: _postsListType,
+      boxColorType: _boxColorType,
+      mediaMaxMBSize: _mediaMaxMBSize,
+      useRecommendation: _useRecommendation,
+      useRanking: _useRanking,
+      useCategory: _useCategory,
+      showLogoutOnDrawer: _showLogoutOnDrawer,
+      showLikeCount: _showLikeCount,
+      showDislikeCount: _showDislikeCount,
+      showCommentCount: _showCommentCount,
+      showSumCount: _showSumCount,
+      showCommentPlusLikeCount: _showCommentPlusLikeCount,
+      isThumbUpToHeart: _isThumbUpToHeart,
+      showUserAdminLabel: _showUserAdminLabel,
+      showUserLikeCount: _showUserLikeCount,
+      showUserDislikeCount: _showUserDislikeCount,
+      showUserSumCount: _showUserSumCount,
+      isMaintenance: _isMaintenance,
+      adminOnlyWrite: _adminOnlyWrite,
+      isPostsItemVideoMute: _isPostsItemVideoMute,
+    );
+  }
+
+  // Validates the form and submits the admin settings if valid.
+  // 폼을 유효성 검사하고 유효한 경우 관리자 설정을 제출합니다.
   Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
-      final mainCategory = _categories
-          .map((e) => MainCategory(
-                index: e.index,
-                path: '/${e.pathController.text}',
-                title: e.titleController.text,
-                color: e.color,
-              ))
-          .toList();
-      dev.log('mainCategory: $mainCategory');
       final result = await ref
           .read(adminSettingsScreenControllerProvider.notifier)
           .saveAdminSettings(
-            homeBarTitle: _titleTextController.text,
-            homeBarStyle: _titleStyle,
-            homeBarTitleImageUrl: _titleImageUrl,
-            mainColor: _mainColor,
-            mainCategory: mainCategory,
+            settings: _buildAdminSettings(),
             xFile: _pickedFile,
             mediaType: _pickedFileMediaType,
-            showAppStyleOption: _showAppStyleOption,
-            postsListType: _postsListType,
-            boxColorType: _boxColorType,
-            mediaMaxMBSize: _mediaMaxMBSize,
-            useRecommendation: _useRecommendation,
-            useRanking: _useRanking,
-            useCategory: _useCategory,
-            showLogoutOnDrawer: _showLogoutOnDrawer,
-            showLikeCount: _showLikeCount,
-            showDislikeCount: _showDislikeCount,
-            showCommentCount: _showCommentCount,
-            showSumCount: _showSumCount,
-            showCommentPlusLikeCount: _showCommentPlusLikeCount,
-            isThumbUpToHeart: _isThumbUpToHeart,
-            showUserAdminLabel: _showUserAdminLabel,
-            showUserLikeCount: _showUserLikeCount,
-            showUserDislikeCount: _showUserDislikeCount,
-            showUserSumCount: _showUserSumCount,
-            isMaintenance: _isMaintenance,
-            adminOnlyWrite: _adminOnlyWrite,
-            isPostsItemVideoMute: _isPostsItemVideoMute,
           );
       if (mounted && result) {
         if (kIsWeb) {
@@ -198,6 +286,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     }
   }
 
+  // Builds the UI for the admin settings screen.
+  // 관리자 설정 화면의 UI를 빌드합니다.
   @override
   Widget build(BuildContext context) {
     ref.listen(adminSettingsScreenControllerProvider, (_, next) {
@@ -600,8 +690,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
                       },
                       leading: const Icon(Icons.space_dashboard_outlined),
                       title: Text(context.loc.appStyle),
-                      trailing: Text(_getPostsListTypeLabel(
-                          context, _postsListType.index)),
+                      trailing:
+                          Text(_getPostsListTypeLabel(_postsListType.index)),
                       leadingAndTrailingTextStyle:
                           Theme.of(context).textTheme.labelLarge,
                     ),
@@ -660,8 +750,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
                       },
                       leading: const Icon(Icons.color_lens_outlined),
                       title: Text(context.loc.boxColorType),
-                      trailing: Text(
-                          _getBoxColorTypeLabel(context, _boxColorType.index)),
+                      trailing:
+                          Text(_getBoxColorTypeLabel(_boxColorType.index)),
                       leadingAndTrailingTextStyle:
                           Theme.of(context).textTheme.labelLarge,
                     ),
@@ -874,6 +964,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     );
   }
 
+  // Helper method to get the localized string for a HomeBarTitleStyle.
+  // HomeBarTitleStyle에 대한 지역화된 문자열을 가져오는 헬퍼 메서드입니다.
   String _getTitleStyleString(HomeBarTitleStyle style) {
     switch (style) {
       case HomeBarTitleStyle.text:
@@ -885,7 +977,9 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     }
   }
 
-  String _getPostsListTypeLabel(BuildContext context, int index) {
+  // Helper method to get the localized string for a PostsListType based on its index.
+  // 인덱스를 기반으로 PostsListType에 대한 지역화된 문자열을 가져오는 헬퍼 메서드입니다.
+  String _getPostsListTypeLabel(int index) {
     switch (index) {
       case 0:
         return context.loc.listType;
@@ -902,7 +996,9 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
     }
   }
 
-  String _getBoxColorTypeLabel(BuildContext context, int index) {
+  // Helper method to get the localized string for a BoxColorType based on its index.
+  // 인덱스를 기반으로 BoxColorType에 대한 지역화된 문자열을 가져오는 헬퍼 메서드입니다.
+  String _getBoxColorTypeLabel(int index) {
     switch (index) {
       case 0:
         return context.loc.singleColor;
@@ -921,6 +1017,8 @@ class _AdminSettingsScreenState extends ConsumerState<AdminSettingsScreen> {
   }
 }
 
+// CategoryController: A helper class to manage TextEditingControllers and color for each category.
+// 각 카테고리에 대한 TextEditingController와 색상을 관리하는 헬퍼 클래스입니다.
 class CategoryController {
   const CategoryController({
     required this.index,
@@ -929,8 +1027,16 @@ class CategoryController {
     required this.color,
   });
 
+  // The index of the category.
+  // 카테고리의 인덱스입니다.
   final int index;
+  // TextEditingController for the category path.
+  // 카테고리 경로를 위한 TextEditingController입니다.
   final TextEditingController pathController;
+  // TextEditingController for the category title.
+  // 카테고리 제목을 위한 TextEditingController입니다.
   final TextEditingController titleController;
+  // Color associated with the category.
+  // 카테고리와 관련된 색상입니다.
   final Color color;
 }

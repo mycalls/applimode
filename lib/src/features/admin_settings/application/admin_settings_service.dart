@@ -1,22 +1,27 @@
+// lib/src/features/admin_settings/application/admin_settings_service.dart
+
 import 'dart:convert';
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/data/admin_settings_repository.dart';
-import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
-import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/utils/format.dart';
+import 'package:applimode_app/src/utils/shared_preferences.dart';
+import 'package:applimode_app/src/features/admin_settings/data/admin_settings_repository.dart';
+import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
+import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
+import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
+
 part 'admin_settings_service.g.dart';
 
+// Service class for managing admin settings.
+// 관리자 설정을 관리하는 서비스 클래스입니다.
 class AdminSettingsService {
   const AdminSettingsService(this._ref);
 
@@ -27,39 +32,16 @@ class AdminSettingsService {
   AdminSettingsRepository get adminSettingsRepository =>
       _ref.read(adminSettingsRepositoryProvider);
 
+  // Saves the admin settings to the repository.
+  // 관리자 설정을 저장소에 저장합니다.
   Future<void> saveAdminSettings({
-    required String homeBarTitle,
-    required int homeBarStyle,
-    required String homeBarTitleImageUrl,
-    required Color mainColor,
-    required List<MainCategory> mainCategory,
+    required AdminSettings settings,
     XFile? xFile,
     String? mediaType,
-    required bool showAppStyleOption,
-    required PostsListType postsListType,
-    required BoxColorType boxColorType,
-    required double mediaMaxMBSize,
-    required bool useRecommendation,
-    required bool useRanking,
-    required bool useCategory,
-    required bool showLogoutOnDrawer,
-    required bool showLikeCount,
-    required bool showDislikeCount,
-    required bool showCommentCount,
-    required bool showSumCount,
-    required bool showCommentPlusLikeCount,
-    required bool isThumbUpToHeart,
-    required bool showUserAdminLabel,
-    required bool showUserLikeCount,
-    required bool showUserDislikeCount,
-    required bool showUserSumCount,
-    required bool isMaintenance,
-    required bool adminOnlyWrite,
-    required bool isPostsItemVideoMute,
   }) async {
-    String homeBarImageUrl = homeBarTitleImageUrl;
+    String finalHomeBarImageUrl = settings.homeBarImageUrl;
     if (xFile != null) {
-      homeBarImageUrl = await _ref
+      finalHomeBarImageUrl = await _ref
           .read(firebaseStorageRepositoryProvider)
           .uploadXFile(
               file: xFile,
@@ -67,36 +49,40 @@ class AdminSettingsService {
               filename: 'app-bar-logo',
               contentType: mediaType ?? contentTypeJpeg);
     }
+
     await _ref.read(adminSettingsRepositoryProvider).createAdminSettings(
-          homeBarTitle: homeBarTitle,
-          homeBarImageUrl: homeBarImageUrl,
-          homeBarStyle: homeBarStyle,
-          mainColor: mainColor,
-          mainCategory: mainCategory,
-          showAppStyleOption: showAppStyleOption,
-          postsListType: postsListType,
-          boxColorType: boxColorType,
-          mediaMaxMBSize: mediaMaxMBSize,
-          useRecommendation: useRecommendation,
-          useRanking: useRanking,
-          useCategory: useCategory,
-          showLogoutOnDrawer: showLogoutOnDrawer,
-          showLikeCount: showLikeCount,
-          showDislikeCount: showDislikeCount,
-          showCommentCount: showCommentCount,
-          showSumCount: showSumCount,
-          showCommentPlusLikeCount: showCommentPlusLikeCount,
-          isThumbUpToHeart: isThumbUpToHeart,
-          showUserAdminLabel: showUserAdminLabel,
-          showUserLikeCount: showUserLikeCount,
-          showUserDislikeCount: showUserDislikeCount,
-          showUserSumCount: showUserSumCount,
-          isMaintenance: isMaintenance,
-          adminOnlyWrite: adminOnlyWrite,
-          isPostsItemVideoMute: isPostsItemVideoMute,
+          homeBarTitle: settings.homeBarTitle,
+          homeBarImageUrl: finalHomeBarImageUrl,
+          homeBarStyle: settings.homeBarStyle,
+          mainColor: settings.mainColor,
+          mainCategory: settings.mainCategory,
+          showAppStyleOption: settings.showAppStyleOption,
+          postsListType: settings.postsListType,
+          boxColorType: settings.boxColorType,
+          mediaMaxMBSize: settings.mediaMaxMBSize,
+          useRecommendation: settings.useRecommendation,
+          useRanking: settings.useRanking,
+          useCategory: settings.useCategory,
+          showLogoutOnDrawer: settings.showLogoutOnDrawer,
+          showLikeCount: settings.showLikeCount,
+          showDislikeCount: settings.showDislikeCount,
+          showCommentCount: settings.showCommentCount,
+          showSumCount: settings.showSumCount,
+          showCommentPlusLikeCount: settings.showCommentPlusLikeCount,
+          isThumbUpToHeart: settings.isThumbUpToHeart,
+          showUserAdminLabel: settings.showUserAdminLabel,
+          showUserLikeCount: settings.showUserLikeCount,
+          showUserDislikeCount: settings.showUserDislikeCount,
+          showUserSumCount: settings.showUserSumCount,
+          isMaintenance: settings.isMaintenance,
+          adminOnlyWrite: settings.adminOnlyWrite,
+          isPostsItemVideoMute: settings.isPostsItemVideoMute,
         );
   }
 
+  // Initializes admin settings.
+  // Fetches settings from the repository if the cached data is older than the defined interval.
+  // 관리자 설정을 초기화합니다. 캐시된 데이터가 정의된 간격보다 오래된 경우 저장소에서 설정을 가져옵니다.
   Future<void> initialize() async {
     // dev.log('adminSettings init starts : ${DateTime.now()}');
     final lastModified =
@@ -113,6 +99,49 @@ class AdminSettingsService {
     // dev.log('adminSettings init ends : ${DateTime.now()}');
   }
 
+  // Helper method to update SharedPreferences with new AdminSettings.
+  // 새로운 AdminSettings로 SharedPreferences를 업데이트하는 헬퍼 메서드입니다.
+  void _updateSharedPreferences(AdminSettings settings) {
+    sharedPreferences.setString(homeBarTitleKey, settings.homeBarTitle);
+    sharedPreferences.setString(homeBarImageUrlKey, settings.homeBarImageUrl);
+    sharedPreferences.setInt(homeBarStyleKey, settings.homeBarStyle);
+    sharedPreferences.setString(
+        mainColorKey, Format.colorToHexString(settings.mainColor));
+    sharedPreferences.setString(mainCategoryKey,
+        json.encode(settings.mainCategory.map((e) => e.toMap()).toList()));
+    sharedPreferences.setBool(
+        showAppStyleOptionKey, settings.showAppStyleOption);
+    sharedPreferences.setInt(postsListTypeKey, settings.postsListType.index);
+    sharedPreferences.setInt(boxColorTypeKey, settings.boxColorType.index);
+    sharedPreferences.setDouble(mediaMaxMBSizeKey, settings.mediaMaxMBSize);
+    sharedPreferences.setBool(useRecommendationKey, settings.useRecommendation);
+    sharedPreferences.setBool(useRankingKey, settings.useRanking);
+    sharedPreferences.setBool(useCategoryKey, settings.useCategory);
+    sharedPreferences.setBool(
+        showLogoutOnDrawerKey, settings.showLogoutOnDrawer);
+    sharedPreferences.setBool(showLikeCountKey, settings.showLikeCount);
+    sharedPreferences.setBool(showDislikeCountKey, settings.showDislikeCount);
+    sharedPreferences.setBool(showCommentCountKey, settings.showCommentCount);
+    sharedPreferences.setBool(showSumCountKey, settings.showSumCount);
+    sharedPreferences.setBool(
+        showCommentPlusLikeCountKey, settings.showCommentPlusLikeCount);
+    sharedPreferences.setBool(isThumbUpToHeartKey, settings.isThumbUpToHeart);
+    sharedPreferences.setBool(
+        showUserAdminLabelKey, settings.showUserAdminLabel);
+    sharedPreferences.setBool(showUserLikeCountKey, settings.showUserLikeCount);
+    sharedPreferences.setBool(
+        showUserDislikeCountKey, settings.showUserDislikeCount);
+    sharedPreferences.setBool(showUserSumCountKey, settings.showUserSumCount);
+    sharedPreferences.setBool(isMaintenanceKey, settings.isMaintenance);
+    sharedPreferences.setBool(adminOnlyWriteKey, settings.adminOnlyWrite);
+    sharedPreferences.setBool(
+        isPostsItemVideoMuteKey, settings.isPostsItemVideoMute);
+    sharedPreferences.setInt(
+        adminSettingsModifiedTimeKey, DateTime.now().millisecondsSinceEpoch);
+  }
+
+  // Fetches admin settings from the repository and updates them in SharedPreferences if they have changed.
+  // 저장소에서 관리자 설정을 가져오고 변경된 경우 SharedPreferences에 업데이트합니다.
   Future<void> fetch() async {
     try {
       // dev.log('adminSettings fetch starts : ${DateTime.now()}');
@@ -120,65 +149,22 @@ class AdminSettingsService {
       // dev.log('adminSettings: $adminSettings');
       // dev.log('adminSettings update starts : ${DateTime.now()}');
       if (adminSettings != null) {
+        // Get current admin settings from the provider to compare.
+        // 비교를 위해 프로바이더에서 현재 관리자 설정을 가져옵니다.
         final deviceAdminSettings = _ref.read(adminSettingsProvider);
 
         if (adminSettings != deviceAdminSettings) {
           dev.log('admin settings update');
-          sharedPreferences.setString(
-              homeBarTitleKey, adminSettings.homeBarTitle);
-          sharedPreferences.setString(
-              homeBarImageUrlKey, adminSettings.homeBarImageUrl);
-          sharedPreferences.setInt(homeBarStyleKey, adminSettings.homeBarStyle);
-          sharedPreferences.setString(
-              mainColorKey, Format.colorToHexString(adminSettings.mainColor));
-          sharedPreferences.setString(
-              mainCategoryKey,
-              json.encode(
-                  adminSettings.mainCategory.map((e) => e.toMap()).toList()));
-          sharedPreferences.setBool(
-              showAppStyleOptionKey, adminSettings.showAppStyleOption);
-          sharedPreferences.setInt(
-              postsListTypeKey, adminSettings.postsListType.index);
-          sharedPreferences.setInt(
-              boxColorTypeKey, adminSettings.boxColorType.index);
-          sharedPreferences.setDouble(
-              mediaMaxMBSizeKey, adminSettings.mediaMaxMBSize);
-          sharedPreferences.setBool(
-              useRecommendationKey, adminSettings.useRecommendation);
-          sharedPreferences.setBool(useRankingKey, adminSettings.useRanking);
-          sharedPreferences.setBool(useCategoryKey, adminSettings.useCategory);
-          sharedPreferences.setBool(
-              showLogoutOnDrawerKey, adminSettings.showLogoutOnDrawer);
-          sharedPreferences.setBool(
-              showLikeCountKey, adminSettings.showLikeCount);
-          sharedPreferences.setBool(
-              showDislikeCountKey, adminSettings.showDislikeCount);
-          sharedPreferences.setBool(
-              showCommentCountKey, adminSettings.showCommentCount);
-          sharedPreferences.setBool(
-              showSumCountKey, adminSettings.showSumCount);
-          sharedPreferences.setBool(showCommentPlusLikeCountKey,
-              adminSettings.showCommentPlusLikeCount);
-          sharedPreferences.setBool(
-              isThumbUpToHeartKey, adminSettings.isThumbUpToHeart);
-          sharedPreferences.setBool(
-              showUserAdminLabelKey, adminSettings.showUserAdminLabel);
-          sharedPreferences.setBool(
-              showUserLikeCountKey, adminSettings.showUserLikeCount);
-          sharedPreferences.setBool(
-              showUserDislikeCountKey, adminSettings.showUserDislikeCount);
-          sharedPreferences.setBool(
-              showUserSumCountKey, adminSettings.showUserSumCount);
-          sharedPreferences.setBool(
-              isMaintenanceKey, adminSettings.isMaintenance);
-          sharedPreferences.setBool(
-              adminOnlyWriteKey, adminSettings.adminOnlyWrite);
-          sharedPreferences.setBool(
-              isPostsItemVideoMuteKey, adminSettings.isPostsItemVideoMute);
-          sharedPreferences.setInt(adminSettingsModifiedTimeKey,
-              DateTime.now().millisecondsSinceEpoch);
+          _updateSharedPreferences(adminSettings);
         } else {
           dev.log('admin setting same');
+          // Even if settings are the same, update the timestamp to reset the interval.
+          // This ensures that if the app was closed for longer than the interval,
+          // a fetch is attempted on next launch, but if settings are truly unchanged,
+          // we don't do a full update, just refresh the timestamp.
+          // 설정이 동일하더라도 타임스탬프를 업데이트하여 간격을 재설정합니다.
+          // 이렇게 하면 앱이 간격보다 오래 닫혀 있었던 경우 다음 실행 시 가져오기를 시도하지만,
+          // 설정이 실제로 변경되지 않은 경우 전체 업데이트를 수행하지 않고 타임스탬프만 새로 고칩니다.
           sharedPreferences.setInt(adminSettingsModifiedTimeKey,
               DateTime.now().millisecondsSinceEpoch);
         }
@@ -214,11 +200,15 @@ class AdminSettingsService {
   */
 }
 
+// Riverpod provider for AdminSettingsService.
+// AdminSettingsService를 위한 Riverpod 프로바이더입니다.
 @riverpod
 AdminSettingsService adminSettingsService(Ref ref) {
   return AdminSettingsService(ref);
 }
 
+// Riverpod provider that provides the current AdminSettings.
+// 현재 AdminSettings를 제공하는 Riverpod 프로바이더입니다.
 @riverpod
 AdminSettings adminSettings(Ref ref) {
   final sharedPreferences = ref.watch(prefsWithCacheProvider).requireValue;
