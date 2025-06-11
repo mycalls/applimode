@@ -3,9 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
-## Version 0.4.1 (June, 2025)
+## Version 0.4.1 (June 11, 2025)
 - Refactored posts feature logic.
 - Refactored admin settings feature logic.
+- Updated a dependency to the latest release.
 
 ## Version 0.4.0 (May 29, 2025)
 - Imporved CustomColorPicker.
