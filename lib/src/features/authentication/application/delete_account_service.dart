@@ -1,12 +1,20 @@
+// lib/src/features/authentication/application/delete_account_service.dart
+
 import 'dart:developer' as dev;
 
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
+
+import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
+import 'package:applimode_app/src/features/r_two_storage/r_two_storage_repository.dart';
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
 import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
 import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
 import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
 import 'package:applimode_app/src/features/posts/data/post_reports_repository.dart';
@@ -14,11 +22,6 @@ import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/profile/data/delete_errors_repository.dart';
 import 'package:applimode_app/src/features/profile/domain/delete_error.dart';
 import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.dart';
-import 'package:applimode_app/src/features/r_two_storage/r_two_storage_repository.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:uuid/uuid.dart';
 
 part 'delete_account_service.g.dart';
 

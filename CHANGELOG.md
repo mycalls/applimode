@@ -3,6 +3,9 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.4.2 (June 20, 2025)
+- Refactored authetication logic.
+
 ## Version 0.4.1 (June 11, 2025)
 - Refactored posts feature logic.
 - Refactored admin settings feature logic.
