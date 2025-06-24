@@ -1,9 +1,12 @@
 import 'dart:async';
 
-import 'package:applimode_app/src/features/comments/domain/post_comment_report.dart';
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/domain/post_comment_report.dart';
 
 part 'post_comment_report_repository.g.dart';
 

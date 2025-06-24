@@ -1,13 +1,19 @@
 // lib/src/utils/show_color_picker.dart
-// gemini 2.5 pro reviewed
 
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:go_router/go_router.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/regex.dart';
 import 'package:applimode_app/src/utils/safe_build_call.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 // English: Displays a dialog with a custom color picker.
 // 한글: 사용자 정의 색상 선택기가 포함된 다이얼로그를 표시합니다.

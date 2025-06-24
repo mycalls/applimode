@@ -1,11 +1,18 @@
 // import 'dart:developer' as dev;
 
-import 'package:applimode_app/src/constants/constants.dart';
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:intl/intl.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/regex.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
 class Format {
   static String hours(double hours) {
@@ -66,10 +73,10 @@ class Format {
     if (hexString.length == 6 && Regex.hexColorRegex.hasMatch(hexString)) {
       hexString = 'FF$hexString';
     } else {
-      return const Color(0xFFFCB126);
+      hexString = 'FF$spareMainColor';
     }
     final hexInt = int.tryParse(hexString, radix: 16);
-    return hexInt == null ? const Color(0xFFFCB126) : Color(hexInt);
+    return hexInt == null ? Colors.orange : Color(hexInt);
   }
 
   /*

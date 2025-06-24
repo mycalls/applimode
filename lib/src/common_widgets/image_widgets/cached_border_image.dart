@@ -1,12 +1,19 @@
 import 'dart:math';
 
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
-import 'package:applimode_app/src/constants/color_palettes.dart';
+// flutter
+import 'package:flutter/material.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/color_palettes.dart';
+
+// utils
 import 'package:applimode_app/src/utils/custom_headers.dart';
 import 'package:applimode_app/src/utils/regex.dart';
 import 'package:applimode_app/src/utils/string_converter.dart';
-import 'package:flutter/material.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 
 class CachedBorderImage extends StatelessWidget {
   const CachedBorderImage({

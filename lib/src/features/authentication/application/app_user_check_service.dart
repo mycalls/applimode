@@ -3,8 +3,11 @@
 import 'dart:developer' as dev;
 import 'dart:math';
 
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 

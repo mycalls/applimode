@@ -1,6 +1,9 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
+// flutter
 import 'package:flutter/foundation.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
 
 class UrlConverter {
   const UrlConverter();

@@ -1,6 +1,9 @@
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 
 Future<bool?> showAdaptiveAlertDialog({
   required BuildContext context,

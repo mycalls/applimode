@@ -1,9 +1,12 @@
 import 'dart:convert';
 
-import 'package:applimode_app/src/features/prompts/domain/user_prompt.dart';
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/prompts/domain/user_prompt.dart';
 
 part 'user_prompts_repository.g.dart';
 

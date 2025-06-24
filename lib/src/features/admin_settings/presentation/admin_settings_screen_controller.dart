@@ -1,13 +1,17 @@
 // lib/src/features/admin_settings/presentation/admin_settings_screen_controller.dart
 
+// flutter
 import 'package:flutter/widgets.dart';
+
+// external
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// features
 import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 
 part 'admin_settings_screen_controller.g.dart';
 

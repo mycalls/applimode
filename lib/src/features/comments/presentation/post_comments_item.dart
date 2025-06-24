@@ -1,19 +1,32 @@
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/color_palettes.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/format.dart';
+
+// common widgets
 import 'package:applimode_app/src/common_widgets/image_widgets/cached_circle_image.dart';
 import 'package:applimode_app/src/common_widgets/image_widgets/cached_padding_image.dart';
-import 'package:applimode_app/src/constants/color_palettes.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+
+// features
 import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
 import 'package:applimode_app/src/features/comments/presentation/buttons/post_comment_like_button.dart';
 import 'package:applimode_app/src/features/comments/presentation/buttons/post_comment_more_button.dart';
 import 'package:applimode_app/src/features/comments/presentation/buttons/post_comment_dislike_button.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 
 class PostCommentsItem extends ConsumerWidget {
   const PostCommentsItem({

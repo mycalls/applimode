@@ -1,14 +1,26 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+// lib/src/app.dart
+
+// flutter
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
+// external
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/l10n/app_localizations.dart';
-import 'package:applimode_app/src/app_settings/app_settings_controller.dart';
+import 'package:applimode_app/src/core/app_settings/app_settings_controller.dart';
+import 'package:applimode_app/src/core/fcm/fcm_service.dart';
+import 'package:applimode_app/src/core/themes/app_theme_data.dart';
+
+// routing
 import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/themes/app_theme_data.dart';
-import 'package:applimode_app/src/utils/fcm_service.dart';
+
+// features
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/authentication/application/fcm_auth_service.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -19,7 +31,8 @@ class MyApp extends ConsumerWidget {
 
     if (isUsableFcm()) {
       final fcmService = ref.watch(fcmServiceProvider);
-      fcmService.setupToken();
+      final fcmAuthService = ref.watch(fcmAuthServiceProvider);
+      fcmAuthService.setupToken();
       fcmService.setupInteractedMessage();
     }
 

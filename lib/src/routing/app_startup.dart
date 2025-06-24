@@ -1,10 +1,15 @@
 // lib/src/routing/app_startup.dart
 
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/utils/shared_preferences.dart';
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/persistence/shared_preferences.dart';
+
+// features
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 
 part 'app_startup.g.dart';
 

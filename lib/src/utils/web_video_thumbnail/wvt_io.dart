@@ -1,5 +1,8 @@
-import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
+// flutter
 import 'package:flutter/foundation.dart';
+
+// utils
+import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
 
 WvtStub getInstance() => const WvtIo();
 

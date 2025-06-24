@@ -1,11 +1,14 @@
 // lib/src/features/authentication/presentation/app_user_check_screen_controller.dart
 import 'dart:developer' as dev;
 
+// external
 import 'package:applimode_app/src/routing/app_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/application/app_user_check_service.dart';
 import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 
 part 'app_user_check_screen_controller.g.dart';
 

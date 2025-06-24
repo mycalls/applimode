@@ -1,13 +1,24 @@
-import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/comments/application/user_post_comment_dislike_data_provider.dart';
-import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
-import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/format.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/format.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/async_value_widget.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
+import 'package:applimode_app/src/features/comments/application/user_post_comment_dislike_data_provider.dart';
+import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 
 class PostCommentDislikeButton extends ConsumerWidget {
   const PostCommentDislikeButton({

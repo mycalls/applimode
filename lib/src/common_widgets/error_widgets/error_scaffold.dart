@@ -1,6 +1,11 @@
-import 'package:applimode_app/src/common_widgets/error_widgets/error_message_button.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/error_widgets/error_message_button.dart';
 
 class ErrorScaffold extends StatelessWidget {
   const ErrorScaffold({

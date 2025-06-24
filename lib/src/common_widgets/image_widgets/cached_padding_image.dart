@@ -1,11 +1,22 @@
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
-import 'package:applimode_app/src/utils/custom_headers.dart';
-import 'package:go_router/go_router.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/error_image.dart';
-import 'package:applimode_app/custom_settings.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
+import 'package:go_router/go_router.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// routing
 import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/custom_headers.dart';
 import 'package:applimode_app/src/utils/multi_images.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/error_image.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 
 class CachedPaddingImage extends StatelessWidget {
   const CachedPaddingImage({

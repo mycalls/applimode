@@ -1,12 +1,21 @@
-import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
-import 'package:applimode_app/src/common_widgets/user_items/user_item.dart';
+import 'package:applimode_app/src/common_widgets/user_item.dart';
+
+// features
 import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostLikesList extends ConsumerWidget {
   const PostLikesList({

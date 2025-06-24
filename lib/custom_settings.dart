@@ -1,5 +1,5 @@
-import 'package:applimode_app/src/constants/constants.dart';
 import 'package:flutter/widgets.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
 
 // Data used for app information
 // 앱정보에 사용되는 데이터

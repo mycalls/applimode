@@ -1,17 +1,28 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/src/app_settings/app_settings_controller.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/common_widgets/list_empty_widget.dart';
-import 'package:applimode_app/src/common_widgets/list_loading_widget.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/utils/safe_build_call.dart';
+// flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_settings/app_settings_controller.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
+import 'package:applimode_app/src/utils/safe_build_call.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/list_empty_widget.dart';
+import 'package:applimode_app/src/common_widgets/list_loading_widget.dart';
+
+// features
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 
 typedef SimplePageListItemBuilder<Document> = Widget Function(
   BuildContext context,

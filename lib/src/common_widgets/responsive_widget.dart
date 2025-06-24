@@ -1,5 +1,8 @@
-import 'package:applimode_app/custom_settings.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
 
 class ResponsiveSizedBox extends StatelessWidget {
   const ResponsiveSizedBox({

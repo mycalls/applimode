@@ -1,3 +1,4 @@
+// external
 import 'package:equatable/equatable.dart';
 
 class PostCommentReport extends Equatable {

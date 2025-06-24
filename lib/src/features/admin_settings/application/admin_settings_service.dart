@@ -3,20 +3,28 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+import 'package:applimode_app/src/core/persistence/shared_preferences.dart';
+import 'package:applimode_app/src/core/storage/firebase_storage_repository.dart';
+
+// utils
 import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/shared_preferences.dart';
-import 'package:applimode_app/src/features/admin_settings/data/admin_settings_repository.dart';
+
+// features
 import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
 import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
+import 'package:applimode_app/src/features/admin_settings/data/admin_settings_repository.dart';
 
 part 'admin_settings_service.g.dart';
 

@@ -1,8 +1,11 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
+// external
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
 
 part 'vertex_ai_model.g.dart';
 

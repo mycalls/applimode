@@ -1,8 +1,13 @@
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/profile/application/profile_service.dart';
+// flutter
 import 'package:flutter/widgets.dart';
+
+// external
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/profile/application/profile_service.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 
 part 'edit_username_screen_controller.g.dart';
 

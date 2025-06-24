@@ -1,7 +1,11 @@
 import 'dart:developer' as dev;
-import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
-import 'package:applimode_app/src/features/comments/domain/post_comment_like.dart';
+
+// external
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/domain/post_comment_like.dart';
+import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
 
 part 'user_post_comment_dislike_data_provider.g.dart';
 

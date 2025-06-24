@@ -1,13 +1,22 @@
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// utils
+import 'package:applimode_app/src/utils/async_value_ui.dart';
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+
+// common widgets
 import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
+
+// features
 import 'package:applimode_app/src/features/authentication/presentation/auth_footer.dart';
 import 'package:applimode_app/src/features/authentication/presentation/firebase_phone_screen.dart';
 import 'package:applimode_app/src/features/authentication/presentation/firebase_sign_in_screen_controller.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:applimode_app/src/utils/async_value_ui.dart';
 
 class FirebaseSignInScreen extends ConsumerWidget {
   const FirebaseSignInScreen({super.key});

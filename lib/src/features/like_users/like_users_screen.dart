@@ -1,9 +1,16 @@
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/features/like_users/post_comment_likes_list.dart';
-import 'package:applimode_app/src/features/like_users/post_likes_list.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+
+// features
+import 'package:applimode_app/src/features/like_users/post_comment_likes_list.dart';
+import 'package:applimode_app/src/features/like_users/post_likes_list.dart';
 
 class LikeUsersScreen extends StatelessWidget {
   const LikeUsersScreen({

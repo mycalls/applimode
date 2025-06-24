@@ -1,7 +1,10 @@
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
 
 part 'app_user_repository.g.dart';
 

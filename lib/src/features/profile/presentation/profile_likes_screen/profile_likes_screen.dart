@@ -1,19 +1,30 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
-import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/round_posts_item.dart';
+// flutter
 import 'package:flutter/foundation.dart';
-import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
-import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
-import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/basic_posts_item.dart';
-import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+import 'package:applimode_app/src/common_widgets/async_value_widget.dart';
+import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
+
+// features
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/features/posts/data/post_likes_repository.dart';
+import 'package:applimode_app/src/features/posts/application/providers/post_data_provider.dart';
+import 'package:applimode_app/src/features/posts/presentation/shared/posts_items/basic_posts_item.dart';
+import 'package:applimode_app/src/features/posts/presentation/shared/posts_items/round_posts_item.dart';
+import 'package:applimode_app/src/features/posts/presentation/shared/posts_items/small_posts_item.dart';
 
 class ProfileLikesScreen extends StatelessWidget {
   const ProfileLikesScreen({

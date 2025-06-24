@@ -1,10 +1,21 @@
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/constants/app_terms.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// lib/src/features/policies/app_terms_screen.dart
+
+// flutter
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// core
+import 'package:applimode_app/src/core/constants/app_terms.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
 
 class AppTermsScreen extends StatelessWidget {
   const AppTermsScreen({super.key});

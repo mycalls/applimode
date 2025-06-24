@@ -1,9 +1,17 @@
 import 'dart:math';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// features
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 
 class GradientColorBox extends ConsumerWidget {
   const GradientColorBox({

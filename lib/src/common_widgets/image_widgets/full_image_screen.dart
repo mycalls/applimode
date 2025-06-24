@@ -1,12 +1,21 @@
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
+// flutter
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+// external
+import 'package:go_router/go_router.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// utils
 import 'package:applimode_app/src/utils/custom_headers.dart';
 import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
-import 'package:flutter/foundation.dart';
+
+// common widgets
 import 'package:applimode_app/src/common_widgets/buttons/icon_back_button.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:flutter/material.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:go_router/go_router.dart';
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 
 class FullImageScreen extends StatefulWidget {
   const FullImageScreen({

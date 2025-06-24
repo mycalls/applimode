@@ -1,9 +1,14 @@
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/exceptions/app_exception.dart';
+// flutter
 import 'package:flutter/widgets.dart';
+
+// external
 import 'package:image_picker/image_picker.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/exceptions/app_exception.dart';
 
 Future<XFile?> showImagePicker({
   ImageSource imageSource = ImageSource.gallery,

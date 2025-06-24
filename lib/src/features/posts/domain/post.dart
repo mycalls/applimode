@@ -1,9 +1,13 @@
 // lib/src/features/posts/domain/post.dart
 
+// flutter
 import 'package:flutter/foundation.dart' show immutable;
+
+// external
 import 'package:equatable/equatable.dart';
 
-import 'package:applimode_app/src/constants/constants.dart';
+// core
+import 'package:applimode_app/src/core/constants/constants.dart';
 
 // English: Represents a post in the application.
 // Korean: 애플리케이션의 게시물을 나타냅니다.

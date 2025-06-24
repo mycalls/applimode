@@ -2,42 +2,50 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
 
+// flutter
+import 'package:flutter/foundation.dart';
+
+// external
+import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
-import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
-import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
-import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/r_two_storage/r_two_storage_repository.dart';
-import 'package:applimode_app/src/features/search/data/d_one_repository.dart';
-import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+import 'package:applimode_app/src/core/app_states/upload_progress_state.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+import 'package:applimode_app/src/core/fcm/call_fcm_function.dart';
+import 'package:applimode_app/src/core/storage/firebase_storage_repository.dart';
+import 'package:applimode_app/src/core/storage/r_two_storage_repository.dart';
+import 'package:applimode_app/src/core/exceptions/app_exception.dart';
+import 'package:applimode_app/src/core/app_states/updated_post_id.dart';
+
+// utils
 import 'package:applimode_app/src/utils/build_remote_media.dart';
-import 'package:applimode_app/src/utils/call_fcm_function.dart';
 import 'package:applimode_app/src/utils/compare_lists.dart';
 import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
 import 'package:applimode_app/src/utils/nanoid.dart';
 import 'package:applimode_app/src/utils/need_image_compree.dart';
 import 'package:applimode_app/src/utils/now_to_int.dart';
 import 'package:applimode_app/src/utils/regex.dart';
 import 'package:applimode_app/src/utils/string_converter.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:applimode_app/src/utils/upload_progress_state.dart';
 import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
 import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
-// import 'package:http/http.dart' as http;
-import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
+
+// features
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/features/posts/data/d_one_repository.dart';
+import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
+import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/features/posts/application/providers/post_data_provider.dart';
 
 part 'editor_screen_controller.g.dart';
 

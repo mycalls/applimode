@@ -1,7 +1,10 @@
 // lib/src/features/posts/domain/post_content.dart
 
-import 'package:equatable/equatable.dart';
+// flutter
 import 'package:flutter/foundation.dart' show immutable;
+
+// external
+import 'package:equatable/equatable.dart';
 
 // English: Represents the separated, potentially long, textual content of a Post.
 // Korean: 게시물의 분리된, 잠재적으로 긴, 텍스트 내용을 나타냅니다.

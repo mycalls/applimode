@@ -1,10 +1,19 @@
-import 'package:applimode_app/src/features/authentication/presentation/app_user_check_screen_controller.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:applimode_app/src/utils/async_value_ui.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/async_value_ui.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/presentation/app_user_check_screen_controller.dart';
 
 class AppUserCheckScreen extends ConsumerStatefulWidget {
   const AppUserCheckScreen({super.key});

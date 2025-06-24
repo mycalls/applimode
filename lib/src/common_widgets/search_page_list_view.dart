@@ -1,13 +1,22 @@
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/common_widgets/list_empty_widget.dart';
-import 'package:applimode_app/src/common_widgets/list_loading_widget.dart';
-import 'package:applimode_app/src/utils/safe_build_call.dart';
+// flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
+
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// utils
+import 'package:applimode_app/src/utils/safe_build_call.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/list_empty_widget.dart';
+import 'package:applimode_app/src/common_widgets/list_loading_widget.dart';
 
 typedef SearchPageListItemBuilder<Document> = Widget Function(
   BuildContext context,

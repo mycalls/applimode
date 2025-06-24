@@ -1,29 +1,42 @@
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+// flutter
 import 'package:flutter/foundation.dart';
-import 'package:applimode_app/src/common_widgets/animated_color_container.dart';
-import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/async_value_ui.dart';
+import 'package:applimode_app/src/utils/show_password_dialog.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/animated_color_box.dart';
+import 'package:applimode_app/src/common_widgets/async_value_widget.dart';
 import 'package:applimode_app/src/common_widgets/buttons/icon_back_button.dart';
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
 import 'package:applimode_app/src/common_widgets/error_widgets/error_message_button.dart';
 import 'package:applimode_app/src/common_widgets/error_widgets/error_scaffold.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 import 'package:applimode_app/src/common_widgets/percent_circular_indicator.dart';
 import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
-import 'package:applimode_app/src/common_widgets/user_items/user_item.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/features/authentication/application/sign_out_service.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/common_widgets/user_item.dart';
+
+// features
 import 'package:applimode_app/src/features/profile/presentation/buttons/profile_text_button.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_app_bar_more.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_app_bar_more_controller.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_screen_controller.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:applimode_app/src/utils/async_value_ui.dart';
-import 'package:applimode_app/src/utils/show_password_dialog.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+import 'package:applimode_app/src/features/authentication/application/sign_out_service.dart';
 
 class CustomProfileScreen extends ConsumerWidget {
   const CustomProfileScreen({

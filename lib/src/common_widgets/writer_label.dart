@@ -1,5 +1,8 @@
-import 'package:applimode_app/src/utils/format.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// utils
+import 'package:applimode_app/src/utils/format.dart';
 
 class WriterLabel extends StatelessWidget {
   const WriterLabel({

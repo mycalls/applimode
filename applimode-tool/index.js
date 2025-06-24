@@ -1163,9 +1163,9 @@ async function setAppMainColor() {
   const targetFiles = [
     { path: 'flutter_launcher_icons.yaml', regex: /(theme_color: "#).*(")/ },
     { path: 'lib/custom_settings.dart', regex: /(const String spareMainColor =[\s\r\n]*').*(';)/ },
-    { path: 'lib/src/app_settings/app_settings_controller.dart', regex: null },
-    { path: 'lib/src/features/admin_settings/domain/app_main_category.dart', regex: null },
-    { path: 'lib/src/utils/format.dart', regex: null },
+    // { path: 'lib/src/core/app_settings/app_settings_controller.dart', regex: null },
+    // { path: 'lib/src/features/admin_settings/domain/app_main_category.dart', regex: null },
+    // { path: 'lib/src/utils/format.dart', regex: null },
     // 안드로이드 system bar를 검정색으로 유지하기 위해 변경하지 않음
     // { path: 'web/manifest.json', regex: /("theme_color": "#).*(",)/ },
     // color of loading indicator in splash screen

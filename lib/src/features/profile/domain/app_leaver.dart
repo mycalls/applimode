@@ -1,5 +1,8 @@
-import 'package:applimode_app/src/constants/constants.dart';
+// external
 import 'package:equatable/equatable.dart';
+
+// core
+import 'package:applimode_app/src/core/constants/constants.dart';
 
 class AppLeaver extends Equatable {
   const AppLeaver({

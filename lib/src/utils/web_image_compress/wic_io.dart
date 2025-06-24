@@ -1,5 +1,8 @@
-import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
+// flutter
 import 'package:flutter/foundation.dart';
+
+// utils
+import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
 
 WicStub getInstance() => const WicIo();
 

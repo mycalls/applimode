@@ -1,9 +1,14 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
-import 'package:applimode_app/src/utils/custom_headers.dart';
-// import 'package:flutter/foundation.dart';
+// flutter
 import 'package:flutter/material.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// utils
+import 'package:applimode_app/src/utils/custom_headers.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 
 class CachedCircleImage extends StatelessWidget {
   const CachedCircleImage({

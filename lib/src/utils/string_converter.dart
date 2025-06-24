@@ -1,17 +1,24 @@
 import 'dart:io';
 
+// flutter
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/cached_padding_image.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/file_padding_image.dart';
-import 'package:applimode_app/src/common_widgets/string_markdown.dart';
-import 'package:applimode_app/src/common_widgets/youtube_link_shot.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/video_player/post_video_player.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/regex.dart';
 import 'package:applimode_app/src/utils/url_converter.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/cached_padding_image.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/file_padding_image.dart';
+import 'package:applimode_app/src/common_widgets/string_markdown.dart';
+import 'package:applimode_app/src/common_widgets/video_player/post_video_player.dart';
+import 'package:applimode_app/src/common_widgets/youtube_link_shot.dart';
 
 class StringConverter {
   const StringConverter();

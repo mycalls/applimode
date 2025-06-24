@@ -2,12 +2,20 @@
 
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
+// flutter
 import 'package:flutter/widgets.dart';
 
+// external
+import 'package:equatable/equatable.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
 import 'package:applimode_app/src/utils/format.dart';
+
+// features
 import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
 
 // Represents the administrative settings for the application.

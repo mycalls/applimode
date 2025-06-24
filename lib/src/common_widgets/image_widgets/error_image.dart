@@ -1,8 +1,13 @@
 import 'dart:math';
 
-import 'package:applimode_app/src/constants/color_palettes.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// core
+import 'package:applimode_app/src/core/constants/color_palettes.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 
 class ErrorImage extends StatelessWidget {
   const ErrorImage({

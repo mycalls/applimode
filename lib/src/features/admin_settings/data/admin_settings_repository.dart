@@ -1,13 +1,19 @@
 // lib/src/features/admin_settings/data/admin_settings_repository.dart
 
-import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// flutter
 import 'package:flutter/widgets.dart';
+
+// external
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:applimode_app/src/constants/constants.dart';
+// core
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// features
 import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
+import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
 
 part 'admin_settings_repository.g.dart';
 

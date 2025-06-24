@@ -1,8 +1,17 @@
-import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/format.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:go_router/go_router.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/format.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
 
 class PostCommentReplyButton extends StatelessWidget {
   const PostCommentReplyButton({

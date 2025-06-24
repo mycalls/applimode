@@ -1,11 +1,20 @@
-import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
-import 'package:applimode_app/src/features/authentication/presentation/auth_footer.dart';
-import 'package:applimode_app/src/features/authentication/presentation/firebase_sign_in_screen_controller.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:applimode_app/src/utils/async_value_ui.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/async_value_ui.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/presentation/auth_footer.dart';
+import 'package:applimode_app/src/features/authentication/presentation/firebase_sign_in_screen_controller.dart';
 
 class FirebasePhoneScreen extends StatelessWidget {
   const FirebasePhoneScreen({super.key});

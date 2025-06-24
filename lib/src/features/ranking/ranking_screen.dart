@@ -1,29 +1,40 @@
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/utils/app_states/updated_comment_id.dart';
-import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
-import 'package:applimode_app/src/utils/app_states/updated_user_id.dart';
-import 'package:applimode_app/src/utils/safe_build_call.dart';
+// flutter
 import 'package:flutter/foundation.dart';
-import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
-import 'package:applimode_app/src/common_widgets/user_items/user_item.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
-import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
-import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
-import 'package:applimode_app/src/features/comments/presentation/post_comments_item.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
-import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/posts/presentation/posts_list/posts_items/small_posts_item.dart';
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+import 'package:applimode_app/src/core/app_states/updated_comment_id.dart';
+import 'package:applimode_app/src/core/app_states/updated_post_id.dart';
+import 'package:applimode_app/src/core/app_states/updated_user_id.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:applimode_app/src/utils/safe_build_call.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+import 'package:applimode_app/src/common_widgets/simple_page_list_view.dart';
+import 'package:applimode_app/src/common_widgets/user_item.dart';
+
+// features
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
+import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
+import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
+import 'package:applimode_app/src/features/comments/presentation/post_comments_item.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/features/posts/presentation/shared/posts_items/small_posts_item.dart';
 
 enum RankFirstFilter {
   post,

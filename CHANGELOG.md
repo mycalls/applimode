@@ -3,7 +3,8 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
-## Version 0.4.2 (June 20, 2025)
+## Version 0.4.2 (June 24, 2025)
+- Refactored import structure and project architecture.
 - Refactored authetication logic.
 
 ## Version 0.4.1 (June 11, 2025)

@@ -2,9 +2,12 @@
 
 import 'dart:developer' as dev;
 
+// external
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+
+// features
 import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
+import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 
 part 'app_user_data_provider.g.dart';
 

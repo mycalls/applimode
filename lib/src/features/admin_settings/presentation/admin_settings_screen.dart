@@ -2,14 +2,20 @@
 
 import 'dart:developer' as dev;
 
+// flutter
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// external
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/async_value_ui.dart';
 import 'package:applimode_app/src/utils/format.dart';
@@ -19,14 +25,18 @@ import 'package:applimode_app/src/utils/show_color_picker.dart';
 import 'package:applimode_app/src/utils/show_image_picker.dart';
 import 'package:applimode_app/src/utils/show_selection_dialog.dart';
 import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
+
+// common widgets
 import 'package:applimode_app/src/common_widgets/image_widgets/platform_image.dart';
 import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
 import 'package:applimode_app/src/common_widgets/sized_circular_progress_indicator.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+
+// features
 import 'package:applimode_app/src/features/admin_settings/domain/admin_settings.dart';
 import 'package:applimode_app/src/features/admin_settings/domain/app_main_category.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/admin_settings/presentation/admin_settings_screen_controller.dart';
 
 // Enum to represent different styles for the home app bar title.

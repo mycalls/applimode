@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+// external
 import 'package:equatable/equatable.dart';
 
 class UserPrompt extends Equatable {

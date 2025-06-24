@@ -1,34 +1,45 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_screen_ai_controller.dart';
-import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/prompts/show_ai_dialog.dart';
-import 'package:applimode_app/src/utils/adaptive_back.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/regex.dart';
-import 'package:applimode_app/src/utils/safe_build_call.dart';
-import 'package:applimode_app/src/utils/shared_preferences.dart';
+// flutter
 import 'package:flutter/foundation.dart';
-import 'package:applimode_app/src/common_widgets/percent_circular_indicator.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_bottom_bar.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_field.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_screen_controller.dart';
-import 'package:applimode_app/src/features/editor/presentation/markdown_field.dart';
-import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+import 'package:applimode_app/src/core/exceptions/app_exception.dart';
+import 'package:applimode_app/src/core/persistence/shared_preferences.dart';
+
+// utils
+import 'package:applimode_app/src/utils/adaptive_back.dart';
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/async_value_ui.dart';
 import 'package:applimode_app/src/utils/build_remote_media.dart';
+import 'package:applimode_app/src/utils/format.dart';
+import 'package:applimode_app/src/utils/regex.dart';
+import 'package:applimode_app/src/utils/safe_build_call.dart';
 import 'package:applimode_app/src/utils/show_adaptive_alert_dialog.dart';
 import 'package:applimode_app/src/utils/show_image_picker.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/percent_circular_indicator.dart';
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+
+// features
+import 'package:applimode_app/src/features/editor/presentation/editor_bottom_bar.dart';
+import 'package:applimode_app/src/features/editor/presentation/editor_field.dart';
+import 'package:applimode_app/src/features/editor/presentation/editor_screen_ai_controller.dart';
+import 'package:applimode_app/src/features/editor/presentation/editor_screen_controller.dart';
+import 'package:applimode_app/src/features/editor/presentation/markdown_field.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/features/posts/data/post_contents_repository.dart';
+import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/features/prompts/show_ai_dialog.dart';
 
 // tabBar comp
 class TabTitle {

@@ -1,13 +1,22 @@
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+// flutter
+import 'package:flutter/foundation.dart';
+
+// external
+import 'package:image_picker/image_picker.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+import 'package:applimode_app/src/core/app_states/upload_progress_state.dart';
+
+// utils
+import 'package:applimode_app/src/utils/now_to_int.dart';
+
+// features
+import 'package:applimode_app/src/features/profile/application/profile_service.dart';
 import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/profile/application/profile_service.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/now_to_int.dart';
-import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:applimode_app/src/utils/upload_progress_state.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 
 part 'profile_app_bar_more_controller.g.dart';
 

@@ -1,20 +1,29 @@
 import 'dart:developer' as dev;
 
+// flutter
+import 'package:flutter/foundation.dart';
+
+// external
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
-import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
-import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
-import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
-import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+import 'package:applimode_app/src/core/storage/firebase_storage_repository.dart';
+
+// utils
 import 'package:applimode_app/src/utils/format.dart';
 import 'package:applimode_app/src/utils/nanoid.dart';
 import 'package:applimode_app/src/utils/need_image_compree.dart';
 import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/data/post_comment_likes_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
+import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 
 class PostCommentsService {
   const PostCommentsService(this.ref);

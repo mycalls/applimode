@@ -1,10 +1,14 @@
 // lib/src/features/posts/data/post_likes_repository.dart
 
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// core
 import 'package:applimode_app/custom_settings.dart';
+
+// features
 import 'package:applimode_app/src/features/posts/domain/post_like.dart';
 
 part 'post_likes_repository.g.dart';

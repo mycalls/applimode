@@ -1,8 +1,11 @@
 import 'dart:async';
 
+// flutter
+import 'package:flutter/material.dart';
+
+// utils
 import 'package:applimode_app/src/utils/safe_build_call.dart';
 import 'package:applimode_app/src/utils/string_converter.dart';
-import 'package:flutter/material.dart';
 
 class MarkdownField extends StatefulWidget {
   const MarkdownField({

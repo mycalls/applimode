@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:js_interop'; // Use dart:js_interop for modern web interop
 
-import 'package:flutter/services.dart'; // For PlatformException
-import 'package:image_picker/image_picker.dart'; // For XFile (to easily read bytes from Blob URL)
-// Make sure you have the 'web' package dependency in your pubspec.yaml
+// flutter
+import 'package:flutter/services.dart';
+
+// external
+import 'package:image_picker/image_picker.dart';
 import 'package:web/web.dart' as web;
+
+// utils
 import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
 
 /// Changes the quality of an image loaded from a URL and returns the result as bytes.

@@ -1,9 +1,16 @@
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+// flutter
 import 'package:flutter/foundation.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_check_service.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
+
+// external
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_check_service.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 
 part 'firebase_sign_in_screen_controller.g.dart';
 

@@ -1,7 +1,10 @@
 // lib/src/features/posts/domain/post_report.dart
 
-import 'package:equatable/equatable.dart';
+// flutter
 import 'package:flutter/foundation.dart' show immutable;
+
+// external
+import 'package:equatable/equatable.dart';
 
 // English: Represents a report made by a user on a post.
 // Korean: 사용자가 게시물에 대해 작성한 신고를 나타냅니다.

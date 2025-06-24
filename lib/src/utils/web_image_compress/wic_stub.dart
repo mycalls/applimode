@@ -1,4 +1,7 @@
+// flutter
 import 'package:flutter/foundation.dart';
+
+// utils
 import 'package:applimode_app/src/utils/web_image_compress/wic_helper.dart'
     // if (dart.library.html) 'package:applimode_app/src/utils/web_image_compress/wic_web.dart'
     if (dart.library.js_interop) 'package:applimode_app/src/utils/web_image_compress/wic_web.dart'

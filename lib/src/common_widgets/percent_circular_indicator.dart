@@ -1,6 +1,13 @@
-import 'package:applimode_app/src/utils/upload_progress_state.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/src/core/app_states/upload_progress_state.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 
 class PercentCircularIndicator extends ConsumerWidget {

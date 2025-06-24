@@ -1,7 +1,10 @@
-import 'package:applimode_app/src/features/profile/domain/app_leaver.dart';
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// features
+import 'package:applimode_app/src/features/profile/domain/app_leaver.dart';
 
 part 'app_leavers_repository.g.dart';
 

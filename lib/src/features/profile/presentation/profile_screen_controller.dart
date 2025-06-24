@@ -1,11 +1,22 @@
+// flutter
+import 'package:flutter/widgets.dart';
+
+// external
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/now_to_int.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/application/delete_account_service.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/now_to_int.dart';
-import 'package:flutter/widgets.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'profile_screen_controller.g.dart';
 

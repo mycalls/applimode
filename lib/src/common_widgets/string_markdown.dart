@@ -1,9 +1,14 @@
-import 'package:applimode_app/src/routing/app_router.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
 
 class StringMarkdown extends StatelessWidget {
   const StringMarkdown({

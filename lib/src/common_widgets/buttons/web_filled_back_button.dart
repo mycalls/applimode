@@ -1,7 +1,10 @@
+// flutter
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
 
 class WebFilledBackButton extends StatelessWidget {
   const WebFilledBackButton({super.key});

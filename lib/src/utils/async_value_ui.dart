@@ -1,10 +1,15 @@
 import 'dart:developer' as dev;
 
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/show_adaptive_alert_dialog.dart';
 import 'package:applimode_app/src/utils/show_message_snack_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 extension AsyncValueUI on AsyncValue {
   void showAlertDialogOnError(
@@ -20,14 +25,6 @@ extension AsyncValueUI on AsyncValue {
         title: context.loc.error,
         content: content ?? context.loc.tryLater,
       );
-      /*
-      final message = error.toString();
-      showExceptionAlertDialog(
-        context: context,
-        title: 'Error',
-        exception: message,
-      );
-      */
     }
   }
 

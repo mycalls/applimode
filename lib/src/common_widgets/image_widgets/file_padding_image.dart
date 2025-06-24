@@ -1,7 +1,10 @@
 import 'dart:io';
 
-import 'package:applimode_app/src/common_widgets/image_widgets/error_image.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/error_image.dart';
 
 class FilePaddingImage extends StatelessWidget {
   const FilePaddingImage({

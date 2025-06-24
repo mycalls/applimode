@@ -1,10 +1,19 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/routing/app_router.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 
 class SignUpFooter extends StatelessWidget {
   const SignUpFooter({super.key});

@@ -1,5 +1,8 @@
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/src/core/storage/firebase_storage_repository.dart';
 
 Future<void> deleteStorageList(Ref ref, String path) async {
   final listResult = await ref

@@ -1,7 +1,10 @@
 // lib/src/routing/maintenance_screen.dart
 
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 
 // English: A screen displayed when the application is in maintenance mode.
 // Korean: 애플리케이션이 유지보수 모드일 때 표시되는 화면입니다.

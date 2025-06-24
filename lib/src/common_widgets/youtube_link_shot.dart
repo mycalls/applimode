@@ -1,8 +1,15 @@
-import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
-import 'package:applimode_app/src/utils/string_converter.dart';
+// flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:url_launcher/url_launcher.dart';
+
+// utils
+import 'package:applimode_app/src/utils/string_converter.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/platform_network_image.dart';
 
 class YoutubeLinkShot extends StatelessWidget {
   const YoutubeLinkShot(this.youtubeId, {super.key});

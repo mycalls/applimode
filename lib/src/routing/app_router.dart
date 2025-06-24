@@ -1,21 +1,53 @@
 // lib/src/routing/app_router.dart
 
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/app_settings/app_settings_controller.dart';
+// flutter
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+// external
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_settings/app_settings_controller.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// routing
+import 'package:applimode_app/src/routing/go_router_refresh_stream.dart';
+import 'package:applimode_app/src/routing/maintenance_screen.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/multi_images.dart';
+
+// common widgets
 import 'package:applimode_app/src/common_widgets/error_widgets/error_scaffold.dart';
 import 'package:applimode_app/src/common_widgets/image_widgets/full_image_screen.dart';
+import 'package:applimode_app/src/common_widgets/video_player/full_video_screen.dart';
+
+// features
 import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
 import 'package:applimode_app/src/features/admin_settings/presentation/admin_settings_screen.dart';
 import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/presentation/app_user_check_screen.dart';
 import 'package:applimode_app/src/features/authentication/presentation/firebase_phone_screen.dart';
+import 'package:applimode_app/src/features/authentication/presentation/firebase_sign_in_screen.dart';
+import 'package:applimode_app/src/features/comments/presentation/post_comments_screen.dart';
+import 'package:applimode_app/src/features/editor/presentation/editor_screen.dart';
 import 'package:applimode_app/src/features/like_users/like_users_screen.dart';
 import 'package:applimode_app/src/features/policies/app_privacy_screen.dart';
 import 'package:applimode_app/src/features/policies/app_terms_screen.dart';
 import 'package:applimode_app/src/features/posts/data/posts_repository.dart';
 import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/features/posts/presentation/main_posts_screen.dart';
-import 'package:applimode_app/src/features/posts/presentation/search_screen.dart';
-import 'package:applimode_app/src/features/posts/presentation/sub_posts_screen.dart';
+import 'package:applimode_app/src/features/posts/presentation/post_screen/post_screen.dart';
+import 'package:applimode_app/src/features/posts/presentation/posts_screen/main_posts_screen.dart';
+import 'package:applimode_app/src/features/posts/presentation/search_screen/search_screen.dart';
+import 'package:applimode_app/src/features/posts/presentation/sub_posts_screen/sub_posts_screen.dart';
 import 'package:applimode_app/src/features/profile/presentation/change_email_screen/change_email_screen.dart';
 import 'package:applimode_app/src/features/profile/presentation/change_password_screen/change_password_screen.dart';
 import 'package:applimode_app/src/features/profile/presentation/edit_bio_screen/edit_bio_screen.dart';
@@ -23,27 +55,8 @@ import 'package:applimode_app/src/features/profile/presentation/edit_username_sc
 import 'package:applimode_app/src/features/profile/presentation/profile_comments_screen/profile_comments_screen.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_likes_screen/profile_likes_screen.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_posts_screen/profile_posts_screen.dart';
-import 'package:applimode_app/src/features/ranking/ranking_screen.dart';
-import 'package:applimode_app/src/features/video_player/full_video_screen.dart';
-import 'package:applimode_app/src/routing/maintenance_screen.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:applimode_app/custom_settings.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:applimode_app/src/utils/multi_images.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/authentication/presentation/app_user_check_screen.dart';
-import 'package:applimode_app/src/features/authentication/presentation/firebase_sign_in_screen.dart';
-import 'package:applimode_app/src/features/comments/presentation/post_comments_screen.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_screen.dart';
-import 'package:applimode_app/src/features/post/presentation/post_screen.dart';
 import 'package:applimode_app/src/features/profile/presentation/profile_screen.dart';
-import 'package:applimode_app/src/routing/go_router_refresh_stream.dart';
+import 'package:applimode_app/src/features/ranking/ranking_screen.dart';
 
 part 'app_router.g.dart';
 

@@ -7,7 +7,7 @@ part of 'app_user_check_screen_controller.dart';
 // **************************************************************************
 
 String _$appUserCheckScreenControllerHash() =>
-    r'5e42b08e43773e20470042581d3d120989562ab5';
+    r'476dc082146f85697d6920498624b1253f4a5697';
 
 /// See also [AppUserCheckScreenController].
 @ProviderFor(AppUserCheckScreenController)

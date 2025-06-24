@@ -1,12 +1,19 @@
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_screen_ai_controller.dart';
-import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.dart';
-import 'package:applimode_app/src/utils/safe_build_call.dart';
+// flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+import 'package:applimode_app/src/utils/safe_build_call.dart';
+
+// features
+import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/editor/presentation/editor_screen_ai_controller.dart';
 
 Future<String?> showAiDialog({
   required BuildContext context,

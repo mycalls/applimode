@@ -1,28 +1,37 @@
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/exceptions/app_exception.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
-import 'package:applimode_app/src/features/comments/application/post_comments_service.dart';
-import 'package:applimode_app/src/features/comments/application/user_post_comment_dislike_data_provider.dart';
-import 'package:applimode_app/src/features/comments/application/user_post_comment_like_data_provider.dart';
-import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
-import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
-import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
-import 'package:applimode_app/src/features/posts/application/post_data_provider.dart';
-import 'package:applimode_app/src/features/posts/domain/post.dart';
-import 'package:applimode_app/src/utils/app_states/updated_comment_id.dart';
-import 'package:applimode_app/src/utils/app_states/updated_post_id.dart';
-import 'package:applimode_app/src/utils/app_states/updated_user_id.dart';
-import 'package:applimode_app/src/utils/call_fcm_function.dart';
-import 'package:applimode_app/src/utils/is_firestore_not_found.dart';
-import 'package:applimode_app/src/utils/list_state.dart';
-import 'package:applimode_app/src/utils/nanoid.dart';
-import 'package:applimode_app/src/utils/now_to_int.dart';
+// flutter
 import 'package:flutter/widgets.dart';
+
+// external
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_states/list_state.dart';
+import 'package:applimode_app/src/core/app_states/updated_comment_id.dart';
+import 'package:applimode_app/src/core/app_states/updated_post_id.dart';
+import 'package:applimode_app/src/core/app_states/updated_user_id.dart';
+import 'package:applimode_app/src/core/exceptions/app_exception.dart';
+import 'package:applimode_app/src/core/fcm/call_fcm_function.dart';
+
+// utils
+import 'package:applimode_app/src/utils/is_firestore_not_found.dart';
+import 'package:applimode_app/src/utils/nanoid.dart';
+import 'package:applimode_app/src/utils/now_to_int.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/data/post_comment_report_repository.dart';
+import 'package:applimode_app/src/features/comments/data/post_comments_repository.dart';
+import 'package:applimode_app/src/features/comments/application/post_comments_service.dart';
+import 'package:applimode_app/src/features/comments/application/user_post_comment_dislike_data_provider.dart';
+import 'package:applimode_app/src/features/comments/application/user_post_comment_like_data_provider.dart';
+import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
+import 'package:applimode_app/src/features/authentication/domain/app_user.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/features/posts/application/providers/post_data_provider.dart';
 
 part 'post_comment_controller.g.dart';
 

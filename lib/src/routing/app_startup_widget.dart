@@ -1,10 +1,17 @@
 // lib/src/routing/app_startup_widget.dart
 
-import 'package:applimode_app/src/app.dart';
-import 'package:applimode_app/src/routing/app_startup.dart';
+// flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/src/app.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_startup.dart';
 
 // English: Widget that handles the application's startup process.
 // Korean: 애플리케이션의 시작 프로세스를 처리하는 위젯입니다.

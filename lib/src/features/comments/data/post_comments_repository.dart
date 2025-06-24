@@ -1,9 +1,16 @@
-import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/custom_settings.dart';
+// external
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// utils
+import 'package:applimode_app/src/utils/format.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
 
 part 'post_comments_repository.g.dart';
 

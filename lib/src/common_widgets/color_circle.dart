@@ -1,8 +1,11 @@
 import 'dart:math';
 
-import 'package:applimode_app/src/constants/color_palettes.dart';
-import 'package:applimode_app/custom_settings.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/constants/color_palettes.dart';
 
 class ColorCircle extends StatelessWidget {
   const ColorCircle({

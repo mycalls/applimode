@@ -2,11 +2,16 @@ import 'dart:async';
 import 'dart:js_interop';
 import 'dart:math' as math;
 
-import 'package:web/web.dart' as web;
-import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
+// flutter
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+
+// external
 import 'package:image_picker/image_picker.dart';
+import 'package:web/web.dart' as web;
+
+// utils
+import 'package:applimode_app/src/utils/web_video_thumbnail/wvt_stub.dart';
 
 WvtStub getInstance() => WvtWeb();
 

@@ -1,6 +1,6 @@
 import 'package:applimode_app/custom_settings.dart';
 import 'package:applimode_app/src/common_widgets/error_widgets/error_scaffold.dart';
-import 'package:applimode_app/src/constants/constants.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
 import 'package:applimode_app/src/routing/app_startup_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

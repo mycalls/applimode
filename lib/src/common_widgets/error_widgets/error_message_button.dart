@@ -1,10 +1,13 @@
+// flutter
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
 import 'package:applimode_app/src/common_widgets/buttons/filled_back_button.dart';
 import 'package:applimode_app/src/common_widgets/buttons/filled_home_button.dart';
 import 'package:applimode_app/src/common_widgets/buttons/web_filled_back_button.dart';
 import 'package:applimode_app/src/common_widgets/error_widgets/error_message_text.dart';
-import 'package:applimode_app/src/common_widgets/responsive_widget.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 class ErrorMessageButton extends StatelessWidget {
   const ErrorMessageButton({

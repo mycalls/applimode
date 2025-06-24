@@ -1,15 +1,24 @@
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/src/constants/constants.dart';
+// flutter
+import 'package:flutter/foundation.dart';
+
+// external
+import 'package:firebase_ai/firebase_ai.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// core
+import 'package:applimode_app/src/core/constants/constants.dart';
+
+// utils
+import 'package:applimode_app/src/utils/format.dart';
+import 'package:applimode_app/src/utils/regex.dart';
+
+// features
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/prompts/data/user_prompts_repository.dart';
 import 'package:applimode_app/src/features/prompts/vertex_ai_model.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/regex.dart';
-import 'package:firebase_ai/firebase_ai.dart';
-import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'editor_screen_ai_controller.g.dart';
 

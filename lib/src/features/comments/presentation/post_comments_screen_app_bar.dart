@@ -1,10 +1,21 @@
+// flutter
 import 'package:flutter/foundation.dart';
-import 'package:applimode_app/src/common_widgets/web_back_button.dart';
-import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
-import 'package:applimode_app/custom_settings.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/buttons/web_back_button.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/presentation/post_comments_list_state.dart';
 
 class PostCommentsScreenAppBar extends ConsumerWidget
     implements PreferredSizeWidget {

@@ -1,8 +1,13 @@
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:equatable/equatable.dart';
+import 'package:go_router/go_router.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/safe_build_call.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class IssueReport extends Equatable {
   const IssueReport({

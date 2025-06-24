@@ -1,8 +1,13 @@
 // lib/src/features/posts/domain/post_like.dart
 
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:equatable/equatable.dart';
+// flutter
 import 'package:flutter/foundation.dart' show immutable;
+
+// external
+import 'package:equatable/equatable.dart';
+
+// core
+import 'package:applimode_app/src/core/constants/constants.dart';
 
 // English: Represents a like or dislike action performed by a user on a post.
 // Korean: 사용자가 게시물에 대해 수행한 좋아요 또는 싫어요 행동을 나타냅니다.

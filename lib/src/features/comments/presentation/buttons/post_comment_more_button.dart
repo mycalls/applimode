@@ -1,15 +1,24 @@
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/src/common_widgets/async_value_widgets/async_value_widget.dart';
-import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
-import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
+// flutter
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/show_message_snack_bar.dart';
 import 'package:applimode_app/src/utils/show_report_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/async_value_widget.dart';
+
+// features
+import 'package:applimode_app/src/features/comments/domain/post_comment.dart';
+import 'package:applimode_app/src/features/comments/presentation/post_comment_controller.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
+import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 
 class PostCommentMoreButton extends ConsumerWidget {
   const PostCommentMoreButton({

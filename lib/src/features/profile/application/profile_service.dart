@@ -1,21 +1,30 @@
 import 'dart:developer' as dev;
 
-import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/utils/format.dart';
-import 'package:applimode_app/src/utils/need_image_compree.dart';
-import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:applimode_app/src/constants/constants.dart';
-import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
-import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
-import 'package:applimode_app/src/features/firebase_storage/firebase_storage_repository.dart';
-import 'package:applimode_app/src/utils/delete_storage_list.dart';
-import 'package:applimode_app/src/utils/nanoid.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// flutter
 import 'package:flutter/foundation.dart';
+
+// external
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:applimode_app/src/utils/upload_progress_state.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+import 'package:applimode_app/src/core/app_states/upload_progress_state.dart';
+import 'package:applimode_app/src/core/constants/constants.dart';
+import 'package:applimode_app/src/core/storage/firebase_storage_repository.dart';
+
+// utils
+import 'package:applimode_app/src/utils/delete_storage_list.dart';
+import 'package:applimode_app/src/utils/format.dart';
+import 'package:applimode_app/src/utils/nanoid.dart';
+import 'package:applimode_app/src/utils/need_image_compree.dart';
+import 'package:applimode_app/src/utils/web_image_compress/wic_stub.dart';
+
+// features
+import 'package:applimode_app/src/features/authentication/data/app_user_repository.dart';
+import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 
 class ProfileService {
   const ProfileService(this.ref);

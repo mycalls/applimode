@@ -1,8 +1,15 @@
 // lib/src/features/admin_settings/domain/app_main_category.dart
 
-import 'package:equatable/equatable.dart';
+// flutter
 import 'package:flutter/material.dart';
 
+// external
+import 'package:equatable/equatable.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// utils
 import 'package:applimode_app/src/utils/format.dart';
 
 // Represents a main category in the application.
@@ -39,7 +46,8 @@ class MainCategory extends Equatable {
       title: json['title'] as String? ?? 'Unsorted',
       // Parses the color from a hex string, defaulting if null or invalid.
       // hex 문자열로부터 색상을 파싱하며, null이거나 유효하지 않은 경우 기본값을 사용합니다.
-      color: Format.hexStringToColor(json['color'] as String? ?? 'FCB126'),
+      color:
+          Format.hexStringToColor(json['color'] as String? ?? spareMainColor),
     );
   }
 

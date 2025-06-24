@@ -1,10 +1,15 @@
 import 'dart:io';
 
-import 'package:applimode_app/src/common_widgets/image_widgets/cached_padding_image.dart';
-import 'package:applimode_app/src/common_widgets/image_widgets/file_padding_image.dart';
+// flutter
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// external
 import 'package:image_picker/image_picker.dart';
+
+// common widgets
+import 'package:applimode_app/src/common_widgets/image_widgets/cached_padding_image.dart';
+import 'package:applimode_app/src/common_widgets/image_widgets/file_padding_image.dart';
 
 class FlatformImage extends StatelessWidget {
   const FlatformImage({

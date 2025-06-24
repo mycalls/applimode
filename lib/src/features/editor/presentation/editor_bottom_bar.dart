@@ -1,17 +1,28 @@
+// flutter
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+// external
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// core
 import 'package:applimode_app/custom_settings.dart';
-import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
-import 'package:applimode_app/src/features/editor/presentation/editor_screen_controller.dart';
-import 'package:applimode_app/src/features/posts/domain/post.dart';
+import 'package:applimode_app/src/core/persistence/shared_preferences.dart';
+
+// routing
 import 'package:applimode_app/src/routing/app_router.dart';
+
+// utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 import 'package:applimode_app/src/utils/check_category.dart';
 import 'package:applimode_app/src/utils/safe_build_call.dart';
-import 'package:applimode_app/src/utils/shared_preferences.dart';
 import 'package:applimode_app/src/utils/show_adaptive_alert_dialog.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:applimode_app/src/utils/web_back/web_back_stub.dart';
+
+// features
+import 'package:applimode_app/src/features/editor/presentation/editor_screen_controller.dart';
+import 'package:applimode_app/src/features/admin_settings/application/admin_settings_service.dart';
+import 'package:applimode_app/src/features/posts/domain/post.dart';
 
 class EditorBottomBar extends ConsumerStatefulWidget {
   const EditorBottomBar({

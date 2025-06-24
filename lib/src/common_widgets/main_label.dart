@@ -1,5 +1,8 @@
-import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
+// flutter
 import 'package:flutter/material.dart';
+
+// utils
+import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
 
 class MainLabel extends StatelessWidget {
   const MainLabel({
