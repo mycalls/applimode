@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // routing
-import 'package:applimode_app/src/routing/app_router.dart';
+// import 'package:applimode_app/src/routing/app_router.dart';
 
 // features
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
@@ -48,6 +48,7 @@ class FirebaseSignInScreenController extends _$FirebaseSignInScreenController {
       return;
     }
 
-    ref.read(goRouterProvider).go(ScreenPaths.home);
+    // ui에서 직접 컨트롤. 이유는 Router.neglect를 여기서는 사용할 수 없음.
+    // ref.read(goRouterProvider).go(ScreenPaths.home);
   }
 }

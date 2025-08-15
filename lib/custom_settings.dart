@@ -15,7 +15,7 @@ const String firebaseProjectId = 'my-applimode';
 const String appCreator = 'JongsukOh';
 const String appEmail = 'yourEmail@email.com';
 const String appEffectiveDate = '2024-08-06';
-const String appVersion = '0.4.2+1';
+const String appVersion = '0.4.3+1';
 
 // spare values when admin settings is not set
 const String spareHomeBarTitle = 'My Applimode';
@@ -66,6 +66,10 @@ const List<String> fbAuthProviders = ['email'];
 // To prevent use if not logged in. Security rules must also be changed.
 // 로그인을 안할 경우 사용하지 못하도록 할때. 보안 룰도 함께 변경해야 함
 const bool isInitialSignIn = false;
+
+// 이메일 인증을 한 사용자만 이용가능
+// 보안 룰도 함께 변경할 것
+const bool isEmailVerified = false;
 
 // Only verified users can write
 // 관리자에 의해 인증된 사용자만 글을 쓸 수 있음

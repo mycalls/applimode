@@ -1,10 +1,22 @@
+// lib/src/features/authentication/presentation/firebase_sign_in_screen.dart
+
+import 'dart:developer' as dev;
+
 // flutter
+
 import 'package:flutter/material.dart';
 
 // external
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+// core
+import 'package:applimode_app/custom_settings.dart';
+
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
 
 // utils
 import 'package:applimode_app/src/utils/async_value_ui.dart';
@@ -78,14 +90,56 @@ class FirebaseSignInScreen extends ConsumerWidget {
                 return const SizedBox.shrink();
               },
               actions: [
+                // 사용자 로그인
                 AuthStateChangeAction<SignedIn>(
-                  (context, state) {
-                    controller.initializeAppUsr();
+                  (_, state) async {
+                    dev.log('AuthStateChangeAction<SignedIn>: ${state.user}');
+                    // 불가능하지만 사용자가 null일 경우 콜백 탈출
+                    if (state.user == null) {
+                      return;
+                    }
+                    // 이메일 인증 필수 설정에 인증이 안된 사용자
+                    if (isEmailVerified && !state.user!.emailVerified) {
+                      // 현재 창 네비게이션 스택에서 제외
+                      Router.neglect(context, () {
+                        context.go(ScreenPaths.verifyEmail);
+                      });
+                    } else {
+                      await controller.initializeAppUsr();
+                      if (context.mounted) {
+                        Router.neglect(context, () {
+                          context.go(ScreenPaths.home);
+                        });
+                      }
+                    }
+                    // controller.initializeAppUsr();
                     // context.go(ScreenPaths.appUserCheck);
                   },
                 ),
-                AuthStateChangeAction<UserCreated>((context, state) {
-                  controller.initializeAppUsr();
+                AuthStateChangeAction<UserCreated>((_, state) async {
+                  dev.log(
+                      'AuthStateChangeAction<UserCreated>: ${state.credential.user}');
+                  // 사용자 가입
+                  final user = state.credential.user;
+                  if (user == null) {
+                    return;
+                  }
+                  if (isEmailVerified && !user.emailVerified) {
+                    Router.neglect(context, () {
+                      context.go(ScreenPaths.verifyEmail);
+                    });
+                  } else {
+                    await controller.initializeAppUsr();
+                    user.sendEmailVerification().catchError((e) {
+                      dev.log("Failed to send verification email", error: e);
+                    });
+                    if (context.mounted) {
+                      Router.neglect(context, () {
+                        context.go(ScreenPaths.home);
+                      });
+                    }
+                  }
+                  // controller.initializeAppUsr();
                   // context.go(ScreenPaths.appUserCheck);
                 }),
                 VerifyPhoneAction((_, __) {

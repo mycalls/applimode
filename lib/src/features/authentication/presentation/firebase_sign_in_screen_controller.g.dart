@@ -7,7 +7,7 @@ part of 'firebase_sign_in_screen_controller.dart';
 // **************************************************************************
 
 String _$firebaseSignInScreenControllerHash() =>
-    r'4fde4536532ebb04ebe95381595548286191913c';
+    r'ee5e64cb87720afb8d961078b5764280df917d01';
 
 /// See also [FirebaseSignInScreenController].
 @ProviderFor(FirebaseSignInScreenController)

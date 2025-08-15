@@ -218,11 +218,17 @@ class CustomProfileScreen extends ConsumerWidget {
                                                     await showPasswordDialog(
                                                         context);
                                                 if (result) {
-                                                  ref
+                                                  await ref
                                                       .read(
                                                           profileScreenControllerProvider
                                                               .notifier)
                                                       .deleteAccount();
+                                                  if (context.mounted) {
+                                                    Router.neglect(context, () {
+                                                      context
+                                                          .go(ScreenPaths.home);
+                                                    });
+                                                  }
                                                 }
                                               },
                                             ),

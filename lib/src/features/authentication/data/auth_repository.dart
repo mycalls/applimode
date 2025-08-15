@@ -71,6 +71,10 @@ class AuthRepository {
 
   Stream<User?> authStateChanges() => _auth.authStateChanges();
 
+  Stream<User?> idTokenChanges() => _auth.idTokenChanges();
+
+  Stream<User?> userChanges() => _auth.userChanges();
+
   User? get currentUser => _auth.currentUser;
 
   Future<UserCredential> reauthenticateWithCredential(
@@ -87,4 +91,16 @@ AuthRepository authRepository(Ref ref) {
 Stream<User?> authStateChanges(Ref ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
+}
+
+@Riverpod(keepAlive: true)
+Stream<User?> idTokenChanges(Ref ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.idTokenChanges();
+}
+
+@Riverpod(keepAlive: true)
+Stream<User?> userChanges(Ref ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.userChanges();
 }

@@ -3,6 +3,10 @@
 ### New Features and Improvements
 ### Bug Fixes
 -->
+## Version 0.4.3 (August 15, 2025)
+- Added email verification to the authentication flow.
+- Updated a dependency to the latest release.
+
 ## Version 0.4.2 (June 24, 2025)
 - Refactored import structure and project architecture.
 - Refactored authetication logic.

@@ -1,5 +1,7 @@
 // lib/src/routing/app_router.dart
 
+import 'dart:developer' as dev;
+
 // flutter
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -35,6 +37,7 @@ import 'package:applimode_app/src/features/admin_settings/presentation/admin_set
 import 'package:applimode_app/src/features/authentication/application/app_user_data_provider.dart';
 import 'package:applimode_app/src/features/authentication/data/auth_repository.dart';
 import 'package:applimode_app/src/features/authentication/presentation/app_user_check_screen.dart';
+import 'package:applimode_app/src/features/authentication/presentation/firebase_email_verifacation_screen.dart';
 import 'package:applimode_app/src/features/authentication/presentation/firebase_phone_screen.dart';
 import 'package:applimode_app/src/features/authentication/presentation/firebase_sign_in_screen.dart';
 import 'package:applimode_app/src/features/comments/presentation/post_comments_screen.dart';
@@ -105,6 +108,9 @@ class ScreenPaths {
   static String appPrivacy = '/privacy';
   static String appTerms = '/terms';
   static String appError = '/error';
+
+  // 이메일 인증용. 추후 위치 변경할 것
+  static String verifyEmail = '/verify-email';
 }
 
 @riverpod
@@ -133,17 +139,28 @@ GoRouter goRouter(Ref ref) {
         final isLoggedIn = user != null;
         final isMaintenance = adminSettings.isMaintenance;
         final path = state.uri.path;
+        dev.log('initial path: $path');
 
         // Handle maintenance mode
         // 유지보수 모드 처리
-        if (isMaintenance) {
-          if (user == null) {
+        if (isMaintenance && path != ScreenPaths.maintenance) {
+          // 비로그인 사용자는 처리
+          if (!isLoggedIn) {
             return ScreenPaths.maintenance;
-          } else {
+          }
+          // 로그인 사용자 처리
+          if (isLoggedIn) {
             // If in maintenance, only allow admins to proceed.
             // Otherwise, redirect to the maintenance screen.
             // 유지보수 모드에서는 관리자만 접근을 허용합니다.
             // 관리자가 아니거나 사용자 정보를 가져올 수 없는 경우 유지보수 화면으로 리다이렉트합니다.
+            // 관리자 또한 현재 조건을 통과 하더라도 하단의 접근 조건을 통과해야만 원하는 경로로 이동할 수 있습니다.
+            // 비동기 실행에 대해 문제 삼지 않을것. 이것은 매우 특수한 상황.
+            // 사이트가 마비되어 정비 안내 페이지가 뜬 상태에서 관리자인지 체크하는 매우 특별한 상황.
+            // 관리자 확인은 auth의 사용자가 아닌 firestore의 사용자 테이블에서 확인.
+            // 비동기 작업이 아닌 경우는 사용자의 상태를 확인할수 없음.
+            // 예를 들어 앱을 완전히 종료했다 들어갔는데 정비페이지가 뜨는 상황이라면
+            // 동기작업으로 그 사용자가 현재 관리자인지 아닌지는 절대로 알수가 없음.
             final appUser =
                 await ref.read(appUserDataProvider(user.uid).future);
             // If appUser is null (e.g., data fetch failed or user document doesn't exist)
@@ -152,6 +169,7 @@ GoRouter goRouter(Ref ref) {
             if (appUser == null || !appUser.isAdmin) {
               return ScreenPaths.maintenance;
             }
+            // 관리자일 경우 그대로 플로우를 타도록 둘것. 굳이 여기서 null을 반환에서 플로우를 빠져나가 않아야 함
           }
         }
         // If not in maintenance mode, but the user is trying to access the maintenance page,
@@ -163,33 +181,57 @@ GoRouter goRouter(Ref ref) {
           }
         }
 
-        // Handle authentication status
-        // 인증 상태 처리
-        if (isLoggedIn) {
-          // If logged in and trying to access the sign-in page, redirect to home.
-          // 로그인 상태이고 로그인 페이지에 접근하려고 하면 홈으로 리다이렉트합니다.
-          if (path == ScreenPaths.firebaseSignIn) {
-            return ScreenPaths.home;
+        // Handle Logged-Out Users
+        // 비로그인 사용자 처리
+        if (!isLoggedIn) {
+          // when access restriction is enable, logged out users can access to public paths
+          // 접근 제한이 활성화 된 경우, 공개된 경로만 접근
+          if (isInitialSignIn || isEmailVerified) {
+            final publicPaths = <String>[
+              ScreenPaths.firebaseSignIn,
+              ScreenPaths.phone,
+              ScreenPaths.verifyEmail,
+              ScreenPaths.appError,
+              ScreenPaths.maintenance,
+            ];
+            if (!publicPaths.contains(path)) {
+              return ScreenPaths.firebaseSignIn;
+            }
           }
-        } else {
-          // If not logged in and trying to access a page that requires authentication (e.g., write screen),
-          // redirect to the sign-in page.
-          // 로그인하지 않은 상태이고 인증이 필요한 페이지(예: 글쓰기 화면)에 접근하려고 하면 로그인 페이지로 리다이렉트합니다.
+
+          // logged out users can not access to the write page
+          // 비로그인 사용자의 글쓰기 페이지 접근시 로그인 페이지로 이동
           if (path == ScreenPaths.write) {
             return ScreenPaths.firebaseSignIn;
           }
-          // If `isInitialSignIn` is true, all routes (except specified ones) require sign-in.
-          // `isInitialSignIn`이 true이면, 지정된 경로를 제외한 모든 경로는 로그인이 필요합니다.
-          if (isInitialSignIn &&
-              path != ScreenPaths.firebaseSignIn &&
-              path != ScreenPaths.phone &&
-              path != ScreenPaths.appError &&
-              path != ScreenPaths.maintenance) {
-            // Redirect to sign-in if not logged in and trying to access a non-exempted page.
-            // 로그인하지 않은 상태이고 예외 처리되지 않은 페이지에 접근하려고 하면 로그인 페이지로 리다이렉트합니다.
-            return ScreenPaths.firebaseSignIn;
-          }
         }
+
+        // Handle Logged-In Users
+        // 로그인 사용자 처리
+        if (isLoggedIn) {
+          // 인증필수시 미인증 로그인 사용자 처리
+          // isEmailVerified 설정이 true일 경우 미인증 로그인 사용자는 인증페이지로 이동
+          final isVerified = user.emailVerified || user.phoneNumber != null;
+          if (isEmailVerified && !isVerified) {
+            final allowedPaths = <String>[
+              ScreenPaths.verifyEmail,
+              ScreenPaths.appError,
+              ScreenPaths.maintenance,
+            ];
+            if (!allowedPaths.contains(path)) {
+              return ScreenPaths.verifyEmail;
+            }
+          }
+
+          /*
+          // 사인인페이지에서 상태관리 직접 수행.
+          // 위의 조건에 해당하지 않은 로그인 사용자가 로그인페이지에 접근할 경우 홈으로
+          if (path == ScreenPaths.firebaseSignIn) {
+            return ScreenPaths.home;
+          }
+          */
+        }
+
         // If none of the above conditions are met, allow the navigation to proceed as requested.
         // 위의 조건에 해당하지 않으면 요청된 대로 네비게이션을 진행합니다.
         return null;
@@ -198,7 +240,10 @@ GoRouter goRouter(Ref ref) {
         // log the error and redirect to a generic error screen.
         // 리다이렉트 로직 중 오류가 발생하면 (예: 사용자 데이터 가져오기 중 네트워크 문제), 오류를 기록하고 일반 오류 화면으로 리다이렉트합니다.
         debugPrint('Error during redirect: $e\n$st');
-        return ScreenPaths.appError;
+        if (state.uri.path != ScreenPaths.appError) {
+          return ScreenPaths.appError;
+        }
+        return null;
       }
     },
     routes: [
@@ -225,6 +270,13 @@ GoRouter goRouter(Ref ref) {
           pageBuilder: (context, state) {
             return _buildPage(child: const FirebasePhoneScreen());
           }),
+      // 이메일 인증 라우트
+      GoRoute(
+        path: ScreenPaths.verifyEmail,
+        pageBuilder: (context, state) {
+          return _buildPage(child: const FirebaseEmailVerificationScreen());
+        },
+      ),
       GoRoute(
           path: ScreenPaths.appUserCheck,
           pageBuilder: (context, state) {

@@ -1,9 +1,16 @@
+// lib/src/features/authentication/presentation/firebase_phone_screen.dart
+
 // flutter
 import 'package:flutter/material.dart';
 
 // external
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+// core
+// routing
+import 'package:applimode_app/src/routing/app_router.dart';
 
 // utils
 import 'package:applimode_app/src/utils/app_loacalizations_context.dart';
@@ -79,12 +86,22 @@ class FirebaseSMSCodeInputScreen extends ConsumerWidget {
               flowKey: flowKey,
               actions: [
                 AuthStateChangeAction<SignedIn>(
-                  (context, state) {
-                    controller.initializeAppUsr();
+                  (_, __) async {
+                    await controller.initializeAppUsr();
+                    if (context.mounted) {
+                      Router.neglect(context, () {
+                        context.go(ScreenPaths.home);
+                      });
+                    }
                   },
                 ),
-                AuthStateChangeAction<UserCreated>((context, state) {
-                  controller.initializeAppUsr();
+                AuthStateChangeAction<UserCreated>((_, __) async {
+                  await controller.initializeAppUsr();
+                  if (context.mounted) {
+                    Router.neglect(context, () {
+                      context.go(ScreenPaths.home);
+                    });
+                  }
                 }),
               ],
             ),

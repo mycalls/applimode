@@ -8,7 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:applimode_app/src/core/app_states/list_state.dart';
 
 // routing
-import 'package:applimode_app/src/routing/app_router.dart';
+// import 'package:applimode_app/src/routing/app_router.dart';
 
 // utils
 import 'package:applimode_app/src/utils/now_to_int.dart';
@@ -59,6 +59,7 @@ class ProfileScreenController extends _$ProfileScreenController {
     ref.read(likesListStateProvider.notifier).set(nowToInt());
     // ref.invalidate(mainPostsFutureProvider);
 
-    ref.read(goRouterProvider).go(ScreenPaths.home);
+    // ui에서 직접 컨트롤. 이유는 Router.neglect를 여기서는 사용할 수 없음.
+    // ref.read(goRouterProvider).go(ScreenPaths.home);
   }
 }

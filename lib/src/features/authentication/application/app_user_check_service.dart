@@ -42,6 +42,8 @@ class AppUserCheckService {
     final initialId = (Random().nextInt(999999) + 1).toString();
     final displayName = 'User$initialId';
 
+    dev.log('initialId: $initialId');
+
     try {
       // Step 1: Update the user's display name in the authentication provider.
       // 1단계: 인증 공급자에서 사용자의 표시 이름을 업데이트합니다.
